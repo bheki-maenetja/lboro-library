@@ -14,7 +14,7 @@ input("Wait >> ")
 for book in data:
     book['member_id'] = None
     book['isbn'] = book['isbn'].replace('-', '').replace('X', '0')
-    book['category'].append(choice(['technology', 'science', 'sports', 'art', 'social']))
+    # book['category'].append(choice(['technology', 'science', 'sports', 'art', 'social']))
     text_file.write(json.dumps(book) + "\n")
 
 text_file.close()
