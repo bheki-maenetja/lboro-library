@@ -3,18 +3,24 @@ import json
 import re
 
 # Third Party Imports
-my_file = open("data.json", "r")
+json_file = open("data.json", "r")
 text_file = open("database.txt", "w")
-data = json.load(my_file)
+data = json.load(json_file)
 
-for i in data:
-    text_file.write(json.dumps(i) + "\n")
+print(type(data), type(data[0]['category']))
+input("Wait >> ")
+for book in data:
+    book['member_id'] = None
+    book['isbn'] = book['isbn'].replace('-', '').replace('X', '0')
+    text_file.write(json.dumps(book) + "\n")
 
 text_file.close()
-my_file.close()
+json_file.close()
 input("Load data into database >>> ")
 database = open("database.txt", "r")
-for i in database:
-    new_data = json.loads(i)
-    print(new_data, type(new_data))
+for book in database:
+    new_data = json.loads(book)
+    print(new_data['id'],new_data['member_id'], new_data['author'])
+
+database.close()
 
