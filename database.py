@@ -18,18 +18,18 @@ from random import choice
 
 # text_file.close()
 # json_file.close()
-input("Load data into database >>> ")
-database = open("database.txt", "r+")
-database.seek(0)
+# input("Load data into database >>> ")
+# database = open("database.txt", "r+")
+# database.seek(0)
 
-book_index = [json.loads(book) for book in database]
-for book in book_index:
-    for other_book in book_index:
-        if book['title'] == other_book['title'] and (book['isbn'] != other_book['isbn']) and (book['author'] != other_book['author']):
-            other_book['isbn'] = book['isbn']
-            other_book['author'] = book ['author']
-            print('changed a book')
-    database.write(json.dumps(book) + "\n")
+# book_index = [json.loads(book) for book in database]
+# for book in book_index:
+#     for other_book in book_index:
+#         if book['title'] == other_book['title'] and (book['isbn'] != other_book['isbn']) and (book['author'] != other_book['author']):
+#             other_book['isbn'] = book['isbn']
+#             other_book['author'] = book ['author']
+#             print('changed a book')
+#     database.write(json.dumps(book) + "\n")
 
-database.close()
+# database.close()
 
