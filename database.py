@@ -1,12 +1,12 @@
 # Standard Library Imports
 import json
-import re
+import fileinput
 
 from random import choice
 
 # Loading files
 
-# Get Index
+# GET
 def get_all_books():
     try:
         database = open("database.txt", "r")
@@ -25,8 +25,19 @@ def get_book(book_id):
     except:
         print('something went wrong...')
 
+def update_book(book_id, book_obj):
+    try:
+        database = open("database.txt", "w")
+        for book in fileinput.input(database):
+            book_dict = json.loads(book)
+            if book_dict['id'] == book_id:
+                print(json.dumps(book_obj))
+            else:
+                print(json.dumps(book_dict))
+    except:
+        print('something went wrong...')
 
-print(get_book(int(input("Enter a number: "))))
+update_book(1, {'name': 'Scooby-doo', 'id' : 1})
 
 
 
