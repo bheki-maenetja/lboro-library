@@ -25,10 +25,10 @@ def get_book(book_id):
     except:
         print('something went wrong...')
 
+# PUT
 def update_book(book_id, book_obj):
     try:
-        database = open("database.txt", "w")
-        for book in fileinput.input(database):
+        for book in fileinput.input("database.txt", inplace=True):
             book_dict = json.loads(book)
             if book_dict['id'] == book_id:
                 print(json.dumps(book_obj))
@@ -37,7 +37,6 @@ def update_book(book_id, book_obj):
     except:
         print('something went wrong...')
 
-update_book(1, {'name': 'Scooby-doo', 'id' : 1})
 
 
 
