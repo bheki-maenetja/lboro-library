@@ -61,9 +61,10 @@ def update_book(book_id, book_obj): # updates a book
     except:
         print('something went wrong...')
 
-my_book = get_book_by_id(20)
-my_book['member_id'] = 5555
-update_book(20, my_book)
+# my_book = get_book_by_id(20)
+# my_book['member_id'] = 5555
+# update_book(20, my_book)
 
-
+def fill_logfile():
+    pass
 
