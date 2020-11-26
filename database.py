@@ -3,6 +3,7 @@ import json
 import fileinput
 
 from random import choice
+import datetime as dt
 
 # Index View
 ## GET
@@ -66,5 +67,15 @@ def update_book(book_id, book_obj): # updates a book
 # update_book(20, my_book)
 
 def fill_logfile():
-    pass
+    with open('data.json', 'r') as json_file:
+        log_data = json.load(json_file)
+        with open('logfile.txt', 'a') as log_file:
+            for log in log_data:
+                return_date = dt.datetime.strptime(log['return_date'].split()[0], '%Y-%m-%d')
+                return_date_string = dt.datetime.strftime(return_date, '%d/%m/%Y')
+                log['return_date'] = return_date_string
+                log_file.write(json.dumps(log) + '\n')
+
+
+fill_logfile()
 
