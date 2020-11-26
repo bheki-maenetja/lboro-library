@@ -66,16 +66,14 @@ def update_book(book_id, book_obj): # updates a book
 # my_book['member_id'] = 5555
 # update_book(20, my_book)
 
-def fill_logfile():
-    with open('data.json', 'r') as json_file:
-        log_data = json.load(json_file)
-        with open('logfile.txt', 'a') as log_file:
-            for log in log_data:
-                return_date = dt.datetime.strptime(log['return_date'].split()[0], '%Y-%m-%d')
-                return_date_string = dt.datetime.strftime(return_date, '%d/%m/%Y')
-                log['return_date'] = return_date_string
-                log_file.write(json.dumps(log) + '\n')
-
-
-fill_logfile()
+# def fill_logfile():
+#     with open('data.json', 'r') as json_file:
+#         log_data = json.load(json_file)
+#         with open('logfile.txt', 'a') as log_file:
+#             for log in log_data:
+#                 return_date = dt.datetime.strptime(log['return_date'].split()[0], '%Y-%m-%d')
+#                 return_date_string = dt.datetime.strftime(return_date, '%d/%m/%Y')
+#                 log['return_date'] = return_date_string
+#                 log_file.write(json.dumps(log) + '\n')
+# fill_logfile()
 
