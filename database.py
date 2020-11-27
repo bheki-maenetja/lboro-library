@@ -1,9 +1,10 @@
 # Standard Library Imports
 import json
 import fileinput
-import datetime as dt
+from datetime import datetime as dt
+from datetime import timedelta
 
-# ==================== BOOKS ====================
+# ============================================================ BOOKS ============================================================
 # Index View
 ## GET
 def get_all_books(): # return all books in the database
@@ -61,7 +62,7 @@ def update_book(book_id, book_obj): # updates a book
     except:
         print('something went wrong...')
 
-# ==================== LOGS ====================
+# ============================================================ LOGS ============================================================
 # Index View
 ## GET
 def get_all_logs(sort_by_date=False):
@@ -69,11 +70,23 @@ def get_all_logs(sort_by_date=False):
         log_data = open("logfile.txt", "r")
         log_index = [json.loads(log) for log in log_data]
         if sort_by_date:
-            log_index.sort(key=lambda x: dt.datetime.strptime(x['return_date'], '%d/%m/%Y'), reverse=True)
+            log_index.sort(key=lambda x: dt.strptime(x['return_date'], '%d/%m/%Y'), reverse=True)
         return log_index
-    except:
-        print('Something went wrong...')
+    except Exception as err:
+        print('Something went wrong...\n', err)
     log_data.close()
+
+def get_active_logs():
+    log_index = get_all_logs(True)
+    return [log for log in log_index if log['book_returned'] == False]
+
+def get_loan_object():
+    pass
+
+def is_book_overdue(log):
+    present_day = dt.combine(dt.now(), dt.max.time())
+    return_date = dt.strptime(log['return_date'], '%d/%m/%Y')
+    return return_date < present_day
 
 # Single View
 ## PUT
@@ -87,3 +100,8 @@ def update_log(log_id, log_obj):
                 print(json.dumps(log_dict))
     except:
         print('something went wrong...')
+
+print(get_all_logs())
+# next_friday = present_day + timedelta(days=7)
+# example_date = dt.strptime('27/11/2020', '%d/%m/%Y')
+# print(present_day < next_friday)

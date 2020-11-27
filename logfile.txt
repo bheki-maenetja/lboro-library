@@ -6998,3 +6998,13 @@
 {"id": 6998, "book_id": 3782, "member_id": 9963, "start_date": "16/01/2009", "return_date": "26/01/2009", "book_returned": true}
 {"id": 6999, "book_id": 2919, "member_id": 8570, "start_date": "27/07/2019", "return_date": "03/08/2019", "book_returned": true}
 {"id": 7000, "book_id": 1160, "member_id": 6982, "start_date": "02/08/2004", "return_date": "05/08/2004", "book_returned": true}
+{"id": 7001, "book_id": 6, "member_id": 6982, "start_date": "20/11/2020", "return_date": "25/11/2020", "book_returned": false}
+{"id": 7002, "book_id": 4, "member_id": 6982, "start_date": "20/11/2020", "return_date": "29/11/2020", "book_returned": false}
+{"id": 7003, "book_id": 5, "member_id": 6982, "start_date": "20/11/2020", "return_date": "27/11/2020", "book_returned": false}
+{"id": 7004, "book_id": 2, "member_id": 6982, "start_date": "20/11/2020", "return_date": "26/11/2020", "book_returned": false}
+{"id": 7005, "book_id": 3, "member_id": 6982, "start_date": "20/11/2020", "return_date": "22/11/2020", "book_returned": false}
+{"id": 7006, "book_id": 7, "member_id": 6982, "start_date": "20/11/2020", "return_date": "30/11/2020", "book_returned": false}
+{"id": 7007, "book_id": 8, "member_id": 6982, "start_date": "20/11/2020", "return_date": "25/11/2020", "book_returned": false}
+{"id": 7008, "book_id": 9, "member_id": 6982, "start_date": "20/11/2020", "return_date": "28/11/2020", "book_returned": false}
+{"id": 7009, "book_id": 1, "member_id": 6982, "start_date": "20/11/2020", "return_date": "29/11/2020", "book_returned": false}
+{"id": 7010, "book_id": 10, "member_id": 6982, "start_date": "20/11/2020", "return_date": "30/11/2020", "book_returned": false}
