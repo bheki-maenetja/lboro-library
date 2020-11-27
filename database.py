@@ -75,5 +75,15 @@ def get_all_logs(sort_by_date=False):
         print('Something went wrong...')
     log_data.close()
 
-for i in get_all_logs(True):
-    print(i)
+# Single View
+## PUT
+def update_log(log_id, log_obj):
+    try:
+        for log in fileinput.input("logfile.txt", inplace=True):
+            log_dict = json.loads(log)
+            if log_dict['id'] == log_id:
+                print(json.dumps(log_obj))
+            else:
+                print(json.dumps(log_dict))
+    except:
+        print('something went wrong...')
