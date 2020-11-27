@@ -81,11 +81,15 @@ def get_active_logs():
     return [log for log in log_index if log['book_returned'] == False]
 
 def get_loan_object():
-    pass
+    loan_obj = dict()
+    active_logs = get_active_logs()
+    loan_obj['on-loan'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if not is_book_overdue(log)]
+    loan_obj['overdue'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if is_book_overdue(log)]
+    return loan_obj
 
 def is_book_overdue(log):
     present_day = dt.combine(dt.now(), dt.max.time())
-    return_date = dt.strptime(log['return_date'], '%d/%m/%Y')
+    return_date = dt.combine(dt.strptime(log['return_date'], '%d/%m/%Y'), dt.max.time())
     return return_date < present_day
 
 # Single View
@@ -101,7 +105,15 @@ def update_log(log_id, log_obj):
     except:
         print('something went wrong...')
 
-print(get_all_logs())
+# loan_obj = get_loan_object()
+# input("Books on loan >>> ")
+# for i in loan_obj['on-loan']:
+#     print(i)
+# input("Overdue Books >>> ")
+# for i in loan_obj['overdue']:
+#     print(i)
 # next_friday = present_day + timedelta(days=7)
 # example_date = dt.strptime('27/11/2020', '%d/%m/%Y')
 # print(present_day < next_friday)
+
+# ============================================================ CHECKOUT & RETURN ============================================================
