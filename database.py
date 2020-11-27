@@ -49,6 +49,7 @@ def get_book_by_id(book_id): # returns a book based on its id
         return None
     except:
         print('something went wrong...')
+    database.close()
 
 ## PUT
 def update_book(book_id, book_obj): # updates a book
@@ -105,15 +106,50 @@ def update_log(log_id, log_obj):
     except:
         print('something went wrong...')
 
-# loan_obj = get_loan_object()
-# input("Books on loan >>> ")
-# for i in loan_obj['on-loan']:
-#     print(i)
-# input("Overdue Books >>> ")
-# for i in loan_obj['overdue']:
-#     print(i)
-# next_friday = present_day + timedelta(days=7)
-# example_date = dt.strptime('27/11/2020', '%d/%m/%Y')
-# print(present_day < next_friday)
+def book_status():
+    loan_obj = get_loan_object()
+    input("Books on loan >>> ")
+    for i in loan_obj['on-loan']:
+        print(i)
+    input("Overdue Books >>> ")
+    for i in loan_obj['overdue']:
+        print(i)
 
 # ============================================================ CHECKOUT & RETURN ============================================================
+def checkout_book(book_id, member_id, loan_duration):
+    book_obj = get_book_by_id(book_id)
+    log_obj = dict()
+
+    book_obj['member_id'] = member_id
+
+    log_obj['id'] = len(get_all_logs()) + 1
+    log_obj['book_id'] = book_id
+    log_obj['member_id'] = member_id
+    log_obj['start_date'] = dt.strftime(dt.now(), '%d/%m/%Y')
+    log_obj['return_date'] = get_return_date(loan_duration)
+    log_obj['book_returned'] = False
+
+    update_book(book_id, book_obj)
+    write_log(log_obj)
+
+def get_return_date(loan_duration):
+    present_day = dt.combine(dt.now(), dt.max.time())
+    return_date = present_day + timedelta(days=loan_duration)
+    return dt.strftime(return_date, '%d/%m/%Y')
+
+def write_log(log):
+    with open('logfile.txt', 'a') as log_file:
+        log_file.write(json.dumps(log) + "\n")
+
+def return_book(loan_record):
+    log_obj, book_obj = loan_record[0], loan_record[1]
+    log_obj['book_returned'] = True
+    book_obj['member_id'] = None
+    update_book(book_obj['id'], book_obj)
+    update_log(log_obj['id'], log_obj)
+
+# book_status()
+# input("returning book >>> ")
+# loan_obj = get_loan_object()
+# return_book(loan_obj['on-loan'][0])
+# book_status()
