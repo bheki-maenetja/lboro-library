@@ -1,10 +1,9 @@
 # Standard Library Imports
 import json
 import fileinput
-
-from random import choice
 import datetime as dt
 
+# ==================== BOOKS ====================
 # Index View
 ## GET
 def get_all_books(): # return all books in the database
@@ -62,18 +61,19 @@ def update_book(book_id, book_obj): # updates a book
     except:
         print('something went wrong...')
 
-# my_book = get_book_by_id(20)
-# my_book['member_id'] = 5555
-# update_book(20, my_book)
+# ==================== LOGS ====================
+# Index View
+## GET
+def get_all_logs(sort_by_date=False):
+    try:
+        log_data = open("logfile.txt", "r")
+        log_index = [json.loads(log) for log in log_data]
+        if sort_by_date:
+            log_index.sort(key=lambda x: dt.datetime.strptime(x['return_date'], '%d/%m/%Y'), reverse=True)
+        return log_index
+    except:
+        print('Something went wrong...')
+    log_data.close()
 
-# def fill_logfile():
-#     with open('data.json', 'r') as json_file:
-#         log_data = json.load(json_file)
-#         with open('logfile.txt', 'a') as log_file:
-#             for log in log_data:
-#                 return_date = dt.datetime.strptime(log['return_date'].split()[0], '%Y-%m-%d')
-#                 return_date_string = dt.datetime.strftime(return_date, '%d/%m/%Y')
-#                 log['return_date'] = return_date_string
-#                 log_file.write(json.dumps(log) + '\n')
-# fill_logfile()
-
+for i in get_all_logs(True):
+    print(i)
