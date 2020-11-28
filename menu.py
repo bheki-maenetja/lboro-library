@@ -18,7 +18,7 @@ def build_home_page():
     home_frame.rowconfigure(1, weight=1, minsize=root.winfo_width())
 
     hero_section = build_hero_section(home_frame)
-    button_section = tk.Frame(master=home_frame, bg="grey")
+    button_section = build_button_section(home_frame)
     hero_section.grid(row=0, column=0, sticky="nesw")
     button_section.grid(row=1, column=0, sticky="nesw")
 
@@ -41,9 +41,22 @@ def build_hero_section(master_frame):
 
     return hero_section
 
-my_home = build_home_page()
-my_home.pack(fill=tk.BOTH, expand=1)
+def build_button_section(master_frame):
+    button_section = tk.Frame(master=master_frame, bg="grey")
+    button_info = [('Books', 'blue'), ('Loan Manager', 'green'), ('Analytics', 'orange'), ('System Info', 'grey')]
+    button_font = tkFont.Font(family="helvetica", size=20)
 
+    for i in range(2):
+        button_section.columnconfigure(i, weight=1, minsize=25)
+        button_section.rowconfigure(i, weight=1, minsize=25)
+        for j in range(2):
+            new_button_info = button_info[j + i * 2]
+            new_button = tk.Button(button_section, text=new_button_info[0], font=button_font, highlightbackground=new_button_info[1], bg=new_button_info[1], highlightthickness=10, fg="black", relief=tk.RAISED)
+            new_button.grid(row=i, column=j, sticky="nesw")
+    
+    return button_section
 
 if __name__ == '__main__':
+    my_home = build_home_page()
+    my_home.pack(fill=tk.BOTH, expand=1)
     root.mainloop()
