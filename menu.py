@@ -4,13 +4,16 @@ import tkinter.font as tkFont
 
 from datetime import datetime as dt
 
-# ============================================================ HOME PAGE ============================================================
+# ============================================================ MAIN WINDOW ============================================================
 root = tk.Tk()
 root.title('Loughborough Library Management System - Firat Batmaz')
 root.geometry('900x630')
 root.minsize(600, 420)
 root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
+
+# ============================================================ HOME PAGE ============================================================
+
 
 def build_home_page():
     home_frame = tk.Frame(master=root, height=100, width=100)
@@ -53,16 +56,34 @@ def build_button_section(master_frame):
         for j in range(2):
             new_button_info = button_info[j + i * 2]
             new_button = tk.Label(button_section, text=new_button_info[0], font=button_font, bg=new_button_info[1], highlightthickness=5, fg="white", relief=tk.RAISED)
-            new_button.bind('<Button-1>', lambda e: print("Something happend...", j + i * 2))
+            new_button.bind('<Button-1>', lambda e: transition())
             new_button.grid(row=i, column=j, sticky="nesw")
     
     return button_section
 
+home_page = build_home_page()
+
 # ============================================================ OTHER PAGES ============================================================
+def build_page_container():
+    page_notebook = ttk.Notebook(master=root)
+    page_notebook.add(tk.Frame(master=page_notebook), text="Home")
+    page_notebook.add(tk.Frame(master=page_notebook, bg="blue"), text="Books")
+    page_notebook.add(tk.Frame(master=page_notebook, bg="green"), text="Loan Manager")
+    page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
+    page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
+
+    return page_notebook
+
+# ============================================================ MOVING BETWEEN PAGES ============================================================
+def transition(to_home=False):
+    if not to_home:
+        home_page.destroy()
+        pages_section = build_page_container()
+        pages_section.pack(fill=tk.BOTH, expand=1)
+
 # ============================================================ FUNCTION CALLS ============================================================
-the_notebook = ttk.Notebook(master=root)
-my_home = build_home_page()
-my_home.pack(fill=tk.BOTH, expand=1)
+
+home_page.pack(fill=tk.BOTH, expand=1)
 root.mainloop()
 
     
