@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import tkinter.font as tkFont
 
 from datetime import datetime as dt
@@ -44,19 +45,24 @@ def build_hero_section(master_frame):
 def build_button_section(master_frame):
     button_section = tk.Frame(master=master_frame, bg="grey")
     button_info = [('Books', 'blue'), ('Loan Manager', 'green'), ('Analytics', 'orange'), ('System Info', 'grey')]
-    button_font = tkFont.Font(family="helvetica", size=20)
+    button_font = tkFont.Font(family="helvetica", size=20, weight="bold", slant="italic")
 
     for i in range(2):
         button_section.columnconfigure(i, weight=1, minsize=25)
         button_section.rowconfigure(i, weight=1, minsize=25)
         for j in range(2):
             new_button_info = button_info[j + i * 2]
-            new_button = tk.Button(button_section, text=new_button_info[0], font=button_font, highlightbackground=new_button_info[1], bg=new_button_info[1], highlightthickness=10, fg="black", relief=tk.RAISED)
+            new_button = tk.Label(button_section, text=new_button_info[0], font=button_font, bg=new_button_info[1], highlightthickness=5, fg="white", relief=tk.RAISED)
+            new_button.bind('<Button-1>', lambda e: print("Something happend...", j + i * 2))
             new_button.grid(row=i, column=j, sticky="nesw")
     
     return button_section
 
-if __name__ == '__main__':
-    my_home = build_home_page()
-    my_home.pack(fill=tk.BOTH, expand=1)
-    root.mainloop()
+# ============================================================ OTHER PAGES ============================================================
+# ============================================================ FUNCTION CALLS ============================================================
+the_notebook = ttk.Notebook(master=root)
+my_home = build_home_page()
+my_home.pack(fill=tk.BOTH, expand=1)
+root.mainloop()
+
+    
