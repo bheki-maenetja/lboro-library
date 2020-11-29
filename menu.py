@@ -12,6 +12,8 @@ root.minsize(600, 420)
 root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
 
+page_manager = dict()
+
 # ============================================================ HOME PAGE ============================================================
 
 
@@ -61,29 +63,41 @@ def build_button_section(master_frame):
     
     return button_section
 
-home_page = build_home_page()
+page_manager['home_page'] = build_home_page()
 
 # ============================================================ OTHER PAGES ============================================================
 def build_page_container():
     page_notebook = ttk.Notebook(master=root)
-    page_notebook.add(tk.Frame(master=page_notebook), text="Home")
+    page_notebook.add(tk.Frame(), text="Home")
     page_notebook.add(tk.Frame(master=page_notebook, bg="blue"), text="Books")
     page_notebook.add(tk.Frame(master=page_notebook, bg="green"), text="Loan Manager")
     page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
 
+    page_notebook.bind('<Button-1>', lambda e: go_to_home_page(e))
+
     return page_notebook
+
+def go_to_home_page(e):
+    notebook = page_manager['pages_section']
+    clicked_tab = notebook.tk.call(notebook._w, "identify", "tab", e.x, e.y)
+    if clicked_tab == 0:
+        transition(to_home=True)
+
+page_manager['pages_section'] = build_page_container()
 
 # ============================================================ MOVING BETWEEN PAGES ============================================================
 def transition(to_home=False):
     if not to_home:
-        home_page.destroy()
-        pages_section = build_page_container()
-        pages_section.pack(fill=tk.BOTH, expand=1)
+        page_manager['home_page'].pack_forget()
+        page_manager['pages_section'].pack(fill=tk.BOTH, expand=1)
+    else:
+        page_manager['pages_section'].pack_forget()
+        page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 # ============================================================ FUNCTION CALLS ============================================================
 
-home_page.pack(fill=tk.BOTH, expand=1)
+page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 root.mainloop()
 
     
