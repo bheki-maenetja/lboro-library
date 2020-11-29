@@ -15,8 +15,6 @@ root.aspect(10,7,10,7)
 page_manager = dict()
 
 # ============================================================ HOME PAGE ============================================================
-
-
 def build_home_page():
     home_frame = tk.Frame(master=root, height=100, width=100)
     home_frame.columnconfigure(0, weight=1, minsize=root.winfo_height())
@@ -49,7 +47,12 @@ def build_hero_section(master_frame):
 
 def build_button_section(master_frame):
     button_section = tk.Frame(master=master_frame, bg="grey")
-    button_info = [('Books', 'blue'), ('Loan Manager', 'green'), ('Analytics', 'orange'), ('System Info', 'grey')]
+    button_info = [
+        ('Books', 'blue', lambda e: transition(pages_index=1)), 
+        ('Loan Manager', 'green', lambda e: transition(pages_index=2)), 
+        ('Analytics', 'orange', lambda e: transition(pages_index=3)), 
+        ('System Info', 'grey', lambda e: transition(pages_index=4))
+    ]
     button_font = tkFont.Font(family="helvetica", size=20, weight="bold", slant="italic")
 
     for i in range(2):
@@ -58,7 +61,7 @@ def build_button_section(master_frame):
         for j in range(2):
             new_button_info = button_info[j + i * 2]
             new_button = tk.Label(button_section, text=new_button_info[0], font=button_font, bg=new_button_info[1], highlightthickness=5, fg="white", relief=tk.RAISED)
-            new_button.bind('<Button-1>', lambda e: transition())
+            new_button.bind('<Button-1>', new_button_info[2])
             new_button.grid(row=i, column=j, sticky="nesw")
     
     return button_section
@@ -87,16 +90,17 @@ def go_to_home_page(e):
 page_manager['pages_section'] = build_page_container()
 
 # ============================================================ MOVING BETWEEN PAGES ============================================================
-def transition(to_home=False):
+def transition(to_home=False, pages_index=1):
     if not to_home:
         page_manager['home_page'].pack_forget()
+        tab_list = page_manager['pages_section'].tabs()
+        page_manager['pages_section'].select(tab_list[pages_index])
         page_manager['pages_section'].pack(fill=tk.BOTH, expand=1)
     else:
         page_manager['pages_section'].pack_forget()
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 # ============================================================ FUNCTION CALLS ============================================================
-
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 root.mainloop()
 
