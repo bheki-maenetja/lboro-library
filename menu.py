@@ -74,14 +74,14 @@ def build_page_container():
     page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
 
-    page_notebook.bind('<Button-1>', lambda e: go_to_home_page(e))
+    page_notebook.bind('<<NotebookTabChanged>>', lambda e: go_to_home_page(e))
 
     return page_notebook
 
 def go_to_home_page(e):
     notebook = page_manager['pages_section']
-    clicked_tab = notebook.tk.call(notebook._w, "identify", "tab", e.x, e.y)
-    if clicked_tab == 0:
+    active_tab = notebook.index(notebook.select())
+    if active_tab == 0:
         transition(to_home=True)
 
 page_manager['pages_section'] = build_page_container()
