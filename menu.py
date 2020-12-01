@@ -34,14 +34,14 @@ def build_hero_section(master_frame):
     hero_section.rowconfigure(1, weight=1, minsize=root.winfo_width())
     hero_section.columnconfigure(0, weight=1, minsize=root.winfo_height())
 
-    heading_font = tkFont.Font(family="Verdana", size=40)
-    sub_heading_font = tkFont.Font(family="Verdana", size=20)
+    heading_font = tkFont.Font(family="Verdana", size=40, weight="bold")
+    sub_heading_font = tkFont.Font(family="Verdana", size=20, slant="italic")
 
-    heading = tk.Label(master=hero_section, text="Loughborough Library", font=heading_font, bg="purple", fg="magenta")
-    sub_heading = tk.Label(master=hero_section, text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", font=sub_heading_font, bg="purple", fg="magenta")
+    heading = tk.Label(master=hero_section, text="Loughborough Library", font=heading_font, bg="purple", fg="white")
+    sub_heading = tk.Label(master=hero_section, text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", font=sub_heading_font, bg="purple", fg="white")
 
-    heading.grid(row=0, column=0, sticky="ws", padx=10)
-    sub_heading.grid(row=1, column=0, sticky="wn", padx=15)
+    heading.grid(row=0, column=0, sticky="ws", padx=20)
+    sub_heading.grid(row=1, column=0, sticky="wn", padx=20)
 
     return hero_section
 
