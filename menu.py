@@ -96,10 +96,8 @@ def go_to_home_page(e):
     if active_tab == 0:
         transition(to_home=True)
 
-## Books Page
-
-
 page_manager['pages_section'] = build_page_container()
+
 # ============================================================ MOVING BETWEEN PAGES ============================================================
 def transition(to_home=False, pages_index=1):
     if not to_home:
