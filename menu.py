@@ -69,6 +69,7 @@ def build_button_section(master_frame):
 page_manager['home_page'] = build_home_page()
 
 # ============================================================ OTHER PAGES ============================================================
+## The Main Page Container
 def build_page_container():
     page_notebook = ttk.Notebook(master=root)
     page_notebook.add(tk.Frame(), text="Home")
@@ -88,6 +89,17 @@ def go_to_home_page(e):
         transition(to_home=True)
 
 page_manager['pages_section'] = build_page_container()
+
+## Books Page
+def build_books_page(master_frame):
+    books_page = tk.Frame(master=master_frame)
+    books_page.columnconfigure(0, weight=1, min_size=root.winfo_height())
+
+def category_section():
+    categories = ["non-fiction", "fiction", "textbook", "novel", "short story", "languages", "technology", "art", "social", "business", "programing", "philosophy"]
+
+def search_section():
+    pass
 
 # ============================================================ MOVING BETWEEN PAGES ============================================================
 def transition(to_home=False, pages_index=1):
