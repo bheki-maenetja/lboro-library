@@ -100,21 +100,24 @@ def go_to_home_page(e):
 def build_books_page(master_frame):
     books_page = tk.Frame(master=master_frame)
     books_page.columnconfigure(0, weight=1, minsize=root.winfo_height())
+    books_page.rowconfigure(0, weight=1, minsize=root.winfo_width())
+    books_page.rowconfigure(1, weight=1, minsize=root.winfo_width())
 
     category_section = build_category_section(books_page)
-    category_section.pack(fill=tk.X, expand=1)
+    category_section.grid(row=1, column=0, sticky="ew")
     return books_page
 
 def build_category_section(master_frame):
-    category_section = tk.Frame(master_frame)
+    category_section = tk.Frame(master_frame, bg="grey")
     book_categories = bs.book_categories
     for i in range(4):
         category_section.rowconfigure(i, weight=1, minsize=100)
         category_section.columnconfigure(i, weight=1, minsize=100)
         for j in range(3):
             index = i + 4*j
-            new_checkbox = ttk.Checkbutton(master=category_section, text=book_categories[index], onvalue="on", offvalue="off")
-            new_checkbox.grid(row=j, column=i, padx=0, pady=0)
+            new_checkbox = tk.Checkbutton(master=category_section, text=book_categories[index], onvalue="on", offvalue="off", bg="green")
+            new_checkbox.deselect()
+            new_checkbox.grid(row=j, column=i, padx=0, pady=0, sticky="w")
     return category_section
 
 def search_section():
