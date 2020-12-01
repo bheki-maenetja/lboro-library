@@ -1,8 +1,12 @@
+# Standard Library Imports
 import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
 
 from datetime import datetime as dt
+
+# Local Imports
+import booksearch as bs
 
 # ============================================================ MAIN WINDOW ============================================================
 root = tk.Tk()
@@ -73,7 +77,11 @@ page_manager['home_page'] = build_home_page()
 def build_page_container():
     page_notebook = ttk.Notebook(master=root)
     page_notebook.add(tk.Frame(), text="Home")
-    page_notebook.add(tk.Frame(master=page_notebook, bg="blue"), text="Books")
+
+    books_page = build_books_page(page_notebook)
+
+    page_notebook.add(books_page, text="Books")
+    # page_notebook.add(tk.Frame(master=page_notebook, bg="blue"), text="Books")
     page_notebook.add(tk.Frame(master=page_notebook, bg="green"), text="Loan Manager")
     page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
@@ -88,19 +96,31 @@ def go_to_home_page(e):
     if active_tab == 0:
         transition(to_home=True)
 
-page_manager['pages_section'] = build_page_container()
-
 ## Books Page
 def build_books_page(master_frame):
     books_page = tk.Frame(master=master_frame)
-    books_page.columnconfigure(0, weight=1, min_size=root.winfo_height())
+    books_page.columnconfigure(0, weight=1, minsize=root.winfo_height())
 
-def category_section():
-    categories = ["non-fiction", "fiction", "textbook", "novel", "short story", "languages", "technology", "art", "social", "business", "programing", "philosophy"]
+    category_section = build_category_section(books_page)
+    category_section.pack(fill=tk.X, expand=1)
+    return books_page
+
+def build_category_section(master_frame):
+    category_section = tk.Frame(master_frame)
+    book_categories = bs.book_categories
+    for i in range(4):
+        category_section.rowconfigure(i, weight=1, minsize=100)
+        category_section.columnconfigure(i, weight=1, minsize=100)
+        for j in range(3):
+            index = i + 4*j
+            new_checkbox = ttk.Checkbutton(master=category_section, text=book_categories[index], onvalue="on", offvalue="off")
+            new_checkbox.grid(row=j, column=i, padx=0, pady=0)
+    return category_section
 
 def search_section():
     pass
 
+page_manager['pages_section'] = build_page_container()
 # ============================================================ MOVING BETWEEN PAGES ============================================================
 def transition(to_home=False, pages_index=1):
     if not to_home:
