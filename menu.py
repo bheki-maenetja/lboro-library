@@ -21,7 +21,7 @@ root.aspect(10,7,10,7)
 page_manager = dict()
 
 book_search_var = tk.StringVar()
-book_search_var.trace_add("write", lambda *args: print("I'm doing something..."))
+book_search_var.trace_add("write", lambda *args: print("I'm doing something...", args))
 
 # ============================================================ HOME PAGE ============================================================
 def build_home_page():

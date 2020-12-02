@@ -6,10 +6,6 @@ from database import search_books
 
 book_categories = ("non-fiction", "fiction", "textbook", "novel", "short story", "languages", "technology", "art", "social", "business", "programing", "philosophy")
 
-
-# ============================================================ UI Components for Searching Books ============================================================
-
-
 # ============================================================ Functionality Components for Searching Books ============================================================
 def search_function(widget):
     print(widget.get())
