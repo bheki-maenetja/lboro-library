@@ -10,7 +10,7 @@ import booksearch as bs
 
 # ============================================================ MAIN WINDOW ============================================================
 root = tk.Tk()
-root.title('Loughborough Library Management System - Firat Batmaz')
+root.title('Loughborough Library Management System')
 root.geometry('900x630')
 root.minsize(600, 420)
 root.maxsize(1350, 945)
@@ -90,15 +90,16 @@ def build_page_container():
 
     return page_notebook
 
+
+page_manager['pages_section'] = build_page_container()
+
+# ============================================================ MOVING BETWEEN PAGES ============================================================
 def go_to_home_page(e):
     notebook = page_manager['pages_section']
     active_tab = notebook.index(notebook.select())
     if active_tab == 0:
         transition(to_home=True)
 
-page_manager['pages_section'] = build_page_container()
-
-# ============================================================ MOVING BETWEEN PAGES ============================================================
 def transition(to_home=False, pages_index=1):
     if not to_home:
         page_manager['home_page'].pack_forget()
