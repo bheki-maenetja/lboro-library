@@ -10,7 +10,7 @@ from database import search_books
 from booksearch import book_categories
 
 sample_books = search_books('', categories=['fiction'])
-# ============================================================ MAIN WINDOW ============================================================
+# ============================================================ MAIN WINDOW & GLOBAL VARIABLES ============================================================
 root = tk.Tk()
 root.title('Loughborough Library Management System')
 root.geometry('900x630')
@@ -19,6 +19,9 @@ root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
 
 page_manager = dict()
+
+book_search_var = tk.StringVar()
+book_search_var.trace_add("write", lambda *args: print("I'm doing something..."))
 
 # ============================================================ HOME PAGE ============================================================
 def build_home_page():
@@ -130,7 +133,7 @@ def build_category_section(master_frame):
 
 def build_search_section(master_frame):
     search_section = tk.Frame(master=master_frame, bg="darkgrey")
-    search_bar = tk.Entry(master=search_section)
+    search_bar = tk.Entry(master=search_section, textvariable=book_search_var)
     search_button = tk.Button(master=search_section, text="Search")
     search_bar.pack(fill=tk.X, expand=3, side=tk.LEFT)
     search_button.pack(fill=tk.X, expand=1, side=tk.LEFT)
