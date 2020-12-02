@@ -53,20 +53,21 @@ def build_results_section(master_frame, headings):
     results_section.columnconfigure(0, weight=1, minsize=10)
 
     canvas = tk.Canvas(results_section, bg="green")
-    scrollbar = tk.Scrollbar(results_section, orient="vertical", command=canvas.yview)
     scrollable_frame = tk.Frame(canvas, bg="yellow")
-    scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    scrollbar = tk.Scrollbar(results_section, orient="vertical", command=canvas.yview)
+
+    frameID = canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
     canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind("<Configure>", lambda e: canvas.itemconfigure(frameID, width=e.width))
 
-    scrollable_frame.columnconfigure(0, weight=1, minsize=10)
+    scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
+    scrollable_frame.columnconfigure(0, weight=1, minsize=1)
     for i in range(20):
         scrollable_frame.rowconfigure(i, weight=1, minsize=1)
         new_row = build_row(scrollable_frame, headings)
-        new_row.grid(row=i, column=0, padx=5, pady=5)
+        new_row.grid(row=i, column=0, padx=10, pady=10, sticky="ew")
     
-    # scrollable_frame.pack(fill=tk.BOTH, expand=1)
     canvas.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
     scrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=0)
     
@@ -83,7 +84,7 @@ def build_row(master_frame, headings, is_header=False):
         return header_frame
     else:
         row_frame = tk.Frame(master=master_frame, bg="blue")
-        row_frame.rowconfigure(0, weight=1, minsize=1)
+        row_frame.rowconfigure(0, weight=1, minsize=10)
         for index, heading in enumerate(headings):
             row_frame.columnconfigure(index, weight=1, minsize=10)
             row_label = tk.Label(master=row_frame, text=heading)
