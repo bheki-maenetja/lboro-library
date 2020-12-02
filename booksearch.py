@@ -1,8 +1,14 @@
 # Standard Library Imports
 import tkinter as tk
 
+# Local Imports
+from database import search_books
+
 book_categories = ("non-fiction", "fiction", "textbook", "novel", "short story", "languages", "technology", "art", "social", "business", "programing", "philosophy")
+
+sample_books = search_books('', categories=['fiction'])
 # ============================================================ UI Components for Searching Books ============================================================
+## Books Page
 def build_books_page(master_frame):
     books_page = tk.Frame(master=master_frame)
     books_page.columnconfigure(0, weight=1, minsize=10)
@@ -14,7 +20,8 @@ def build_books_page(master_frame):
     search_section = build_search_section(books_page)
     category_section = build_category_section(books_page)
 
-    headings = ["ID", "ISBN", "TITLE", "Purchase Date", "Language", "Status"]
+    headings = list(sample_books[0][1].keys())
+    headings.remove('category')
     header = build_row(books_page, headings, is_header=True)
     results_section = build_results_section(books_page, headings)
 
@@ -45,6 +52,7 @@ def build_search_section(master_frame):
     search_bar.pack(fill=tk.X, expand=3, side=tk.LEFT)
     search_button.pack(fill=tk.X, expand=1, side=tk.LEFT)
 
+    search_bar.bind('<FocusIn>', lambda e: search_function(e.widget))
     return search_section
 
 def build_results_section(master_frame, headings):
@@ -56,14 +64,14 @@ def build_results_section(master_frame, headings):
     scrollable_frame = tk.Frame(canvas, bg="yellow")
     scrollbar = tk.Scrollbar(results_section, orient="vertical", command=canvas.yview)
 
-    frameID = canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    scrollable_frame_id = canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
     canvas.configure(yscrollcommand=scrollbar.set)
-    canvas.bind("<Configure>", lambda e: canvas.itemconfigure(frameID, width=e.width))
+    canvas.bind("<Configure>", lambda e: canvas.itemconfigure(scrollable_frame_id, width=e.width))
 
     scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
     scrollable_frame.columnconfigure(0, weight=1, minsize=1)
-    for i in range(20):
+    for i in range(100):
         scrollable_frame.rowconfigure(i, weight=1, minsize=1)
         new_row = build_row(scrollable_frame, headings)
         new_row.grid(row=i, column=0, padx=10, pady=10, sticky="ew")
@@ -73,22 +81,27 @@ def build_results_section(master_frame, headings):
     
     return results_section
     
-def build_row(master_frame, headings, is_header=False):
+def build_row(master_frame, headings, is_header=False, row_data=sample_books[0][1]):
     if is_header:
         header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
         header_frame.rowconfigure(0, weight=1, minsize=1)
         for index, heading in enumerate(headings):
             header_frame.columnconfigure(index, weight=1, minsize=10)
-            heading_label = tk.Label(master=header_frame, text=heading)
+            heading_label = tk.Label(master=header_frame, text=heading.upper())
             heading_label.grid(row=0, column=index, pady=5)
         return header_frame
-    else:
+    elif row_data:
         row_frame = tk.Frame(master=master_frame, bg="blue")
         row_frame.rowconfigure(0, weight=1, minsize=10)
         for index, heading in enumerate(headings):
             row_frame.columnconfigure(index, weight=1, minsize=10)
-            row_label = tk.Label(master=row_frame, text=heading)
-            row_label.grid(row=0, column=index, pady=5, padx=5)
+            row_label = tk.Label(master=row_frame, text=row_data[heading])
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
         return row_frame
 
 # ============================================================ Functionality Components for Searching Books ============================================================
+def search_function(widget):
+    print(widget.get())
+    string_var = tk.StringVar()
+    widget['textvariable'] = string_var
+    string_var.trace_add("write", lambda: print("I'm typing something..."))
