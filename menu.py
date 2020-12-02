@@ -81,7 +81,6 @@ def build_page_container():
     books_page = bs.build_books_page(page_notebook)
 
     page_notebook.add(books_page, text="Books")
-    # page_notebook.add(tk.Frame(master=page_notebook, bg="blue"), text="Books")
     page_notebook.add(tk.Frame(master=page_notebook, bg="green"), text="Loan Manager")
     page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")

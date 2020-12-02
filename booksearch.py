@@ -52,11 +52,11 @@ def build_results_section(master_frame, headings):
     results_section.rowconfigure(0, weight=1, minsize=10)
     results_section.columnconfigure(0, weight=1, minsize=10)
 
-    canvas = tk.Canvas(results_section)
+    canvas = tk.Canvas(results_section, bg="green")
     scrollbar = tk.Scrollbar(results_section, orient="vertical", command=canvas.yview)
-    scrollable_frame = tk.Frame(canvas)
+    scrollable_frame = tk.Frame(canvas, bg="yellow")
     scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-    canvas.create_window((100, 200), window=scrollable_frame, anchor="nw")
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
     canvas.configure(yscrollcommand=scrollbar.set)
 
     scrollable_frame.columnconfigure(0, weight=1, minsize=10)
@@ -75,15 +75,19 @@ def build_results_section(master_frame, headings):
 def build_row(master_frame, headings, is_header=False):
     if is_header:
         header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
-        for heading in headings:
+        header_frame.rowconfigure(0, weight=1, minsize=1)
+        for index, heading in enumerate(headings):
+            header_frame.columnconfigure(index, weight=1, minsize=10)
             heading_label = tk.Label(master=header_frame, text=heading)
-            heading_label.pack(fill=tk.BOTH, side=tk.LEFT)
+            heading_label.grid(row=0, column=index, pady=5)
         return header_frame
     else:
         row_frame = tk.Frame(master=master_frame, bg="blue")
-        for heading in headings:
+        row_frame.rowconfigure(0, weight=1, minsize=1)
+        for index, heading in enumerate(headings):
+            row_frame.columnconfigure(index, weight=1, minsize=10)
             row_label = tk.Label(master=row_frame, text=heading)
-            row_label.pack(fill=tk.BOTH, side=tk.LEFT)
+            row_label.grid(row=0, column=index, pady=5, padx=5)
         return row_frame
 
 # ============================================================ Functionality Components for Searching Books ============================================================
