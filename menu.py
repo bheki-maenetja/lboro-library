@@ -6,10 +6,10 @@ import tkinter.font as tkFont
 from datetime import datetime as dt
 
 # Local Imports
-from booksearch import book_categories, search_handler
+import booksearch as bs
 
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
-## Window Setup =================================================================================================
+## Window Setup =================================================================
 root = tk.Tk()
 root.title('Loughborough Library Management System')
 root.geometry('900x630')
@@ -17,19 +17,23 @@ root.minsize(600, 420)
 root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
 
-## Global & State Variables =====================================================================================
+## Global & State Variables =====================================================
 page_manager = dict()
 
 books_page_state = {
     'search_var': tk.StringVar(),
     'search_bar': None,
-    'search_results': [],
-    'selected_categories': book_categories
+    'search_results': {},
+    'selected_categories': []
 }
-books_page_state['search_var'].trace_add("write", lambda *args: print(search_bar.get()))
+books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
 # ======================================================================================== UPDATING UI ========================================================================================
-
+## Updating State Variables ==============================================================
+def book_search_handler(search_phrase):
+    books_page_state['search_results'] = bs.search_handler(search_phrase, books_page_state['selected_categories'])
+    for key in books_page_state['search_results']:
+        print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -132,7 +136,7 @@ def build_category_section(master_frame):
         for j in range(3):
             category_section.rowconfigure(j, weight=1, minsize=30)
             index = i + 4*j
-            new_checkbox = tk.Checkbutton(master=category_section, text=book_categories[index], onvalue="on", offvalue="off", bg="green")
+            new_checkbox = tk.Checkbutton(master=category_section, text=bs.book_categories[index], onvalue="on", offvalue="off", bg="green")
             new_checkbox.deselect()
             new_checkbox.grid(row=j, column=i, padx=0, pady=0, sticky="w")
     

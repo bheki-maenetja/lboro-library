@@ -2,19 +2,19 @@
 import tkinter as tk
 
 # Local Imports
-from database import search_books
+import database as db
 
 # Global Variables
 book_categories = ("non-fiction", "fiction", "textbook", "novel", "short story", "languages", "technology", "art", "social", "business", "programing", "philosophy")
 
 # ============================================================ Functionality for Searching Books ============================================================
 def search_handler(search_phrase, categories=None):
-    search_results = get_search_results(search_books, categories)
+    search_results = get_search_results(search_phrase, categories)
     formatted_results = format_results(search_results, 3)
     return formatted_results
 
 def get_search_results(search_phrase, categories=None):
-    search_results = search_books(search_phrase, categories)
+    search_results = db.search_books(search_phrase, categories)
     return [result[1] for result in search_results]
 
 def format_results(search_results, page_size):
