@@ -25,7 +25,8 @@ books_page_state = {
     'search_bar': None,
     'search_results': {},
     'selected_categories': [],
-    'results_section': None
+    'results_section': None,
+    'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"]
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
@@ -37,6 +38,32 @@ def book_search_handler(search_phrase):
         print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
 
 ## Updating UI Components ================================================================
+def build_results_page():
+    page_frame = tk.Frame(master=books_page_state['results_section'], bg="yellow")
+    page_frame.columnconfigure(0, weight=1, minsize=1)
+    for i in range(5):
+        page_frame.rowconfigure(i, weight=1, minsize=1)
+        new_row = build_results_row(page_frame, books_page_state['result_headings'])
+        new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
+    page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
+    
+def build_results_row(master_frame, headings, is_header=False):
+    if is_header:
+        header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
+        header_frame.rowconfigure(0, weight=1, minsize=1)
+        for index, heading in enumerate(headings):
+            header_frame.columnconfigure(index, weight=1, minsize=10)
+            heading_label = tk.Label(master=header_frame, text=heading.upper())
+            heading_label.grid(row=0, column=index, pady=5)
+        return header_frame
+    else:
+        row_frame = tk.Frame(master=master_frame, bg="blue")
+        row_frame.rowconfigure(0, weight=1, minsize=10)
+        for index, heading in enumerate(headings):
+            row_frame.columnconfigure(index, weight=1, minsize=10)
+            row_label = tk.Label(master=row_frame, text=heading)
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+        return row_frame
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -121,8 +148,8 @@ def build_books_page(master_frame):
     search_section = build_search_section(books_page)
     category_section = build_category_section(books_page)
 
-    headings = ["ID", "ISBN", "TITLE", "AUTHOR", "PURCHASE_DATE", "LANGUAGE", "STATUS"]
-    header = build_row(books_page, headings, is_header=True)
+    headings = books_page_state['result_headings']
+    header = build_results_row(books_page, headings, is_header=True)
     results_section = build_results_section(books_page, headings)
 
     search_section.grid(row=0, column=0, sticky="nesw")
@@ -173,24 +200,6 @@ def build_results_section(master_frame, headings):
     books_page_state['results_section'] = results_section
     return results_section
     
-def build_row(master_frame, headings, is_header=False):
-    if is_header:
-        header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
-        header_frame.rowconfigure(0, weight=1, minsize=1)
-        for index, heading in enumerate(headings):
-            header_frame.columnconfigure(index, weight=1, minsize=10)
-            heading_label = tk.Label(master=header_frame, text=heading.upper())
-            heading_label.grid(row=0, column=index, pady=5)
-        return header_frame
-    else:
-        row_frame = tk.Frame(master=master_frame, bg="blue")
-        row_frame.rowconfigure(0, weight=1, minsize=10)
-        for index, heading in enumerate(headings):
-            row_frame.columnconfigure(index, weight=1, minsize=10)
-            row_label = tk.Label(master=row_frame, text=heading)
-            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
-        return row_frame
-
 ### Assignments/function calls ============================================================
 page_manager['pages_section'] = build_page_container()
 
@@ -213,6 +222,7 @@ def transition(to_home=False, pages_index=1):
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
+build_results_page()
 root.mainloop()
 
     
