@@ -32,13 +32,18 @@ books_page_state = {
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
 # ======================================================================================== UPDATING UI ========================================================================================
-## Updating State Variables ==============================================================
+## Updating UI Components ================================================================
 def book_search_handler(search_phrase):
+    if len(books_page_state['current_page']) == 3:
+        books_page_state['current_page'][2].destroy()
+
     books_page_state['search_results'] = bs.search_handler(search_phrase, books_page_state['selected_categories'])
     for key in books_page_state['search_results']:
         print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
 
-## Updating UI Components ================================================================
+    books_page_state['current_page'] = [0, books_page_state['search_results'][0], None]
+    build_results_page()
+
 def build_header_row(master_frame, headings, is_header=False):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
@@ -242,8 +247,6 @@ def transition(to_home=False, pages_index=1):
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
-books_page_state['search_results'] = bs.search_handler('')
-books_page_state['current_page'] = [0, books_page_state['search_results'][0], None]
+book_search_handler('')
 
-build_results_page()
 root.mainloop()
