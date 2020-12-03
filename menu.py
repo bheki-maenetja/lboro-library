@@ -27,7 +27,7 @@ books_page_state = {
     'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"],
     'search_results': {},
     'results_section': None,
-    'current_page': ()
+    'current_page': []
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
@@ -55,6 +55,7 @@ def build_results_page(page_data):
         page_frame.rowconfigure(i, weight=1, minsize=1)
         new_row = build_results_row(page_frame, books_page_state['result_headings'], row)
         new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
+    books_page_state['current_page'][2] = page_frame
     page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
     
 def build_results_row(master_frame, headings, row_data):
@@ -67,8 +68,17 @@ def build_results_row(master_frame, headings, row_data):
     return row_frame
 
 def change_book_results_page(increment):
-    page_num, current_page = books_page_state['current_page']
-    print(page_num, current_page)
+    page_num, page_data, page_frame = books_page_state['current_page']
+    num_results = len(books_page_state['search_results'])
+
+    if increment and page_num + 1 < num_results - 1:
+        books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num + 1, books_page_state['search_results'][page_num + 1]
+    elif not increment and page_num - 1 >= 0:
+        books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num - 1, books_page_state['search_results'][page_num - 1]
+    
+    page_frame.destroy()
+    build_results_page(books_page_state['current_page'][1])
+
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -229,9 +239,7 @@ def transition(to_home=False, pages_index=1):
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 books_page_state['search_results'] = bs.search_handler('')
-books_page_state['current_page'] = (0, books_page_state['search_results'][0])
+books_page_state['current_page'] = [0, books_page_state['search_results'][0], None]
 
 build_results_page(books_page_state['search_results'][0])
 root.mainloop()
-
-    
