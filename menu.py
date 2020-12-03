@@ -106,9 +106,9 @@ def build_books_page(master_frame):
     books_page = tk.Frame(master=master_frame)
     books_page.columnconfigure(0, weight=1, minsize=10)
     books_page.rowconfigure(0, weight=1, minsize=10)
-    books_page.rowconfigure(1, weight=1, minsize=10)
-    books_page.rowconfigure(2, weight=1, minsize=10)
-    books_page.rowconfigure(3, weight=4, minsize=10)
+    books_page.rowconfigure(1, weight=2, minsize=10)
+    books_page.rowconfigure(2, weight=0, minsize=10)
+    books_page.rowconfigure(3, weight=8, minsize=10)
 
     search_section = build_search_section(books_page)
     category_section = build_category_section(books_page)
@@ -119,7 +119,7 @@ def build_books_page(master_frame):
 
     search_section.grid(row=0, column=0, sticky="nesw")
     category_section.grid(row=1, column=0, sticky="nesw")
-    header.grid(row=2, column=0, sticky="ew")
+    header.grid(row=2, column=0, sticky="news", pady=0)
     results_section.grid(row=3, column=0, sticky="nesw")
     return books_page
 
@@ -151,25 +151,6 @@ def build_results_section(master_frame, headings):
     results_section = tk.Frame(master=master_frame, bg="pink")
     results_section.rowconfigure(0, weight=1, minsize=10)
     results_section.columnconfigure(0, weight=1, minsize=10)
-
-    canvas = tk.Canvas(results_section, bg="green")
-    scrollable_frame = tk.Frame(canvas, bg="yellow")
-    scrollbar = tk.Scrollbar(results_section, orient="vertical", command=canvas.yview)
-
-    scrollable_frame_id = canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-    canvas.configure(yscrollcommand=scrollbar.set)
-    canvas.bind("<Configure>", lambda e: canvas.itemconfigure(scrollable_frame_id, width=e.width))
-
-    scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-
-    scrollable_frame.columnconfigure(0, weight=1, minsize=1)
-    for i in range(100):
-        scrollable_frame.rowconfigure(i, weight=1, minsize=1)
-        new_row = build_row(scrollable_frame, headings)
-        new_row.grid(row=i, column=0, padx=10, pady=10, sticky="ew")
-    
-    canvas.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
-    scrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=0)
     
     return results_section
     
