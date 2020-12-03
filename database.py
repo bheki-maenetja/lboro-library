@@ -16,6 +16,15 @@ def get_all_books(): # return all books in the database
     database.close()
 
 def search_books(search_phrase, categories=None): # returns books based on search parameters
+    """
+    PARAMETERS:
+        * search_phrase -> a string that is is used to find books
+        * categories -> a list of selected book categories with each categort being a string
+    RETURN VALUES
+        * search_results -> a sorted list of binary tuples with the first element being an integer and second element being a dictinary
+    WHAT DOES THIS FUNCTION DO?
+        * finds all the books in the database, in the given categories, whose title matches (or resembles) the search_phrase   
+    """
     book_index = category_match(get_all_books(), categories)
     search_results = [result_match(book, search_phrase, categories) for book in book_index]
     return sorted([result for result in search_results if result != None], key=lambda x: x[0])

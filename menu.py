@@ -6,10 +6,8 @@ import tkinter.font as tkFont
 from datetime import datetime as dt
 
 # Local Imports
-from database import search_books
 from booksearch import book_categories
 
-sample_books = search_books('', categories=['fiction'])
 # ============================================================ MAIN WINDOW & GLOBAL VARIABLES ============================================================
 root = tk.Tk()
 root.title('Loughborough Library Management System')
@@ -22,6 +20,9 @@ page_manager = dict()
 
 book_search_var = tk.StringVar()
 book_search_var.trace_add("write", lambda *args: print("I'm doing something...", args))
+
+book_search_results = []
+selected_categories = []
 
 # ============================================================ HOME PAGE ============================================================
 def build_home_page():
@@ -106,8 +107,7 @@ def build_books_page(master_frame):
     search_section = build_search_section(books_page)
     category_section = build_category_section(books_page)
 
-    headings = list(sample_books[0][1].keys())
-    headings.remove('category')
+    headings = ["ID", "ISBN", "TITLE", "AUTHOR", "PURCHASE_DATE", "LANGUAGE", "STATUS"]
     header = build_row(books_page, headings, is_header=True)
     results_section = build_results_section(books_page, headings)
 
@@ -166,7 +166,7 @@ def build_results_section(master_frame, headings):
     
     return results_section
     
-def build_row(master_frame, headings, is_header=False, row_data=sample_books[0][1]):
+def build_row(master_frame, headings, is_header=False):
     if is_header:
         header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
         header_frame.rowconfigure(0, weight=1, minsize=1)
@@ -175,12 +175,12 @@ def build_row(master_frame, headings, is_header=False, row_data=sample_books[0][
             heading_label = tk.Label(master=header_frame, text=heading.upper())
             heading_label.grid(row=0, column=index, pady=5)
         return header_frame
-    elif row_data:
+    else:
         row_frame = tk.Frame(master=master_frame, bg="blue")
         row_frame.rowconfigure(0, weight=1, minsize=10)
         for index, heading in enumerate(headings):
             row_frame.columnconfigure(index, weight=1, minsize=10)
-            row_label = tk.Label(master=row_frame, text=row_data[heading])
+            row_label = tk.Label(master=row_frame, text=heading)
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
         return row_frame
 
