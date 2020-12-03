@@ -8,7 +8,8 @@ from datetime import datetime as dt
 # Local Imports
 from booksearch import book_categories
 
-# ============================================================ MAIN WINDOW & GLOBAL VARIABLES ============================================================
+# =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
+## Window Setup =================================================================================================
 root = tk.Tk()
 root.title('Loughborough Library Management System')
 root.geometry('900x630')
@@ -16,15 +17,20 @@ root.minsize(600, 420)
 root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
 
+## Global Variables =============================================================================================
 page_manager = dict()
 
 book_search_var = tk.StringVar()
-book_search_var.trace_add("write", lambda *args: print("I'm doing something...", args))
+book_search_var.trace_add("write", lambda *args: print(search_bar.get()))
 
+search_bar = None
 book_search_results = []
 selected_categories = []
 
-# ============================================================ HOME PAGE ============================================================
+# ======================================================================================== UPDATING UI ========================================================================================
+
+
+# ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
     home_frame = tk.Frame(master=root, height=100, width=100)
     home_frame.columnconfigure(0, weight=1, minsize=root.winfo_height())
@@ -78,7 +84,7 @@ def build_button_section(master_frame):
 
 page_manager['home_page'] = build_home_page()
 
-# ============================================================ OTHER PAGES ============================================================
+# ======================================================================================== OTHER PAGES ========================================================================================
 ## The Main Page Container ============================================================
 def build_page_container():
     page_notebook = ttk.Notebook(master=root)
@@ -132,6 +138,7 @@ def build_category_section(master_frame):
     return category_section
 
 def build_search_section(master_frame):
+    global search_bar
     search_section = tk.Frame(master=master_frame, bg="darkgrey")
     search_bar = tk.Entry(master=search_section, textvariable=book_search_var)
     search_button = tk.Button(master=search_section, text="Search")
@@ -187,7 +194,7 @@ def build_row(master_frame, headings, is_header=False):
 ### Assignments/function calls ============================================================
 page_manager['pages_section'] = build_page_container()
 
-# ============================================================ MOVING BETWEEN PAGES ============================================================
+# ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 def go_to_home_page(e):
     notebook = page_manager['pages_section']
     active_tab = notebook.index(notebook.select())
@@ -204,7 +211,7 @@ def transition(to_home=False, pages_index=1):
         page_manager['pages_section'].pack_forget()
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
-# ============================================================ FUNCTION CALLS ============================================================
+# ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 root.mainloop()
 
