@@ -6,7 +6,7 @@ import tkinter.font as tkFont
 from datetime import datetime as dt
 
 # Local Imports
-from booksearch import book_categories
+from booksearch import book_categories, search_handler
 
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
 ## Window Setup =================================================================================================
