@@ -23,10 +23,11 @@ page_manager = dict()
 books_page_state = {
     'search_var': tk.StringVar(),
     'search_bar': None,
-    'search_results': {},
     'selected_categories': [],
+    'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"],
+    'search_results': {},
     'results_section': None,
-    'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"]
+    'current_page': ()
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
@@ -38,32 +39,36 @@ def book_search_handler(search_phrase):
         print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
 
 ## Updating UI Components ================================================================
-def build_results_page():
+def build_header_row(master_frame, headings, is_header=False):
+    header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
+    header_frame.rowconfigure(0, weight=1, minsize=1)
+    for index, heading in enumerate(headings):
+        header_frame.columnconfigure(index, weight=1, minsize=10)
+        heading_label = tk.Label(master=header_frame, text=heading.upper())
+        heading_label.grid(row=0, column=index, pady=5)
+    return header_frame
+
+def build_results_page(page_data):
     page_frame = tk.Frame(master=books_page_state['results_section'], bg="yellow")
     page_frame.columnconfigure(0, weight=1, minsize=1)
-    for i in range(5):
+    for i, row in enumerate(page_data):
         page_frame.rowconfigure(i, weight=1, minsize=1)
-        new_row = build_results_row(page_frame, books_page_state['result_headings'])
+        new_row = build_results_row(page_frame, books_page_state['result_headings'], row)
         new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
     page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
     
-def build_results_row(master_frame, headings, is_header=False):
-    if is_header:
-        header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
-        header_frame.rowconfigure(0, weight=1, minsize=1)
-        for index, heading in enumerate(headings):
-            header_frame.columnconfigure(index, weight=1, minsize=10)
-            heading_label = tk.Label(master=header_frame, text=heading.upper())
-            heading_label.grid(row=0, column=index, pady=5)
-        return header_frame
-    else:
-        row_frame = tk.Frame(master=master_frame, bg="blue")
-        row_frame.rowconfigure(0, weight=1, minsize=10)
-        for index, heading in enumerate(headings):
-            row_frame.columnconfigure(index, weight=1, minsize=10)
-            row_label = tk.Label(master=row_frame, text=heading)
-            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
-        return row_frame
+def build_results_row(master_frame, headings, row_data):
+    row_frame = tk.Frame(master=master_frame, bg="blue")
+    row_frame.rowconfigure(0, weight=1, minsize=10)
+    for index, heading in enumerate(headings):
+        row_frame.columnconfigure(index, weight=1, minsize=10)
+        row_label = tk.Label(master=row_frame, text=row_data[heading])
+        row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+    return row_frame
+
+def change_book_results_page(increment):
+    page_num, current_page = books_page_state['current_page']
+    print(page_num, current_page)
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -149,7 +154,7 @@ def build_books_page(master_frame):
     category_section = build_category_section(books_page)
 
     headings = books_page_state['result_headings']
-    header = build_results_row(books_page, headings, is_header=True)
+    header = build_header_row(books_page, headings, is_header=True)
     results_section = build_results_section(books_page, headings)
 
     search_section.grid(row=0, column=0, sticky="nesw")
@@ -188,8 +193,8 @@ def build_results_section(master_frame, headings):
     results_section.columnconfigure(0, weight=1, minsize=10)
     
     footer_frame = tk.Frame(master=results_section, bg="purple")
-    previous_button = tk.Button(footer_frame, text="Previous")
-    next_button = tk.Button(footer_frame, text="Next")
+    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_book_results_page(False))
+    next_button = tk.Button(footer_frame, text="Next", command=lambda: change_book_results_page(True))
     page_label = tk.Label(footer_frame, text="Page")
 
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
@@ -222,7 +227,11 @@ def transition(to_home=False, pages_index=1):
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
-build_results_page()
+
+books_page_state['search_results'] = bs.search_handler('')
+books_page_state['current_page'] = (0, books_page_state['search_results'][0])
+
+build_results_page(books_page_state['search_results'][0])
 root.mainloop()
 
     
