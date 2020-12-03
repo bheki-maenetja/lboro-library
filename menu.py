@@ -24,7 +24,8 @@ books_page_state = {
     'search_var': tk.StringVar(),
     'search_bar': None,
     'search_results': {},
-    'selected_categories': []
+    'selected_categories': [],
+    'results_section': None
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
@@ -34,6 +35,8 @@ def book_search_handler(search_phrase):
     books_page_state['search_results'] = bs.search_handler(search_phrase, books_page_state['selected_categories'])
     for key in books_page_state['search_results']:
         print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
+
+## Updating UI Components ================================================================
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -90,7 +93,7 @@ def build_button_section(master_frame):
 page_manager['home_page'] = build_home_page()
 
 # ======================================================================================== OTHER PAGES ========================================================================================
-## The Main Page Container ============================================================
+## The Main Page Container ===============================================================
 def build_page_container():
     page_notebook = ttk.Notebook(master=root)
     page_notebook.add(tk.Frame(), text="Home")
@@ -106,7 +109,7 @@ def build_page_container():
 
     return page_notebook
 
-## Books Page ============================================================
+## Books Page ============================================================================
 def build_books_page(master_frame):
     books_page = tk.Frame(master=master_frame)
     books_page.columnconfigure(0, weight=1, minsize=10)
@@ -157,6 +160,17 @@ def build_results_section(master_frame, headings):
     results_section.rowconfigure(0, weight=1, minsize=10)
     results_section.columnconfigure(0, weight=1, minsize=10)
     
+    footer_frame = tk.Frame(master=results_section, bg="purple")
+    previous_button = tk.Button(footer_frame, text="Previous")
+    next_button = tk.Button(footer_frame, text="Next")
+    page_label = tk.Label(footer_frame, text="Page")
+
+    previous_button.pack(fill=tk.Y, side=tk.LEFT)
+    next_button.pack(fill=tk.Y, side=tk.LEFT)
+    page_label.pack(fill=tk.Y, side=tk.RIGHT)
+
+    footer_frame.pack(fill=tk.X, side=tk.BOTTOM, expand=0)
+    books_page_state['results_section'] = results_section
     return results_section
     
 def build_row(master_frame, headings, is_header=False):
