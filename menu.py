@@ -48,17 +48,21 @@ def build_header_row(master_frame, headings, is_header=False):
         heading_label.grid(row=0, column=index, pady=5)
     return header_frame
 
-def build_results_page(page_data):
+def build_results_page():
+    page_data = books_page_state['current_page'][1]
+
     page_frame = tk.Frame(master=books_page_state['results_section'], bg="yellow")
     page_frame.columnconfigure(0, weight=1, minsize=1)
     for i, row in enumerate(page_data):
         page_frame.rowconfigure(i, weight=1, minsize=1)
-        new_row = build_results_row(page_frame, books_page_state['result_headings'], row)
+        new_row = build_results_row(page_frame, row)
         new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
     books_page_state['current_page'][2] = page_frame
     page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
     
-def build_results_row(master_frame, headings, row_data):
+def build_results_row(master_frame, row_data):
+    headings = books_page_state['result_headings']
+
     row_frame = tk.Frame(master=master_frame, bg="blue")
     row_frame.rowconfigure(0, weight=1, minsize=10)
     for index, heading in enumerate(headings):
@@ -77,7 +81,7 @@ def change_book_results_page(increment):
         books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num - 1, books_page_state['search_results'][page_num - 1]
     
     page_frame.destroy()
-    build_results_page(books_page_state['current_page'][1])
+    build_results_page()
 
 
 # ========================================================================================= HOME PAGE =========================================================================================
@@ -165,7 +169,7 @@ def build_books_page(master_frame):
 
     headings = books_page_state['result_headings']
     header = build_header_row(books_page, headings, is_header=True)
-    results_section = build_results_section(books_page, headings)
+    results_section = build_results_section(books_page)
 
     search_section.grid(row=0, column=0, sticky="nesw")
     category_section.grid(row=1, column=0, sticky="nesw")
@@ -197,7 +201,7 @@ def build_search_section(master_frame):
 
     return search_section
 
-def build_results_section(master_frame, headings):
+def build_results_section(master_frame):
     results_section = tk.Frame(master=master_frame, bg="pink")
     results_section.rowconfigure(0, weight=1, minsize=10)
     results_section.columnconfigure(0, weight=1, minsize=10)
@@ -241,5 +245,5 @@ page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 books_page_state['search_results'] = bs.search_handler('')
 books_page_state['current_page'] = [0, books_page_state['search_results'][0], None]
 
-build_results_page(books_page_state['search_results'][0])
+build_results_page()
 root.mainloop()
