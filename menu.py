@@ -17,15 +17,16 @@ root.minsize(600, 420)
 root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
 
-## Global Variables =============================================================================================
+## Global & State Variables =====================================================================================
 page_manager = dict()
 
-book_search_var = tk.StringVar()
-book_search_var.trace_add("write", lambda *args: print(search_bar.get()))
-
-search_bar = None
-book_search_results = []
-selected_categories = []
+books_page_state = {
+    'search_var': tk.StringVar(),
+    'search_bar': None,
+    'search_results': [],
+    'selected_categories': book_categories
+}
+books_page_state['search_var'].trace_add("write", lambda *args: print(search_bar.get()))
 
 # ======================================================================================== UPDATING UI ========================================================================================
 
@@ -140,7 +141,7 @@ def build_category_section(master_frame):
 def build_search_section(master_frame):
     global search_bar
     search_section = tk.Frame(master=master_frame, bg="darkgrey")
-    search_bar = tk.Entry(master=search_section, textvariable=book_search_var)
+    search_bar = tk.Entry(master=search_section, textvariable=books_page_state['search_var'])
     search_button = tk.Button(master=search_section, text="Search")
     search_bar.pack(fill=tk.X, expand=3, side=tk.LEFT)
     search_button.pack(fill=tk.X, expand=1, side=tk.LEFT)
