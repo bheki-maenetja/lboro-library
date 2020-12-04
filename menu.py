@@ -35,14 +35,18 @@ books_page_state['search_var'].trace_add("write", lambda *args: book_search_hand
 # ======================================================================================== UPDATING UI ========================================================================================
 ## Updating UI Components ================================================================
 def book_search_handler(search_phrase):
-    if len(books_page_state['current_page']) == 3:
+    current_page = books_page_state['current_page']
+
+    if len(current_page) == 3:
         books_page_state['current_page'][2].destroy()
 
-    books_page_state['search_results'] = bs.search_handler(search_phrase, books_page_state['selected_categories'])
-    for key in books_page_state['search_results']:
-        print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
+    search_results = bs.search_handler(search_phrase, books_page_state['selected_categories'])
+    # books_page_state['search_results'] = bs.search_handler(search_phrase, books_page_state['selected_categories'])
+    for key in search_results:
+        print(f"Page {key}:", search_results[key], sep="\n")
 
-    books_page_state['current_page'] = [0, books_page_state['search_results'][0], None]
+    books_page_state['search_results'] = search_results
+    books_page_state['current_page'] = [0, search_results[0], None]
     books_page_state['page_label']['text'] = f"Page 1 of {len(books_page_state['search_results'])}"
 
     build_results_page()
@@ -65,8 +69,8 @@ def build_results_page():
         page_frame.rowconfigure(i, weight=1, minsize=1)
         new_row = build_results_row(page_frame, row)
         new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
-    books_page_state['current_page'][2] = page_frame
     page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
+    books_page_state['current_page'][2] = page_frame
     
 def build_results_row(master_frame, row_data):
     headings = books_page_state['result_headings']
@@ -83,13 +87,16 @@ def change_book_results_page(increment):
     page_num, page_data, page_frame = books_page_state['current_page']
     num_results = len(books_page_state['search_results'])
 
-    if increment and page_num + 1 < num_results - 1:
-        books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num + 1, books_page_state['search_results'][page_num + 1]
-        books_page_state['page_label']['text'] = f"Page {page_num + 2} of {num_results}"
+    print(page_num)
+    if increment and page_num + 1 < num_results:
+        new_page_num, new_search_results = page_num + 1, books_page_state['search_results'][page_num + 1]
     elif not increment and page_num - 1 >= 0:
-        books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num - 1, books_page_state['search_results'][page_num - 1]
-        books_page_state['page_label']['text'] = f"Page {page_num} of {num_results}"
+        new_page_num, new_search_results = page_num - 1, books_page_state['search_results'][page_num - 1]
+    else:
+        return
     
+    books_page_state['current_page'][0], books_page_state['current_page'][1] = new_page_num, new_search_results
+    books_page_state['page_label']['text'] = f"Page {new_page_num + 1} of {num_results}"
     page_frame.destroy()
     build_results_page()
 
