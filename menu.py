@@ -27,7 +27,8 @@ books_page_state = {
     'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"],
     'search_results': {},
     'results_section': None,
-    'current_page': []
+    'current_page': [],
+    'page_label': None
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
@@ -42,6 +43,8 @@ def book_search_handler(search_phrase):
         print(f"Page {key}:", books_page_state['search_results'][key], sep="\n")
 
     books_page_state['current_page'] = [0, books_page_state['search_results'][0], None]
+    books_page_state['page_label']['text'] = f"Page 1 of {len(books_page_state['search_results'])}"
+
     build_results_page()
 
 def build_header_row(master_frame, headings, is_header=False):
@@ -82,12 +85,13 @@ def change_book_results_page(increment):
 
     if increment and page_num + 1 < num_results - 1:
         books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num + 1, books_page_state['search_results'][page_num + 1]
+        books_page_state['page_label']['text'] = f"Page {page_num + 2} of {num_results}"
     elif not increment and page_num - 1 >= 0:
         books_page_state['current_page'][0], books_page_state['current_page'][1] = page_num - 1, books_page_state['search_results'][page_num - 1]
+        books_page_state['page_label']['text'] = f"Page {page_num} of {num_results}"
     
     page_frame.destroy()
     build_results_page()
-
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -216,6 +220,8 @@ def build_results_section(master_frame):
     next_button = tk.Button(footer_frame, text="Next", command=lambda: change_book_results_page(True))
     page_label = tk.Label(footer_frame, text="Page")
 
+    books_page_state['page_label'] = page_label
+
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
     next_button.pack(fill=tk.Y, side=tk.LEFT)
     page_label.pack(fill=tk.Y, side=tk.RIGHT)
@@ -224,7 +230,7 @@ def build_results_section(master_frame):
     books_page_state['results_section'] = results_section
     return results_section
     
-### Assignments/function calls ============================================================
+### Assignments/function calls ===========================================================
 page_manager['pages_section'] = build_page_container()
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
