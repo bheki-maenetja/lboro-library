@@ -199,7 +199,8 @@ def build_category_section(master_frame):
         for j in range(3):
             category_section.rowconfigure(j, weight=1, minsize=30)
             index = i + 4*j
-            new_checkbox = tk.Checkbutton(master=category_section, text=bs.book_categories[index], onvalue="on", offvalue="off", bg="green")
+            print(index)
+            new_checkbox = tk.Checkbutton(master=category_section, text=bs.book_categories[index][0], onvalue="on", offvalue="off", bg="green", command=bs.book_categories[index][1])
             new_checkbox.deselect()
             new_checkbox.grid(row=j, column=i, padx=0, pady=0, sticky="w")
     
