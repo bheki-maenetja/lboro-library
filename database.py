@@ -42,9 +42,9 @@ def result_match(book_obj, search_phrase, categories): # filters books based on 
         return (1, book_obj)
     elif book_title == search_phrase:
         return (1, book_obj)
-    elif book_title in search_phrase or search_phrase in book_title:
-        return (2, book_obj)
     elif len(search_phrase) >= 3 and search_phrase[:3] == book_title[:3]:
+        return (2, book_obj)
+    elif book_title in search_phrase or search_phrase in book_title:
         return (3, book_obj)
 
 # Single View

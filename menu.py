@@ -39,7 +39,7 @@ books_page_state = {
         ("technology", lambda: select_book_category("technology")), 
         ("art", lambda: select_book_category("art")), 
         ("social", lambda: select_book_category("social")), 
-        ("business", lambda: select_book_category("business")), 
+        ("sports", lambda: select_book_category("sports")), 
         ("programing", lambda: select_book_category("programming")), 
         ("philosophy", lambda: select_book_category("philosophy"))
     )
@@ -113,7 +113,15 @@ def change_book_results_page(increment):
     build_results_page()
 
 def select_book_category(category):
-    print(category)
+    selected_categories = books_page_state['selected_categories']
+
+    if category in selected_categories:
+        selected_categories.remove(category)
+    else:
+        selected_categories.append(category)
+
+    books_page_state['selected_categories'] = selected_categories
+    book_search_handler(books_page_state['search_var'].get())
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
