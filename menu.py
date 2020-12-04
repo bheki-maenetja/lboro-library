@@ -62,9 +62,16 @@ def book_search_handler(search_phrase):
     for key in search_results:
         print(f"Page {key}:", search_results[key], sep="\n")
 
+    if search_results:
+        current_page = [0, search_results[0], None]
+        page_label = f"Page 1 of {len(search_results)}"
+    else:
+        current_page = [0, [], None]
+        page_label = "Page 1 of 1"
+
     books_page_state['search_results'] = search_results
-    books_page_state['current_page'] = [0, search_results[0], None]
-    books_page_state['page_label']['text'] = f"Page 1 of {len(books_page_state['search_results'])}"
+    books_page_state['current_page'] = current_page
+    books_page_state['page_label']['text'] = page_label
 
     build_results_page()
 
