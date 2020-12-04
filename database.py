@@ -35,7 +35,7 @@ def category_match(book_index, selected_categories=None): # filters books based 
     return [book for book in book_index if set(selected_categories).issubset(set(book['category']))]
 
 def result_match(book_obj, search_phrase, categories): # filters books based on search string
-    book_title = book_obj['title'].lower()
+    book_title = book_obj['title'].lower().strip()
     search_phrase = search_phrase.lower()
     
     if search_phrase == '':

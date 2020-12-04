@@ -31,17 +31,21 @@ books_page_state = {
     'selected_categories': [],
     'book_categories': (
         ("non-fiction", lambda: select_book_category("non-fiction")), 
-        ("fiction", lambda: select_book_category("fiction")), 
         ("textbook", lambda: select_book_category("textbook")), 
-        ("novel", lambda: select_book_category("novel")), 
-        ("short story", lambda: select_book_category("short story")), 
         ("languages", lambda: select_book_category("languages")), 
-        ("technology", lambda: select_book_category("technology")), 
+        ("philosophy", lambda: select_book_category("philosophy")),
+        ("technology", lambda: select_book_category("technology")),  
         ("art", lambda: select_book_category("art")), 
         ("social", lambda: select_book_category("social")), 
         ("sports", lambda: select_book_category("sports")), 
-        ("programing", lambda: select_book_category("programming")), 
-        ("philosophy", lambda: select_book_category("philosophy"))
+        ("biography", lambda: select_book_category("biography")), 
+        ("fiction", lambda: select_book_category("fiction")), 
+        ("novel", lambda: select_book_category("novel")), 
+        ("short story", lambda: select_book_category("short story")), 
+        ("horror", lambda: select_book_category("horror")), 
+        ("fantasy", lambda: select_book_category("fantasy")), 
+        ("sci-fi", lambda: select_book_category("sci-fi")), 
+        ("adventure", lambda: select_book_category("adventure")), 
     )
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
@@ -221,7 +225,7 @@ def build_category_section(master_frame):
 
     for i in range(4):
         category_section.columnconfigure(i, weight=1, minsize=70)
-        for j in range(3):
+        for j in range(4):
             category_section.rowconfigure(j, weight=1, minsize=30)
             index = i + 4*j
             print(index)
