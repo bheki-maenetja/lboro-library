@@ -23,12 +23,26 @@ page_manager = dict()
 books_page_state = {
     'search_var': tk.StringVar(),
     'search_bar': None,
-    'selected_categories': [],
     'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"],
     'search_results': {},
     'results_section': None,
     'current_page': [],
-    'page_label': None
+    'page_label': None,
+    'selected_categories': [],
+    'book_categories': (
+        ("non-fiction", lambda: select_book_category("non-fiction")), 
+        ("fiction", lambda: select_book_category("fiction")), 
+        ("textbook", lambda: select_book_category("textbook")), 
+        ("novel", lambda: select_book_category("novel")), 
+        ("short story", lambda: select_book_category("short story")), 
+        ("languages", lambda: select_book_category("languages")), 
+        ("technology", lambda: select_book_category("technology")), 
+        ("art", lambda: select_book_category("art")), 
+        ("social", lambda: select_book_category("social")), 
+        ("business", lambda: select_book_category("business")), 
+        ("programing", lambda: select_book_category("programming")), 
+        ("philosophy", lambda: select_book_category("philosophy"))
+    )
 }
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
@@ -97,6 +111,9 @@ def change_book_results_page(increment):
     books_page_state['page_label']['text'] = f"Page {new_page_num + 1} of {num_results}"
     page_frame.destroy()
     build_results_page()
+
+def select_book_category(category):
+    print(category)
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -200,7 +217,14 @@ def build_category_section(master_frame):
             category_section.rowconfigure(j, weight=1, minsize=30)
             index = i + 4*j
             print(index)
-            new_checkbox = tk.Checkbutton(master=category_section, text=bs.book_categories[index][0], onvalue="on", offvalue="off", bg="green", command=bs.book_categories[index][1])
+            new_checkbox = tk.Checkbutton(
+                master=category_section, 
+                text=books_page_state['book_categories'][index][0], 
+                onvalue="on", 
+                offvalue="off", 
+                bg="green", 
+                command=books_page_state['book_categories'][index][1]
+            )
             new_checkbox.deselect()
             new_checkbox.grid(row=j, column=i, padx=0, pady=0, sticky="w")
     

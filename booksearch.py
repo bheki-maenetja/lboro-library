@@ -5,20 +5,7 @@ import tkinter as tk
 import database as db
 
 # Global Variables
-book_categories = (
-    ("non-fiction", lambda: "non-fiction"), 
-    ("fiction", lambda: "fiction"), 
-    ("textbook", lambda: "textbook"), 
-    ("novel", lambda: "novel"), 
-    ("short story", lambda: "short story"), 
-    ("languages", lambda: "languages"), 
-    ("technology", lambda: "technology"), 
-    ("art", lambda: "art"), 
-    ("social", lambda: "social"), 
-    ("business", lambda: "business"), 
-    ("programing", lambda: "programming"), 
-    ("philosophy", lambda: "philosophy")
-)
+
 
 # ============================================================ Functionality for Searching Books ============================================================
 def search_handler(search_phrase, categories=None):
