@@ -41,7 +41,6 @@ def book_search_handler(search_phrase):
         books_page_state['current_page'][2].destroy()
 
     search_results = bs.search_handler(search_phrase, books_page_state['selected_categories'])
-    # books_page_state['search_results'] = bs.search_handler(search_phrase, books_page_state['selected_categories'])
     for key in search_results:
         print(f"Page {key}:", search_results[key], sep="\n")
 
@@ -87,7 +86,6 @@ def change_book_results_page(increment):
     page_num, page_data, page_frame = books_page_state['current_page']
     num_results = len(books_page_state['search_results'])
 
-    print(page_num)
     if increment and page_num + 1 < num_results:
         new_page_num, new_search_results = page_num + 1, books_page_state['search_results'][page_num + 1]
     elif not increment and page_num - 1 >= 0:
