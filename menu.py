@@ -29,6 +29,7 @@ books_page_state = {
     'current_page': [],
     'page_label': None,
     'selected_categories': [],
+    'checkout_books': [],
     'book_categories': (
         ("non-fiction", lambda: select_book_category("non-fiction")), 
         ("textbook", lambda: select_book_category("textbook")), 
@@ -114,7 +115,7 @@ def build_results_row(master_frame, row_data):
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
         elif heading == "member_id":
             if row_data[heading]:
-                row_label['text'] = f"On loan to {row_data[heading]}"
+                row_label['text'] = f"On loan: Member {row_data[heading]}"
                 row_label.grid(row=0, column=index, pady=5, padx=5, sticky="e")
             else:
                 row_label.destroy()
@@ -123,10 +124,14 @@ def build_results_row(master_frame, row_data):
                     text="Select book for checkout", 
                     onvalue="on", 
                     offvalue="off",  
-                    command=lambda: print(row_data['id'])
+                    # command=lambda: print(row_data['id'])
                 )
-                checkout_checkbox.invoke()
-                checkout_checkbox.invoke()
+                if row_data['id'] in books_page_state['checkout_books']:
+                    checkout_checkbox.invoke()
+                else:
+                    checkout_checkbox.invoke()
+                    checkout_checkbox.invoke()
+                checkout_checkbox['command'] = lambda: select_for_checkout(row_data['id'])
                 checkout_checkbox.grid(row=0, column=index, pady=5, padx=5, sticky="e")
         else:
             row_frame.columnconfigure(index, weight=1, minsize=20)
@@ -160,6 +165,16 @@ def select_book_category(category):
 
     books_page_state['selected_categories'] = selected_categories
     book_search_handler(books_page_state['search_var'].get())
+
+def select_for_checkout(book_id):
+    checkout_books = books_page_state['checkout_books']
+    if book_id in checkout_books:
+        checkout_books.remove(book_id)
+    else:
+        checkout_books.append(book_id)
+    print(checkout_books)
+    books_page_state['checkout_books'] = checkout_books
+
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
