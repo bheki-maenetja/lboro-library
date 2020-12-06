@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
+import re
 
 from datetime import datetime as dt
 
@@ -190,6 +191,9 @@ def clear_selected_books():
     books_page_state['checkout_form'].grid_remove()
     build_results_page()
 
+def validate_member_entry(val):
+    return re.match('^[0-9]*$', val) is not None and len(val) < 5
+
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
     home_frame = tk.Frame(master=root, height=100, width=100)
@@ -346,7 +350,7 @@ def build_checkout_section(master_frame):
         checkout_section.columnconfigure(i, weight=1, minsize=10)
 
     member_label = tk.Label(master=checkout_section, text="Enter Member ID (4 digit code)")
-    member_entry = tk.Entry(master=checkout_section)
+    member_entry = tk.Entry(master=checkout_section, validate="key", validatecommand=(checkout_section.register(validate_member_entry), '%P'))
     checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books")
     cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=clear_selected_books)
 
