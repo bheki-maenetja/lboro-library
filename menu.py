@@ -168,10 +168,18 @@ def select_book_category(category):
 
 def select_for_checkout(book_id):
     checkout_books = books_page_state['checkout_books']
+    pre_existing_books = bool(checkout_books)
+
     if book_id in checkout_books:
         checkout_books.remove(book_id)
     else:
         checkout_books.append(book_id)
+
+    if not checkout_books:
+        books_page_state['checkout_form'].grid_remove()
+    elif checkout_books and not pre_existing_books:
+        books_page_state['checkout_form'].grid()
+    
     print(checkout_books)
     books_page_state['checkout_books'] = checkout_books
 
@@ -268,6 +276,7 @@ def build_books_page(master_frame):
     search_section.grid(row=0, column=0, sticky="nesw")
     category_section.grid(row=1, column=0, sticky="nesw")
     checkout_section.grid(row=2, column=0, sticky="nesw")
+    checkout_section.grid_remove()
     header.grid(row=3, column=0, sticky="news", pady=0)
     results_section.grid(row=4, column=0, sticky="nesw")
     return books_page
@@ -340,6 +349,7 @@ def build_checkout_section(master_frame):
     checkout_btn.grid(row=0, column=2, pady=5, padx=2, sticky="ew")
     cancel_btn.grid(row=0, column=3, pady=5, padx=2, sticky="ew")
 
+    books_page_state['checkout_form'] = checkout_section
     return checkout_section
     
 ### Assignments/function calls ===========================================================
