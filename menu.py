@@ -23,7 +23,7 @@ page_manager = dict()
 books_page_state = {
     'search_var': tk.StringVar(),
     'search_bar': None,
-    'result_headings': ["id", "isbn", "title", "author", "purchase_date", "language", "member_id"],
+    'result_headings': ["id", "isbn", "title", "author", "purchase_date", "member_id"],
     'search_results': {},
     'results_section': None,
     'current_page': [],
@@ -81,7 +81,7 @@ def build_header_row(master_frame, headings, is_header=False):
     for index, heading in enumerate(headings):
         header_frame.columnconfigure(index, weight=1, minsize=10)
         heading_label = tk.Label(master=header_frame, text=heading.upper())
-        heading_label.grid(row=0, column=index, pady=5)
+        heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
     return header_frame
 
 def build_results_page():
@@ -100,11 +100,20 @@ def build_results_row(master_frame, row_data):
     headings = books_page_state['result_headings']
 
     row_frame = tk.Frame(master=master_frame, bg="blue")
-    row_frame.rowconfigure(0, weight=1, minsize=10)
+    row_frame.rowconfigure(0, weight=1, minsize=20)
     for index, heading in enumerate(headings):
-        row_frame.columnconfigure(index, weight=1, minsize=10)
-        row_label = tk.Label(master=row_frame, text=row_data[heading])
-        row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+        if heading == "id":
+            row_frame.columnconfigure(index, weight=0, minsize=20)
+            row_label = tk.Label(master=row_frame, text=f"{row_data[heading]}".zfill(4))
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+        elif heading == "purchase_date" or heading == "isbn":
+            row_frame.columnconfigure(index, weight=0, minsize=20)
+            row_label = tk.Label(master=row_frame, text=row_data[heading])
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+        else:
+            row_frame.columnconfigure(index, weight=1, minsize=20)
+            row_label = tk.Label(master=row_frame, text=row_data[heading], anchor="w")
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
     return row_frame
 
 def change_book_results_page(increment):
