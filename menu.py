@@ -26,6 +26,7 @@ books_page_state = {
     'result_headings': ["id", "isbn", "title", "author", "purchase_date", "member_id"],
     'search_results': {},
     'results_section': None,
+    'checkout_form': None,
     'current_page': [],
     'page_label': None,
     'selected_categories': [],
@@ -123,8 +124,7 @@ def build_results_row(master_frame, row_data):
                     master=row_frame, 
                     text="Select book for checkout", 
                     onvalue="on", 
-                    offvalue="off",  
-                    # command=lambda: print(row_data['id'])
+                    offvalue="off"
                 )
                 if row_data['id'] in books_page_state['checkout_books']:
                     checkout_checkbox.invoke()
@@ -253,20 +253,23 @@ def build_books_page(master_frame):
     books_page.columnconfigure(0, weight=1, minsize=10)
     books_page.rowconfigure(0, weight=1, minsize=10)
     books_page.rowconfigure(1, weight=2, minsize=10)
-    books_page.rowconfigure(2, weight=0, minsize=10)
-    books_page.rowconfigure(3, weight=8, minsize=10)
+    books_page.rowconfigure(2, weight=0, minsize=0)
+    books_page.rowconfigure(3, weight=0, minsize=10)
+    books_page.rowconfigure(4, weight=8, minsize=10)
 
     search_section = build_search_section(books_page)
     category_section = build_category_section(books_page)
 
     headings = books_page_state['result_headings']
     header = build_header_row(books_page, headings, is_header=True)
+    checkout_section = build_checkout_section(books_page)
     results_section = build_results_section(books_page)
 
     search_section.grid(row=0, column=0, sticky="nesw")
     category_section.grid(row=1, column=0, sticky="nesw")
-    header.grid(row=2, column=0, sticky="news", pady=0)
-    results_section.grid(row=3, column=0, sticky="nesw")
+    checkout_section.grid(row=2, column=0, sticky="nesw")
+    header.grid(row=3, column=0, sticky="news", pady=0)
+    results_section.grid(row=4, column=0, sticky="nesw")
     return books_page
 
 def build_category_section(master_frame):
@@ -320,6 +323,24 @@ def build_results_section(master_frame):
     footer_frame.pack(fill=tk.X, side=tk.BOTTOM, expand=0)
     books_page_state['results_section'] = results_section
     return results_section
+
+def build_checkout_section(master_frame):
+    checkout_section = tk.Frame(master=master_frame, bg="navy")
+    checkout_section.rowconfigure(0, weight=1, minsize=10)
+    for i in range(4):
+        checkout_section.columnconfigure(i, weight=1, minsize=10)
+
+    member_label = tk.Label(master=checkout_section, text="Enter Member ID (4 digit code)")
+    member_entry = tk.Entry(master=checkout_section)
+    checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books")
+    cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=lambda: checkout_section.grid_forget())
+
+    member_label.grid(row=0, column=0, pady=5, padx=2, sticky="e")
+    member_entry.grid(row=0, column=1, pady=5, padx=2, sticky="w")
+    checkout_btn.grid(row=0, column=2, pady=5, padx=2, sticky="ew")
+    cancel_btn.grid(row=0, column=3, pady=5, padx=2, sticky="ew")
+
+    return checkout_section
     
 ### Assignments/function calls ===========================================================
 page_manager['pages_section'] = build_page_container()
