@@ -101,15 +101,33 @@ def build_results_row(master_frame, row_data):
 
     row_frame = tk.Frame(master=master_frame, bg="blue")
     row_frame.rowconfigure(0, weight=1, minsize=20)
+    
     for index, heading in enumerate(headings):
+        row_label = tk.Label(master=row_frame)
         if heading == "id":
             row_frame.columnconfigure(index, weight=0, minsize=20)
-            row_label = tk.Label(master=row_frame, text=f"{row_data[heading]}".zfill(4))
+            row_label['text'] = f"{row_data[heading]}".zfill(4)
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
-        elif heading == "purchase_date" or heading == "isbn":
+        elif heading in ("purchase_date", "isbn"):
             row_frame.columnconfigure(index, weight=0, minsize=20)
-            row_label = tk.Label(master=row_frame, text=row_data[heading])
+            row_label['text'] = row_data[heading]
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+        elif heading == "member_id":
+            if row_data[heading]:
+                row_label['text'] = f"On loan to {row_data[heading]}"
+                row_label.grid(row=0, column=index, pady=5, padx=5, sticky="e")
+            else:
+                row_label.destroy()
+                checkout_checkbox = ttk.Checkbutton(
+                    master=row_frame, 
+                    text="Select book for checkout", 
+                    onvalue="on", 
+                    offvalue="off",  
+                    command=lambda: print(row_data['id'])
+                )
+                checkout_checkbox.invoke()
+                checkout_checkbox.invoke()
+                checkout_checkbox.grid(row=0, column=index, pady=5, padx=5, sticky="e")
         else:
             row_frame.columnconfigure(index, weight=1, minsize=20)
             row_label = tk.Label(master=row_frame, text=row_data[heading], anchor="w")
