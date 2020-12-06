@@ -61,8 +61,8 @@ def book_search_handler(search_phrase):
         books_page_state['current_page'][2].destroy()
 
     search_results = bs.search_handler(search_phrase, books_page_state['selected_categories'])
-    for key in search_results:
-        print(f"Page {key}:", search_results[key], sep="\n")
+    # for key in search_results:
+    #     print(f"Page {key}:", search_results[key], sep="\n")
 
     if search_results:
         current_page = [0, search_results[0], None]
@@ -183,6 +183,12 @@ def select_for_checkout(book_id):
     print(checkout_books)
     books_page_state['checkout_books'] = checkout_books
 
+def clear_selected_books():
+    current_page_frame = books_page_state['current_page'][2]
+    current_page_frame.destroy()
+    books_page_state['checkout_books'] = []
+    books_page_state['checkout_form'].grid_remove()
+    build_results_page()
 
 # ========================================================================================= HOME PAGE =========================================================================================
 def build_home_page():
@@ -342,7 +348,7 @@ def build_checkout_section(master_frame):
     member_label = tk.Label(master=checkout_section, text="Enter Member ID (4 digit code)")
     member_entry = tk.Entry(master=checkout_section)
     checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books")
-    cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=lambda: checkout_section.grid_forget())
+    cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=clear_selected_books)
 
     member_label.grid(row=0, column=0, pady=5, padx=2, sticky="e")
     member_entry.grid(row=0, column=1, pady=5, padx=2, sticky="w")
