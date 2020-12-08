@@ -190,6 +190,7 @@ def clear_selected_books():
     current_page_frame.destroy()
     books_page_state['checkout_books'] = []
     books_page_state['checkout_form'].grid_remove()
+    books_page_state['duration_var'].set(1)
     build_results_page()
 
 def validate_member_entry(val):
@@ -347,20 +348,25 @@ def build_results_section(master_frame):
 def build_checkout_section(master_frame):
     checkout_section = tk.Frame(master=master_frame, bg="navy")
     checkout_section.rowconfigure(0, weight=1, minsize=10)
-    for i in range(5):
+    for i in range(6):
         checkout_section.columnconfigure(i, weight=1, minsize=10)
 
-    member_label = tk.Label(master=checkout_section, text="Enter Member ID (4 digit code)")
+    member_label = tk.Label(master=checkout_section, text="Member ID (4 digit code)")
     member_entry = tk.Entry(master=checkout_section, validate="key", validatecommand=(checkout_section.register(validate_member_entry), '%P'))
+
+    duration_label = tk.Label(master=checkout_section, text="Loan duration (# of days)")
     duration_options = tk.OptionMenu(checkout_section, books_page_state['duration_var'], *[i for i in range(1,11)])
+    books_page_state['duration_var'].set(1)
+
     checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books")
     cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=clear_selected_books)
 
     member_label.grid(row=0, column=0, pady=5, padx=2, sticky="e")
     member_entry.grid(row=0, column=1, pady=5, padx=2, sticky="w")
-    duration_options.grid(row=0, column=2, pady=5, padx=2)
-    checkout_btn.grid(row=0, column=3, pady=5, padx=2, sticky="ew")
-    cancel_btn.grid(row=0, column=4, pady=5, padx=2, sticky="ew")
+    duration_label.grid(row=0, column=2, pady=5, padx=2, sticky="e")
+    duration_options.grid(row=0, column=3, pady=5, padx=2, sticky="w")
+    checkout_btn.grid(row=0, column=4, pady=5, padx=2, sticky="e")
+    cancel_btn.grid(row=0, column=5, pady=5, padx=2, sticky="e")
 
     books_page_state['checkout_form'] = checkout_section
     return checkout_section
