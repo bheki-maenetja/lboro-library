@@ -271,11 +271,11 @@ def book_checkout_handler():
         try:
             member_id, loan_duration = int(member_id), int(loan_duration)
             bc.checkout_handler(member_id, selected_books, loan_duration)
-            print("Books successfully checked out")
             clear_selected_books()
             book_search_handler(books_page_state['search_var'].get())
+            alert("Success - Book(s) have been checked out", False)
         except:
-            print("Error - Books could not be checked out")
+            alert("Error - Books could not be checked out")
 
 def build_header_row(master_frame, headings, is_header=False):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
