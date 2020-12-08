@@ -1,6 +1,8 @@
 # Standard Library Imports
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+
 import tkinter.font as tkFont
 import re
 
@@ -417,18 +419,10 @@ def transition(to_home=False, pages_index=1):
 
 # ===================================================================================== UTILITY FUNCTIONS =====================================================================================
 def alert(message, is_error=True):
-    alert_window = tk.Tk()
-    alert_window.geometry('500x50')
     if is_error:
-        alert_label = tk.Label(master=alert_window, text=message, bg="red", fg="white")
-        alert_label.pack(fill=tk.BOTH, expand=1)
+        messagebox.showwarning(message=message)
     else:
-        alert_label = tk.Label(master=alert_window, text=message, bg="green", fg="white")
-        alert_label.pack(fill=tk.BOTH, expand=1)
-    
-    
-    alert_window.after(2000, alert_window.destroy)
-    alert_window.mainloop()
+        messagebox.showinfo(message=message)
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
