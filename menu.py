@@ -5,6 +5,7 @@ import tkinter.font as tkFont
 import re
 
 from datetime import datetime as dt
+from time import sleep
 
 # Local Imports
 import booksearch as bs
@@ -127,6 +128,7 @@ books_page_state = {
         ("adventure", lambda: select_book_category("adventure")), 
     )
 }
+
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
 ## Books Page UI Components ==============================================================
@@ -213,14 +215,14 @@ def build_checkout_section(master_frame):
     for i in range(6):
         checkout_section.columnconfigure(i, weight=1, minsize=10)
 
-    member_label = tk.Label(master=checkout_section, text="Member ID (4 digit code)")
+    member_label = tk.Label(master=checkout_section, text="Member ID (# from 1000-9999)")
     member_entry = tk.Entry(master=checkout_section,  textvariable=books_page_state['member_var'], validate="key", validatecommand=(checkout_section.register(validate_member_entry), '%P'))
 
     duration_label = tk.Label(master=checkout_section, text="Loan duration (# of days)")
     duration_options = tk.OptionMenu(checkout_section, books_page_state['duration_var'], *[i for i in range(1,11)])
     books_page_state['duration_var'].set(1)
 
-    checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books")
+    checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books", command=book_checkout_handler)
     cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=clear_selected_books)
 
     member_label.grid(row=0, column=0, pady=5, padx=2, sticky="e")
@@ -256,6 +258,16 @@ def book_search_handler(search_phrase):
     books_page_state['page_label']['text'] = page_label
 
     build_results_page()
+
+def book_checkout_handler():
+    loan_duration = books_page_state['duration_var'].get()
+    member_id = books_page_state['member_var'].get()
+    selected_books = books_page_state['checkout_books']
+
+    if len(member_id) < 4 or int(member_id) < 1000:
+        alert("Please enter a valid member ID!!!")
+    else:
+        print(member_id, loan_duration, selected_books, sep="\n")
 
 def build_header_row(master_frame, headings, is_header=False):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
@@ -368,6 +380,7 @@ def clear_selected_books():
     current_page_frame.destroy()
     books_page_state['checkout_books'] = []
     books_page_state['checkout_form'].grid_remove()
+    books_page_state['member_var'].set('')
     books_page_state['duration_var'].set(1)
     build_results_page()
 
@@ -375,7 +388,7 @@ def validate_member_entry(val):
     return re.match('^[0-9]*$', val) is not None and len(val) < 5
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
-### Assignments/function calls ===========================================================
+### Assignments/function calls =======================================================
 page_manager['pages_section'] = build_page_container()
 
 def go_to_home_page(e):
@@ -393,6 +406,21 @@ def transition(to_home=False, pages_index=1):
     else:
         page_manager['pages_section'].pack_forget()
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
+
+# ===================================================================================== UTILITY FUNCTIONS =====================================================================================
+def alert(message, is_error=True):
+    alert_window = tk.Tk()
+    alert_window.geometry('500x50')
+    if is_error:
+        alert_label = tk.Label(master=alert_window, text=message, bg="red", fg="white")
+        alert_label.pack(fill=tk.BOTH, expand=1)
+    else:
+        alert_label = tk.Label(master=alert_window, text=message, bg="green", fg="white")
+        alert_label.pack(fill=tk.BOTH, expand=1)
+    
+    
+    alert_window.after(2000, alert_window.destroy)
+    alert_window.mainloop()
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
