@@ -1,13 +1,7 @@
-# Standard Library Imports
-import tkinter as tk
-
 # Local Imports
 import database as db
 
-# Global Variables
-
-
-# ============================================================ Functionality for Searching Books ============================================================
+# ============================================================================= Functionality for Searching Books =============================================================================
 def search_handler(search_phrase, categories=None):
     search_results = get_search_results(search_phrase, categories)
     formatted_results = format_results(search_results)

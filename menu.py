@@ -9,6 +9,7 @@ from time import sleep
 
 # Local Imports
 import booksearch as bs
+import bookcheckout as bc
 
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
 ## Window Setup =================================================================
@@ -267,7 +268,14 @@ def book_checkout_handler():
     if len(member_id) < 4 or int(member_id) < 1000:
         alert("Please enter a valid member ID!!!")
     else:
-        print(member_id, loan_duration, selected_books, sep="\n")
+        try:
+            member_id, loan_duration = int(member_id), int(loan_duration)
+            bc.checkout_handler(member_id, selected_books, loan_duration)
+            print("Books successfully checked out")
+            clear_selected_books()
+            book_search_handler(books_page_state['search_var'].get())
+        except:
+            print("Error - Books could not be checked out")
 
 def build_header_row(master_frame, headings, is_header=False):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
