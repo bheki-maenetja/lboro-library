@@ -150,7 +150,7 @@ def build_books_page(master_frame):
     category_section = build_category_section(books_page)
 
     headings = books_page_state['result_headings']
-    header = build_header_row(books_page, headings, is_header=True)
+    header = build_header_row(books_page, headings)
     checkout_section = build_checkout_section(books_page)
     results_section = build_results_section(books_page)
 
@@ -220,7 +220,7 @@ def build_checkout_section(master_frame):
     books_page_state['checkout_form'] = checkout_section
     return checkout_section
 
-def build_header_row(master_frame, headings, is_header=False):
+def build_header_row(master_frame, headings):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
     for index, heading in enumerate(headings):
