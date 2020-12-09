@@ -419,9 +419,11 @@ def build_loan_manager_page(master_frame):
 
     selector_section = build_selector_section(loan_manager_page)
     search_form = build_search_form(loan_manager_page)
+    header = build_header_row(loan_manager_page, loan_manager_state['book_headings'])
 
     selector_section.grid(row=0, column=0, sticky="nesw")
     search_form.grid(row=1, column=0, sticky="nesw")
+    header.grid(row=2, column=0, sticky="nesw")
 
     return loan_manager_page
 
@@ -469,7 +471,6 @@ def build_return_books_section(master_frame):
     cancel_btn.grid(row=0, column=1, padx=2, sticky="ew")
 
     return return_books_section
-
 
 ## Loan Manager Functionality =========================================================
 
