@@ -36,13 +36,13 @@ def category_match(book_index, selected_categories=None): # filters books based 
 
 def result_match(book_obj, search_phrase, categories): # filters books based on search string
     book_title = book_obj['title'].lower().strip()
-    search_phrase = search_phrase.lower()
+    search_phrase = search_phrase.lower().strip()
     
     if search_phrase == '':
         return (1, book_obj)
     elif book_title == search_phrase:
         return (1, book_obj)
-    elif len(search_phrase) >= 3 and search_phrase[:3] == book_title[:3]:
+    elif len(search_phrase) <= len(book_title) and search_phrase[:len(search_phrase)] == book_title[:len(search_phrase)]:
         return (2, book_obj)
     elif book_title in search_phrase or search_phrase in book_title:
         return (3, book_obj)
