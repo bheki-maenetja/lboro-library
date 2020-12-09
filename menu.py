@@ -440,20 +440,33 @@ def build_selector_section(master_frame):
 def build_search_form(master_frame):
     search_form = tk.Frame(master=master_frame, bg="navy")
     search_form.rowconfigure(0, weight=1, minsize=10)
-    for i in range(4):
+    for i in range(3):
         search_form.columnconfigure(i, weight=1, minsize=10)
 
     search_id_label = tk.Label(master=search_form, text="Search by ID")
     id_entry = tk.Entry(master=search_form)
-    search_title_label = tk.Label(master=search_form, text="Search by Title")
-    title_entry = tk.Entry(master=search_form)
+
+    return_books_section = build_return_books_section(search_form)
 
     search_id_label.grid(row=0, column=0, sticky="e", padx=2)
     id_entry.grid(row=0, column=1, padx=2)
-    search_title_label.grid(row=0, column=2, sticky="e", padx=2)
-    title_entry.grid(row=0, column=3, padx=2)
+    return_books_section.grid(row=0, column=3, sticky="e", padx=2)
 
     return search_form
+
+def build_return_books_section(master_frame):
+    return_books_section = tk.Frame(master=master_frame)
+    return_books_section.rowconfigure(0, weight=1, minsize=10)
+    return_books_section.columnconfigure(0,weight=1, minsize=10)
+    return_books_section.columnconfigure(1,weight=1, minsize=10)
+
+    return_btn = tk.Button(master=return_books_section, text="Return Selected Books")
+    cancel_btn = tk.Button(master=return_books_section, text="Cancel")
+
+    return_btn.grid(row=0, column=0, padx=2, sticky="ew")
+    cancel_btn.grid(row=0, column=1, padx=2, sticky="ew")
+
+    return return_books_section
 
 
 ## Loan Manager Functionality =========================================================
