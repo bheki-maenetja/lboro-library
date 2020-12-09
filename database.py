@@ -121,7 +121,9 @@ def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
 def match_result(book_id, book_obj):
     id_string = f"{str(book_obj['book_id']).strip()}".zfill(4)
 
-    if id_string == '' or int(book_id) == book_obj['book_id']:
+    if book_id == '':
+        return (1, book_obj)
+    elif int(book_id) == book_obj['book_id']:
         return (1, book_obj)
     elif len(book_id) <= len(id_string) and book_id[:len(book_id)] == id_string[:len(book_id)]:
         return (2, book_obj)

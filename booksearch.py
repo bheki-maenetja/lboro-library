@@ -20,3 +20,8 @@ def format_results(search_results, page_size=5):
     return result_pages
 
 ## Searching Books on Loan ====================================================
+def loan_search_handler(search_phrase, only_overdue=False, only_on_time=False):
+    search_results = db.search_books_on_loan(search_phrase, only_overdue, only_on_time)
+    search_results = [result[1] for result in search_results]
+    formatted_results = format_results(search_results, page_size=10)
+    return formatted_results

@@ -403,9 +403,12 @@ def validate_numeric_entry(val):
 ## Loan Manager State Variables =======================================================
 loan_manager_state = {
     'selector_var': tk.IntVar(),
+    'search_var': tk.StringVar(),
     'book_headings': ['book_id', 'member_id', 'title', 'start_date', 'return_date', 'status'],
     'log_headings': ['id', 'book_id', 'member_id', 'start_date', 'return_date']
 }
+
+loan_manager_state['search_var'].trace_add('write', lambda *args: loan_book_search_handler(loan_manager_state['search_var'].get()))
 
 ## Loan Manager UI Components =========================================================
 def build_loan_manager_page(master_frame):
@@ -453,7 +456,7 @@ def build_search_form(master_frame):
         search_form.columnconfigure(i, weight=1, minsize=10)
 
     search_id_label = tk.Label(master=search_form, text="Search by ID")
-    id_entry = tk.Entry(master=search_form)
+    id_entry = tk.Entry(master=search_form, textvariable=loan_manager_state['search_var'], validate="key", validatecommand=(search_form.register(validate_numeric_entry), '%P'))
 
     return_books_section = build_return_books_section(search_form)
 
@@ -493,6 +496,11 @@ def build_results_container(master_frame):
     return results_container
 
 ## Loan Manager Functionality =========================================================
+def loan_book_search_handler(search_phrase):
+    search_results = bs.loan_search_handler(search_phrase)
+
+    for key in search_results:
+        print(f"Page {key}:", search_results[key], sep="\n")
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
