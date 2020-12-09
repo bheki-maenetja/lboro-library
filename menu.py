@@ -201,7 +201,7 @@ def build_checkout_section(master_frame):
         checkout_section.columnconfigure(i, weight=1, minsize=10)
 
     member_label = tk.Label(master=checkout_section, text="Member ID (# from 1000-9999)")
-    member_entry = tk.Entry(master=checkout_section,  textvariable=books_page_state['member_var'], validate="key", validatecommand=(checkout_section.register(validate_member_entry), '%P'))
+    member_entry = tk.Entry(master=checkout_section,  textvariable=books_page_state['member_var'], validate="key", validatecommand=(checkout_section.register(validate_numeric_entry), '%P'))
 
     duration_label = tk.Label(master=checkout_section, text="Loan duration (# of days)")
     duration_options = tk.OptionMenu(checkout_section, books_page_state['duration_var'], *[i for i in range(1,11)])
@@ -396,7 +396,7 @@ def clear_selected_books():
     books_page_state['duration_var'].set(1)
     build_results_page()
 
-def validate_member_entry(val):
+def validate_numeric_entry(val):
     return re.match('^[0-9]*$', val) is not None and len(val) < 5
 
 # ===================================================================================== LOAN MANAGER PAGE =====================================================================================
@@ -438,6 +438,8 @@ def build_selector_section(master_frame):
     on_loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show On-time Books", value=2)
     overdue_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show Overdue Books", value=3)
 
+    loan_manager_state['selector_var'].set(1)
+
     all_books_btn.grid(row=0, column=0, pady=10)
     on_loan_btn.grid(row=0, column=1, pady=10)
     overdue_btn.grid(row=0, column=2, pady=10)
@@ -477,6 +479,17 @@ def build_return_books_section(master_frame):
 
 def build_results_container(master_frame):
     results_container = tk.Frame(master=master_frame, bg="yellow")
+
+    footer_frame = tk.Frame(master=results_container, bg="purple")
+    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_book_results_page(False))
+    next_button = tk.Button(footer_frame, text="Next", command=lambda: change_book_results_page(True))
+    page_label = tk.Label(footer_frame, text="Page")
+
+    previous_button.pack(fill=tk.Y, side=tk.LEFT)
+    next_button.pack(fill=tk.Y, side=tk.LEFT)
+    page_label.pack(fill=tk.Y, side=tk.RIGHT)
+
+    footer_frame.pack(fill=tk.X, side=tk.BOTTOM, expand=0)
     return results_container
 
 ## Loan Manager Functionality =========================================================
