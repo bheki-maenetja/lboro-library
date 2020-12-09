@@ -32,9 +32,10 @@ def build_page_container():
     page_notebook.add(tk.Frame(), text="Home")
 
     books_page = build_books_page(page_notebook)
+    loan_manager_page = build_loan_manager_page(page_notebook)
 
     page_notebook.add(books_page, text="Books")
-    page_notebook.add(tk.Frame(master=page_notebook, bg="green"), text="Loan Manager")
+    page_notebook.add(loan_manager_page, text="Loan Manager")
     page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
 
@@ -403,6 +404,35 @@ def validate_member_entry(val):
 loan_manager_state = {}
 
 ## Loan Manager UI Components =========================================================
+def build_loan_manager_page(master_frame):
+    loan_manager_page = tk.Frame(master=master_frame)
+    loan_manager_page.columnconfigure(0, weight=1, minsize=10)
+    loan_manager_page.rowconfigure(0, weight=1, minsize=10)
+    loan_manager_page.rowconfigure(1, weight=1, minsize=10)
+    loan_manager_page.rowconfigure(2, weight=1, minsize=10)
+    loan_manager_page.rowconfigure(3, weight=1, minsize=10)
+    loan_manager_page.rowconfigure(4, weight=1, minsize=10)
+
+    selector_section = build_selector_section(loan_manager_page)
+    selector_section.grid(row=0, column=0, sticky="nesw")
+
+    return loan_manager_page
+
+def build_selector_section(master_frame):
+    selector_section = tk.Frame(master=master_frame, bg="grey")
+    selector_section.rowconfigure(0, weight=1, minsize=10)
+    for i in range(3):
+        selector_section.columnconfigure(i, weight=1, minsize=10)
+    
+    loan_btn = tk.Radiobutton(master=selector_section, text="Books On-loan")
+    overdue_btn = tk.Radiobutton(master=selector_section, text="Overdue Books")
+    log_history_btn = tk.Radiobutton(master=selector_section, text="Loan History")
+
+    loan_btn.grid(row=0, column=0, padx=10)
+    overdue_btn.grid(row=0, column=1, padx=10)
+    log_history_btn.grid(row=0, column=2, padx=10)
+
+    return selector_section
 
 ## Loan Manager Functionality =========================================================
 
