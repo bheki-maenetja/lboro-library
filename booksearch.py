@@ -2,6 +2,7 @@
 import database as db
 
 # ============================================================================= Functionality for Searching Books =============================================================================
+## Searching Books on Shelf ===================================================
 def search_handler(search_phrase, categories=None):
     search_results = get_search_results(search_phrase, categories)
     formatted_results = format_results(search_results)
@@ -17,3 +18,5 @@ def format_results(search_results, page_size=5):
     for i, subset in enumerate(result_subsets):
         result_pages[i] = subset
     return result_pages
+
+## Searching Books on Loan ====================================================

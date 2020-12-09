@@ -105,8 +105,6 @@ def get_books_on_loan():
 
         books_on_loan.append(new_obj)
 
-    # loan_obj['on-loan'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if not is_book_overdue(log)]
-    # loan_obj['overdue'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if is_book_overdue(log)]
     return books_on_loan
 
 def is_book_overdue(log):

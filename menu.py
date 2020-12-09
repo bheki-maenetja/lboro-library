@@ -481,8 +481,8 @@ def build_results_container(master_frame):
     results_container = tk.Frame(master=master_frame, bg="yellow")
 
     footer_frame = tk.Frame(master=results_container, bg="purple")
-    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_book_results_page(False))
-    next_button = tk.Button(footer_frame, text="Next", command=lambda: change_book_results_page(True))
+    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: print('will go to previous page'))
+    next_button = tk.Button(footer_frame, text="Next", command=lambda: print('will go to next page'))
     page_label = tk.Label(footer_frame, text="Page")
 
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
