@@ -411,33 +411,36 @@ loan_manager_state = {
 def build_loan_manager_page(master_frame):
     loan_manager_page = tk.Frame(master=master_frame)
     loan_manager_page.columnconfigure(0, weight=1, minsize=10)
-    loan_manager_page.rowconfigure(0, weight=1, minsize=10)
-    loan_manager_page.rowconfigure(1, weight=1, minsize=10)
-    loan_manager_page.rowconfigure(2, weight=1, minsize=10)
-    loan_manager_page.rowconfigure(3, weight=1, minsize=10)
-    loan_manager_page.rowconfigure(4, weight=1, minsize=10)
+    loan_manager_page.rowconfigure(0, weight=0, minsize=10)
+    loan_manager_page.rowconfigure(1, weight=0, minsize=10)
+    loan_manager_page.rowconfigure(2, weight=0, minsize=10)
+    loan_manager_page.rowconfigure(3, weight=2, minsize=10)
 
     selector_section = build_selector_section(loan_manager_page)
     search_form = build_search_form(loan_manager_page)
     header = build_header_row(loan_manager_page, loan_manager_state['book_headings'])
+    results_container = build_results_container(loan_manager_page)
 
     selector_section.grid(row=0, column=0, sticky="nesw")
     search_form.grid(row=1, column=0, sticky="nesw")
     header.grid(row=2, column=0, sticky="nesw")
+    results_container.grid(row=3, column=0, sticky="nesw")
 
     return loan_manager_page
 
 def build_selector_section(master_frame):
     selector_section = tk.Frame(master=master_frame, bg="grey")
     selector_section.rowconfigure(0, weight=1, minsize=10)
-    selector_section.columnconfigure(0, weight=1, minsize=10)
-    selector_section.columnconfigure(1, weight=1, minsize=10)
+    for i in range(3):
+        selector_section.columnconfigure(i, weight=1, minsize=10)
     
-    loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Books On loan", value=1)
-    log_history_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Loan History", value=2)
+    all_books_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show All Books", value=1)
+    on_loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show On-time Books", value=2)
+    overdue_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show Overdue Books", value=3)
 
-    loan_btn.grid(row=0, column=0, padx=10)
-    log_history_btn.grid(row=0, column=1, padx=10)
+    all_books_btn.grid(row=0, column=0, pady=10)
+    on_loan_btn.grid(row=0, column=1, pady=10)
+    overdue_btn.grid(row=0, column=2, pady=10)
 
     return selector_section
 
@@ -452,9 +455,9 @@ def build_search_form(master_frame):
 
     return_books_section = build_return_books_section(search_form)
 
-    search_id_label.grid(row=0, column=0, sticky="e", padx=2)
-    id_entry.grid(row=0, column=1, padx=2)
-    return_books_section.grid(row=0, column=3, sticky="e", padx=2)
+    search_id_label.grid(row=0, column=0, sticky="e", padx=2, pady=10)
+    id_entry.grid(row=0, column=1, padx=2, pady=10, sticky="w")
+    return_books_section.grid(row=0, column=3, sticky="e", padx=2, pady=10)
 
     return search_form
 
@@ -471,6 +474,10 @@ def build_return_books_section(master_frame):
     cancel_btn.grid(row=0, column=1, padx=2, sticky="ew")
 
     return return_books_section
+
+def build_results_container(master_frame):
+    results_container = tk.Frame(master=master_frame, bg="yellow")
+    return results_container
 
 ## Loan Manager Functionality =========================================================
 
