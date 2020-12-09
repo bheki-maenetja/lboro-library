@@ -401,7 +401,9 @@ def validate_member_entry(val):
 
 # ===================================================================================== LOAN MANAGER PAGE =====================================================================================
 ## Loan Manager State Variables =======================================================
-loan_manager_state = {}
+loan_manager_state = {
+    'selector_var': tk.IntVar()
+}
 
 ## Loan Manager UI Components =========================================================
 def build_loan_manager_page(master_frame):
@@ -414,25 +416,45 @@ def build_loan_manager_page(master_frame):
     loan_manager_page.rowconfigure(4, weight=1, minsize=10)
 
     selector_section = build_selector_section(loan_manager_page)
+    search_form = build_search_form(loan_manager_page)
+
     selector_section.grid(row=0, column=0, sticky="nesw")
+    search_form.grid(row=1, column=0, sticky="nesw")
 
     return loan_manager_page
 
 def build_selector_section(master_frame):
     selector_section = tk.Frame(master=master_frame, bg="grey")
     selector_section.rowconfigure(0, weight=1, minsize=10)
-    for i in range(3):
-        selector_section.columnconfigure(i, weight=1, minsize=10)
+    selector_section.columnconfigure(0, weight=1, minsize=10)
+    selector_section.columnconfigure(1, weight=1, minsize=10)
     
-    loan_btn = tk.Radiobutton(master=selector_section, text="Books On-loan")
-    overdue_btn = tk.Radiobutton(master=selector_section, text="Overdue Books")
-    log_history_btn = tk.Radiobutton(master=selector_section, text="Loan History")
+    loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Books On loan", value=1)
+    log_history_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Loan History", value=2)
 
     loan_btn.grid(row=0, column=0, padx=10)
-    overdue_btn.grid(row=0, column=1, padx=10)
-    log_history_btn.grid(row=0, column=2, padx=10)
+    log_history_btn.grid(row=0, column=1, padx=10)
 
     return selector_section
+
+def build_search_form(master_frame):
+    search_form = tk.Frame(master=master_frame, bg="navy")
+    search_form.rowconfigure(0, weight=1, minsize=10)
+    for i in range(4):
+        search_form.columnconfigure(i, weight=1, minsize=10)
+
+    search_id_label = tk.Label(master=search_form, text="Search by ID")
+    id_entry = tk.Entry(master=search_form)
+    search_title_label = tk.Label(master=search_form, text="Search by Title")
+    title_entry = tk.Entry(master=search_form)
+
+    search_id_label.grid(row=0, column=0, sticky="e", padx=2)
+    id_entry.grid(row=0, column=1, padx=2)
+    search_title_label.grid(row=0, column=2, sticky="e", padx=2)
+    title_entry.grid(row=0, column=3, padx=2)
+
+    return search_form
+
 
 ## Loan Manager Functionality =========================================================
 
