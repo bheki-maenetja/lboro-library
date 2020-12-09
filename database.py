@@ -72,7 +72,7 @@ def update_book(book_id, book_obj): # updates a book
     except:
         print('something went wrong...')
 
-# ============================================================ LOGS ============================================================
+# ============================================================ LOGS & BOOKS ON LOAN ============================================================
 # Index View
 ## GET
 def get_all_logs(sort_by_date=False):
@@ -106,6 +106,25 @@ def get_books_on_loan():
         books_on_loan.append(new_obj)
 
     return books_on_loan
+
+def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
+    all_books_on_loan = get_books_on_loan()
+    if only_overdue:
+        search_results = [match_result(book_id, book) for book in all_books_on_loan if is_book_overdue(book)]
+    elif only_on_time:
+        search_results = [match_result(book_id, book) for book in all_books_on_loan if not is_book_overdue(book)]
+    else:
+        search_results = [match_result(book_id, book) for book in all_books_on_loan]
+    
+    return sorted([result for result in search_results if result != None], key=lambda x: x[0])
+
+def match_result(book_id, book_obj):
+    id_string = f"{str(book_obj['book_id']).strip()}".zfill(4)
+
+    if id_string == '' or int(book_id) == book_obj['book_id']:
+        return (1, book_obj)
+    elif len(book_id) <= len(id_string) and book_id[:len(book_id)] == id_string[:len(book_id)]:
+        return (2, book_obj)
 
 def is_book_overdue(log):
     present_day = dt.combine(dt.now(), dt.max.time())
