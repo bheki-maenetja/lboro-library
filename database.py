@@ -90,12 +90,24 @@ def get_active_logs():
     log_index = get_all_logs(True)
     return [log for log in log_index if log['book_returned'] == False]
 
-def get_loan_object():
-    loan_obj = dict()
+def get_books_on_loan():
+    books_on_loan = []
     active_logs = get_active_logs()
-    loan_obj['on-loan'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if not is_book_overdue(log)]
-    loan_obj['overdue'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if is_book_overdue(log)]
-    return loan_obj
+    for log in active_logs:
+        new_obj = {
+            'book_id': get_book_by_id(log['book_id'])['id'],
+            'member_id': log['member_id'],
+            'title': get_book_by_id(log['book_id'])['title'],
+            'start_date': log['start_date'],
+            'return_date': log['return_date'],
+            'is_overdue': is_book_overdue(log)
+        }
+
+        books_on_loan.append(new_obj)
+
+    # loan_obj['on-loan'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if not is_book_overdue(log)]
+    # loan_obj['overdue'] = [(log, get_book_by_id(log['book_id'])) for log in active_logs if is_book_overdue(log)]
+    return books_on_loan
 
 def is_book_overdue(log):
     present_day = dt.combine(dt.now(), dt.max.time())
@@ -116,12 +128,14 @@ def update_log(log_id, log_obj):
         print('something went wrong...')
 
 def book_status():
-    loan_obj = get_loan_object()
+    books = get_books_on_loan()
+    overdue_books = [book for book in books if book['is_overdue']]
+    on_time_books = [book for book in books if not book['is_overdue']]
     input("Books on loan >>> ")
-    for i in loan_obj['on-loan']:
+    for i in on_time_books:
         print(i)
     input("Overdue Books >>> ")
-    for i in loan_obj['overdue']:
+    for i in overdue_books:
         print(i)
 
 # ============================================================ CHECKOUT & RETURN ============================================================

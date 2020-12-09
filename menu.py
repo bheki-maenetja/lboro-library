@@ -402,7 +402,9 @@ def validate_member_entry(val):
 # ===================================================================================== LOAN MANAGER PAGE =====================================================================================
 ## Loan Manager State Variables =======================================================
 loan_manager_state = {
-    'selector_var': tk.IntVar()
+    'selector_var': tk.IntVar(),
+    'book_headings': ['book_id', 'member_id', 'title', 'start_date', 'return_date', 'status'],
+    'log_headings': ['id', 'book_id', 'member_id', 'start_date', 'return_date']
 }
 
 ## Loan Manager UI Components =========================================================
