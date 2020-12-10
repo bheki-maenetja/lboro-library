@@ -111,7 +111,7 @@ books_page_state = {
     'results_section': None,
     'checkout_form': None,
     'current_page': [],
-    'page_label': None,
+    'page_label': tk.Label(),
     'selected_categories': [],
     'checkout_books': [],
     'book_categories': (
@@ -402,13 +402,20 @@ def validate_numeric_entry(val):
 # ===================================================================================== LOAN MANAGER PAGE =====================================================================================
 ## Loan Manager State Variables =======================================================
 loan_manager_state = {
-    'selector_var': tk.IntVar(),
     'search_var': tk.StringVar(),
-    'book_headings': ['book_id', 'member_id', 'title', 'start_date', 'return_date', 'status'],
-    'log_headings': ['id', 'book_id', 'member_id', 'start_date', 'return_date']
+    'selector_var': tk.IntVar(),
+    'show_on_time_books': False,
+    'show_overdue_books': False,
+    'book_headings': ['book_id', 'member_id', 'title', 'start_date', 'return_date', 'is_overdue'],
+    'log_headings': ['id', 'book_id', 'member_id', 'start_date', 'return_date'],
+    'search_results': {},
+    'results_container': None,
+    'current_page': [],
+    'page_label': tk.Label(),
 }
 
 loan_manager_state['search_var'].trace_add('write', lambda *args: loan_book_search_handler(loan_manager_state['search_var'].get()))
+loan_manager_state['selector_var'].trace_add('write', lambda *args: change_book_view())
 
 ## Loan Manager UI Components =========================================================
 def build_loan_manager_page(master_frame):
@@ -484,23 +491,99 @@ def build_results_container(master_frame):
     results_container = tk.Frame(master=master_frame, bg="yellow")
 
     footer_frame = tk.Frame(master=results_container, bg="purple")
-    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: print('will go to previous page'))
-    next_button = tk.Button(footer_frame, text="Next", command=lambda: print('will go to next page'))
+    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_loan_results_page(False))
+    next_button = tk.Button(footer_frame, text="Next", command=lambda: change_loan_results_page(True))
     page_label = tk.Label(footer_frame, text="Page")
 
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
     next_button.pack(fill=tk.Y, side=tk.LEFT)
     page_label.pack(fill=tk.Y, side=tk.RIGHT)
-
     footer_frame.pack(fill=tk.X, side=tk.BOTTOM, expand=0)
+    
+    loan_manager_state['page_label'] = page_label
+    loan_manager_state['results_container'] = results_container
+
     return results_container
 
-## Loan Manager Functionality =========================================================
-def loan_book_search_handler(search_phrase):
-    search_results = bs.loan_search_handler(search_phrase)
+def build_loan_results_page():
+    page_data = loan_manager_state['current_page'][1]
 
-    for key in search_results:
-        print(f"Page {key}:", search_results[key], sep="\n")
+    page_frame = tk.Frame(master=loan_manager_state['results_container'], bg="yellow")
+    page_frame.columnconfigure(0, weight=1, minsize=1)
+    for i, row in enumerate(page_data):
+        page_frame.rowconfigure(i, weight=1, minsize=1)
+        new_row = build_loan_results_row(page_frame, row)
+        new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
+    page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
+    loan_manager_state['current_page'][2] = page_frame
+
+def build_loan_results_row(master_frame, row_data):
+    headings = loan_manager_state['book_headings']
+
+    row_frame = tk.Frame(master=master_frame, bg="blue")
+    row_frame.rowconfigure(0, weight=1, minsize=20)
+
+    for index, heading in enumerate(headings):
+        row_label = tk.Label(master=row_frame)
+        if heading == "book_id":
+            row_label['text'] = f"{row_data[heading]}".zfill(4)
+        else:
+            row_label['text'] = f"{row_data[heading]}"
+        row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+    return row_frame
+
+## Loan Manager Functionality =========================================================
+def book_return_handler():
+    pass
+
+def loan_book_search_handler(search_phrase):
+    current_page = loan_manager_state['current_page']
+    show_on_time_books, show_overdue_books = loan_manager_state['show_on_time_books'], loan_manager_state['show_overdue_books']
+
+    if len(current_page) == 3:
+        loan_manager_state['current_page'][2].destroy()
+            
+    search_results = bs.loan_search_handler(search_phrase, only_on_time=show_on_time_books, only_overdue=show_overdue_books)
+    # for key in search_results:
+    #     print(f"Page {key}:", search_results[key], sep="\n")
+
+    if search_results:
+        current_page = [0, search_results[0], None]
+        page_label = f"Page 1 of {len(search_results)}"
+    else:
+        current_page = [0, [], None]
+        page_label = "Page 1 of 1"
+
+    loan_manager_state['search_results'] = search_results
+    loan_manager_state['current_page'] = current_page
+    loan_manager_state['page_label']['text'] = page_label
+
+    build_loan_results_page()
+
+def change_loan_results_page(increment):
+    page_num, page_data, page_frame = loan_manager_state['current_page']
+    num_results = len(loan_manager_state['search_results'])
+
+    if increment and page_num + 1 < num_results:
+        new_page_num, new_search_results = page_num + 1, loan_manager_state['search_results'][page_num + 1]
+    elif not increment and page_num - 1 >= 0:
+        new_page_num, new_search_results = page_num - 1, loan_manager_state['search_results'][page_num - 1]
+    else:
+        return
+
+    loan_manager_state['current_page'][0], loan_manager_state['current_page'][1] = new_page_num, new_search_results
+    loan_manager_state['page_label']['text'] = f"Page {new_page_num + 1} of {num_results}"
+    page_frame.destroy()
+    build_loan_results_page()
+
+def change_book_view():
+    selected_option = loan_manager_state['selector_var'].get()
+    
+    options = {1: (False, False), 2: (True, False), 3: (False, True)}
+    
+    loan_manager_state['show_on_time_books'], loan_manager_state['show_overdue_books'] = options[selected_option]
+    loan_book_search_handler(loan_manager_state['search_var'].get())
+
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
@@ -533,5 +616,6 @@ def alert(message, is_error=True):
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 book_search_handler('')
+loan_book_search_handler('')
 
 root.mainloop()
