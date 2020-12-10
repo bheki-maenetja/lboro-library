@@ -463,7 +463,7 @@ def build_search_form(master_frame):
     for i in range(3):
         search_form.columnconfigure(i, weight=1, minsize=10)
 
-    search_id_label = tk.Label(master=search_form, text="Search by ID")
+    search_id_label = tk.Label(master=search_form, text="Search by Book ID")
     id_entry = tk.Entry(master=search_form, textvariable=loan_manager_state['search_var'], validate="key", validatecommand=(search_form.register(validate_numeric_entry), '%P'))
 
     return_form = build_return_form(search_form)
@@ -483,7 +483,7 @@ def build_return_form(master_frame):
     return_form.columnconfigure(1,weight=1, minsize=10)
 
     return_btn = tk.Button(master=return_form, text="Return Selected Books")
-    cancel_btn = tk.Button(master=return_form, text="Cancel")
+    cancel_btn = tk.Button(master=return_form, text="Cancel", command=clear_selected_loan_books)
 
     return_btn.grid(row=0, column=0, padx=2, sticky="ew")
     cancel_btn.grid(row=0, column=1, padx=2, sticky="ew")
@@ -622,6 +622,13 @@ def select_for_return(log_id, book_id):
     
     print(selected_books)
     loan_manager_state['return_books'] = selected_books
+
+def clear_selected_loan_books():
+    current_page_frame = loan_manager_state['current_page'][2]
+    current_page_frame.destroy()
+    loan_manager_state['return_books'] = []
+    loan_manager_state['return_form'].grid_remove()
+    build_loan_results_page()
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
