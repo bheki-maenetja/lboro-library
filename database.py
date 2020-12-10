@@ -195,8 +195,8 @@ def write_log(log):
     with open('logfile.txt', 'a') as log_file:
         log_file.write(json.dumps(log) + "\n")
 
-def return_book(loan_record):
-    log_obj, book_obj = get_log_by_id(loan_record['log_id']), get_book_by_id(loan_record['book_id'])
+def return_book(log_id, book_id):
+    log_obj, book_obj = get_log_by_id(log_id), get_book_by_id(book_id)
     log_obj['book_returned'] = True
     book_obj['member_id'] = None
     update_book(book_obj['id'], book_obj)

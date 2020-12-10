@@ -407,11 +407,12 @@ loan_manager_state = {
     'show_on_time_books': False,
     'show_overdue_books': False,
     'book_headings': ['book_id', 'member_id', 'title', 'start_date', 'return_date', 'is_overdue'],
-    'log_headings': ['id', 'book_id', 'member_id', 'start_date', 'return_date'],
     'search_results': {},
     'results_container': None,
     'current_page': [],
     'page_label': tk.Label(),
+    'return_books': [],
+    'return_form': tk.Frame()
 }
 
 loan_manager_state['search_var'].trace_add('write', lambda *args: loan_book_search_handler(loan_manager_state['search_var'].get()))
@@ -465,27 +466,29 @@ def build_search_form(master_frame):
     search_id_label = tk.Label(master=search_form, text="Search by ID")
     id_entry = tk.Entry(master=search_form, textvariable=loan_manager_state['search_var'], validate="key", validatecommand=(search_form.register(validate_numeric_entry), '%P'))
 
-    return_books_section = build_return_books_section(search_form)
+    return_form = build_return_form(search_form)
+    loan_manager_state['return_form'] = return_form
 
     search_id_label.grid(row=0, column=0, sticky="e", padx=2, pady=10)
     id_entry.grid(row=0, column=1, padx=2, pady=10, sticky="w")
-    return_books_section.grid(row=0, column=3, sticky="e", padx=2, pady=10)
+    return_form.grid(row=0, column=3, sticky="e", padx=2, pady=10)
 
+    return_form.grid_remove()
     return search_form
 
-def build_return_books_section(master_frame):
-    return_books_section = tk.Frame(master=master_frame)
-    return_books_section.rowconfigure(0, weight=1, minsize=10)
-    return_books_section.columnconfigure(0,weight=1, minsize=10)
-    return_books_section.columnconfigure(1,weight=1, minsize=10)
+def build_return_form(master_frame):
+    return_form = tk.Frame(master=master_frame)
+    return_form.rowconfigure(0, weight=1, minsize=10)
+    return_form.columnconfigure(0,weight=1, minsize=10)
+    return_form.columnconfigure(1,weight=1, minsize=10)
 
-    return_btn = tk.Button(master=return_books_section, text="Return Selected Books")
-    cancel_btn = tk.Button(master=return_books_section, text="Cancel")
+    return_btn = tk.Button(master=return_form, text="Return Selected Books")
+    cancel_btn = tk.Button(master=return_form, text="Cancel")
 
     return_btn.grid(row=0, column=0, padx=2, sticky="ew")
     cancel_btn.grid(row=0, column=1, padx=2, sticky="ew")
 
-    return return_books_section
+    return return_form
 
 def build_results_container(master_frame):
     results_container = tk.Frame(master=master_frame, bg="yellow")
@@ -524,12 +527,31 @@ def build_loan_results_row(master_frame, row_data):
     row_frame.rowconfigure(0, weight=1, minsize=20)
 
     for index, heading in enumerate(headings):
+        row_frame.columnconfigure(index, weight=1, minsize=10)
         row_label = tk.Label(master=row_frame)
         if heading == "book_id":
             row_label['text'] = f"{row_data[heading]}".zfill(4)
         else:
             row_label['text'] = f"{row_data[heading]}"
         row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+    
+    row_frame.columnconfigure(len(headings), weight=1, minsize=10)
+    return_checkbox = ttk.Checkbutton(
+                        master=row_frame, 
+                        text="Select book for return", 
+                        onvalue="on", 
+                        offvalue="off"
+                    )
+    return_checkbox.grid(row=0, column=len(headings), pady=5, padx=5, sticky="e")
+
+    if (row_data['log_id'], row_data['book_id']) in loan_manager_state['return_books']:
+        return_checkbox.invoke()
+    else:
+        return_checkbox.invoke()
+        return_checkbox.invoke()
+    
+    return_checkbox['command'] = lambda: select_for_return(row_data['log_id'], row_data['book_id'])
+    
     return row_frame
 
 ## Loan Manager Functionality =========================================================
@@ -584,6 +606,22 @@ def change_book_view():
     loan_manager_state['show_on_time_books'], loan_manager_state['show_overdue_books'] = options[selected_option]
     loan_book_search_handler(loan_manager_state['search_var'].get())
 
+def select_for_return(log_id, book_id):
+    selected_books = loan_manager_state['return_books']
+    pre_existing_books = bool(selected_books)
+
+    if (log_id, book_id) in selected_books:
+        selected_books.remove((log_id, book_id))
+    else:
+        selected_books.append((log_id, book_id))
+    
+    if not selected_books:
+        loan_manager_state['return_form'].grid_remove()
+    elif loan_manager_state and not pre_existing_books:
+        loan_manager_state['return_form'].grid()
+    
+    print(selected_books)
+    loan_manager_state['return_books'] = selected_books
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
