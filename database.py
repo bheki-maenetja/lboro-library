@@ -86,6 +86,17 @@ def get_all_logs(sort_by_date=False):
         print('Something went wrong...\n', err)
     log_data.close()
 
+def get_log_by_id(log_id):
+    try:
+        log_file = open("logfile.txt", "r")
+        for log in log_file:
+            if json.loads(log)['id'] == log_id:
+                return json.loads(log)
+        return None
+    except:
+        print('something went wrong...')
+    log_file.close()
+
 def get_active_logs():
     log_index = get_all_logs(True)
     return [log for log in log_index if log['book_returned'] == False]
@@ -95,6 +106,7 @@ def get_books_on_loan():
     active_logs = get_active_logs()
     for log in active_logs:
         new_obj = {
+            'log_id': log['id'],
             'book_id': get_book_by_id(log['book_id'])['id'],
             'member_id': log['member_id'],
             'title': get_book_by_id(log['book_id'])['title'],
@@ -184,7 +196,7 @@ def write_log(log):
         log_file.write(json.dumps(log) + "\n")
 
 def return_book(loan_record):
-    log_obj, book_obj = loan_record[0], loan_record[1]
+    log_obj, book_obj = get_log_by_id(loan_record['log_id']), get_book_by_id(loan_record['book_id'])
     log_obj['book_returned'] = True
     book_obj['member_id'] = None
     update_book(book_obj['id'], book_obj)
