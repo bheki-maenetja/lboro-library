@@ -12,6 +12,7 @@ from time import sleep
 # Local Imports
 import booksearch as bs
 import bookcheckout as bc
+import bookreturn as br
 
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
 ## Window Setup =================================================================
@@ -482,7 +483,7 @@ def build_return_form(master_frame):
     return_form.columnconfigure(0,weight=1, minsize=10)
     return_form.columnconfigure(1,weight=1, minsize=10)
 
-    return_btn = tk.Button(master=return_form, text="Return Selected Books")
+    return_btn = tk.Button(master=return_form, text="Return Selected Books", command=book_return_handler)
     cancel_btn = tk.Button(master=return_form, text="Cancel", command=clear_selected_loan_books)
 
     return_btn.grid(row=0, column=0, padx=2, sticky="ew")
@@ -556,7 +557,13 @@ def build_loan_results_row(master_frame, row_data):
 
 ## Loan Manager Functionality =========================================================
 def book_return_handler():
-    pass
+    selected_books = loan_manager_state['return_books']
+    try:
+        br.return_handler(selected_books)
+        clear_selected_loan_books()
+        loan_book_search_handler(loan_manager_state['search_var'].get())
+    except:
+        print('something went wrong...')
 
 def loan_book_search_handler(search_phrase):
     current_page = loan_manager_state['current_page']
