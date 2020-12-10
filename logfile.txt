@@ -7000,13 +7000,13 @@
 {"id": 7000, "book_id": 1160, "member_id": 6982, "start_date": "02/08/2004", "return_date": "05/08/2004", "book_returned": true}
 {"id": 7001, "book_id": 6, "member_id": 6982, "start_date": "20/11/2020", "return_date": "25/11/2020", "book_returned": false}
 {"id": 7002, "book_id": 4, "member_id": 6982, "start_date": "20/11/2020", "return_date": "29/11/2020", "book_returned": false}
-{"id": 7003, "book_id": 5, "member_id": 6982, "start_date": "20/11/2020", "return_date": "27/11/2020", "book_returned": false}
+{"id": 7003, "book_id": 5, "member_id": 6982, "start_date": "20/11/2020", "return_date": "27/11/2020", "book_returned": true}
 {"id": 7004, "book_id": 2, "member_id": 6982, "start_date": "20/11/2020", "return_date": "26/11/2020", "book_returned": false}
 {"id": 7005, "book_id": 3, "member_id": 6982, "start_date": "20/11/2020", "return_date": "22/11/2020", "book_returned": false}
 {"id": 7006, "book_id": 7, "member_id": 6982, "start_date": "20/11/2020", "return_date": "30/11/2020", "book_returned": false}
 {"id": 7007, "book_id": 8, "member_id": 6982, "start_date": "20/11/2020", "return_date": "25/11/2020", "book_returned": false}
 {"id": 7008, "book_id": 9, "member_id": 6982, "start_date": "20/11/2020", "return_date": "28/11/2020", "book_returned": false}
-{"id": 7009, "book_id": 1, "member_id": 6982, "start_date": "20/11/2020", "return_date": "29/11/2020", "book_returned": false}
+{"id": 7009, "book_id": 1, "member_id": 6982, "start_date": "20/11/2020", "return_date": "29/11/2020", "book_returned": true}
 {"id": 7010, "book_id": 10, "member_id": 6982, "start_date": "20/11/2020", "return_date": "30/11/2020", "book_returned": false}
 {"id": 7011, "book_id": 4995, "member_id": 1007, "start_date": "27/11/2020", "return_date": "07/12/2020", "book_returned": true}
 {"id": 7012, "book_id": 101, "member_id": 1234, "start_date": "10/12/2020", "return_date": "20/12/2020", "book_returned": false}
@@ -7034,3 +7034,5 @@
 {"id": 7034, "book_id": 1267, "member_id": 5678, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
 {"id": 7035, "book_id": 1268, "member_id": 5678, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
 {"id": 7036, "book_id": 1269, "member_id": 5678, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
+{"id": 7037, "book_id": 1, "member_id": 1234, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
+{"id": 7038, "book_id": 5, "member_id": 1234, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}

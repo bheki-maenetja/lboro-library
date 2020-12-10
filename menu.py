@@ -40,7 +40,7 @@ def build_page_container():
     page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
 
-    page_notebook.bind('<<NotebookTabChanged>>', lambda e: go_to_home_page(e))
+    page_notebook.bind('<<NotebookTabChanged>>', lambda e: page_change())
 
     return page_notebook
 
@@ -641,11 +641,20 @@ def clear_selected_loan_books():
 ### Assignments/function calls =======================================================
 page_manager['pages_section'] = build_page_container()
 
-def go_to_home_page(e):
+def page_change():
     notebook = page_manager['pages_section']
-    active_tab = notebook.index(notebook.select())
-    if active_tab == 0:
+    selected_tab = notebook.index(notebook.select())
+
+    if selected_tab == 0:
         transition(to_home=True)
+    elif selected_tab == 1:
+        clear_selected_books()
+        book_search_handler(books_page_state['search_var'].get())
+    elif selected_tab == 2:
+        clear_selected_loan_books()
+        loan_book_search_handler(loan_manager_state['search_var'].get())
+    else:
+        print(selected_tab)
 
 def transition(to_home=False, pages_index=1):
     if not to_home:
