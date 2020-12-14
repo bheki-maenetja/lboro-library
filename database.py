@@ -4,6 +4,7 @@ import fileinput
 from datetime import datetime as dt
 from datetime import timedelta
 
+import linecache
 # ============================================================ BOOKS ============================================================
 ## Getting & Updating Books from file ========================
 def get_all_books(): # return all books in the database
@@ -16,14 +17,11 @@ def get_all_books(): # return all books in the database
 
 def get_book_by_id(book_id): # returns a book based on its id
     try:
-        database = open("database.txt", "r")
-        for book in database:
-            if json.loads(book)['id'] == book_id:
-                return json.loads(book)
-        return None
+        book_str = linecache.getline("database.txt", book_id)
+        return json.loads(book_str)
     except:
         print('something went wrong...')
-    database.close()
+    # database.close()
 
 def update_book(book_id, book_obj): # updates a book
     try:
@@ -88,14 +86,10 @@ def get_active_logs():
 
 def get_log_by_id(log_id):
     try:
-        log_file = open("logfile.txt", "r")
-        for log in log_file:
-            if json.loads(log)['id'] == log_id:
-                return json.loads(log)
-        return None
+        log_str = linecache.getline("logfile.txt", log_id)
+        return json.loads(log_str)
     except:
         print('something went wrong...')
-    log_file.close()
 
 def update_log(log_id, log_obj):
     try:
@@ -188,6 +182,14 @@ def return_book(log_id, book_id):
     update_book(book_obj['id'], book_obj)
     update_log(log_obj['id'], log_obj)
 
+# ============================================================ ANALYTICS ============================================================
+def get_title_usage():
+    books_titles = [get_book_by_id(log['book_id'])['title'] for log in get_all_logs()]
+    book_title_set = set(books_titles)
+    title_usage = ((book, books_titles.count(book)) for book in book_title_set)
+    for data in title_usage:
+        print(data)
+
 # ============================================================ UTILITY FUNCTIONS ============================================================
 def book_status():
     books = get_books_on_loan()
@@ -200,6 +202,7 @@ def book_status():
     for i in overdue_books:
         print(i)
 
+get_title_usage()
 # book_status()
 # input("returning book >>> ")
 # loan_obj = get_loan_object()
