@@ -193,13 +193,13 @@ def get_used_titles():
     return used_titles
 
 def get_unused_titles():
-    unused_titles = [book['title'] for book in get_all_books() if book['title'] not in get_used_titles()]
-    return unused_titles
+    unused_set = set.difference(set(get_all_titles()), set(get_used_titles()))
+    return list(unused_set)
 
 def get_title_usage():
     books_titles = [get_book_by_id(log['book_id'])['title'] for log in get_all_logs()]
-    title_usage = sorted([(book, books_titles.count(book)) for book in get_used_titles()], key=lambda x: x[1], reverse=True)
-    return title_usage
+    title_usage = [(book, books_titles.count(book)) for book in get_used_titles()]
+    return sorted(title_usage, key=lambda x: x[1], reverse=True)
 
 # ============================================================ UTILITY FUNCTIONS ============================================================
 def book_status():
@@ -213,12 +213,12 @@ def book_status():
     for i in overdue_books:
         print(i)
 
+def title_status():
+    all_titles = get_all_titles()
+    used_titles = get_used_titles()
+    unused_titles = get_unused_titles()
+    print(f"Used titles: {len(used_titles)}", f"Unused titles {len(unused_titles)}", f"Total titles: {len(all_titles)}", sep="\n")
 
-
-all_titles = get_all_titles()
-used_titles = [1,2,3]
-unused_titles = get_unused_titles()
-print(f"Used titles: {len(used_titles)}", f"Unused titles {len(unused_titles)}", "Total titles:", len(all_titles), sep="\n")
 # usage_data = get_title_usage()
 # for i in usage_data:
 #     print(i)
