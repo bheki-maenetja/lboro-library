@@ -5,8 +5,7 @@ from datetime import datetime as dt
 from datetime import timedelta
 
 # ============================================================ BOOKS ============================================================
-# Index View
-## GET
+## Getting & Updating Books from file ========================
 def get_all_books(): # return all books in the database
     try:
         database = open("database.txt", "r")
@@ -15,11 +14,34 @@ def get_all_books(): # return all books in the database
         print('Something went wrong...')
     database.close()
 
+def get_book_by_id(book_id): # returns a book based on its id
+    try:
+        database = open("database.txt", "r")
+        for book in database:
+            if json.loads(book)['id'] == book_id:
+                return json.loads(book)
+        return None
+    except:
+        print('something went wrong...')
+    database.close()
+
+def update_book(book_id, book_obj): # updates a book
+    try:
+        for book in fileinput.input("database.txt", inplace=True):
+            book_dict = json.loads(book)
+            if book_dict['id'] == book_id:
+                print(json.dumps(book_obj))
+            else:
+                print(json.dumps(book_dict))
+    except:
+        print('something went wrong...')
+
+## Searching for books =======================================
 def search_books(search_phrase, categories=None): # returns books based on search parameters
     """
     PARAMETERS:
-        * search_phrase -> a string that is is used to find books
-        * categories -> a list of selected book categories with each categort being a string
+        * search_phrase -> a string that is used to find books
+        * categories -> a list of selected book categories with each category being a string
     RETURN VALUES
         * search_results -> a sorted list of binary tuples with the first element being an integer and second element being a dictinary
     WHAT DOES THIS FUNCTION DO?
@@ -47,34 +69,8 @@ def result_match(book_obj, search_phrase, categories): # filters books based on 
     elif book_title in search_phrase or search_phrase in book_title:
         return (3, book_obj)
 
-# Single View
-## GET
-def get_book_by_id(book_id): # returns a book based on its id
-    try:
-        database = open("database.txt", "r")
-        for book in database:
-            if json.loads(book)['id'] == book_id:
-                return json.loads(book)
-        return None
-    except:
-        print('something went wrong...')
-    database.close()
-
-## PUT
-def update_book(book_id, book_obj): # updates a book
-    try:
-        for book in fileinput.input("database.txt", inplace=True):
-            book_dict = json.loads(book)
-            if book_dict['id'] == book_id:
-                print(json.dumps(book_obj))
-            else:
-                print(json.dumps(book_dict))
-    except:
-        print('something went wrong...')
-
 # ============================================================ LOGS & BOOKS ON LOAN ============================================================
-# Index View
-## GET
+## Log Processing ============================================
 def get_all_logs(sort_by_date=False):
     try:
         log_data = open("logfile.txt", "r")
@@ -85,6 +81,10 @@ def get_all_logs(sort_by_date=False):
     except Exception as err:
         print('Something went wrong...\n', err)
     log_data.close()
+
+def get_active_logs():
+    log_index = get_all_logs(True)
+    return [log for log in log_index if log['book_returned'] == False]
 
 def get_log_by_id(log_id):
     try:
@@ -97,10 +97,18 @@ def get_log_by_id(log_id):
         print('something went wrong...')
     log_file.close()
 
-def get_active_logs():
-    log_index = get_all_logs(True)
-    return [log for log in log_index if log['book_returned'] == False]
+def update_log(log_id, log_obj):
+    try:
+        for log in fileinput.input("logfile.txt", inplace=True):
+            log_dict = json.loads(log)
+            if log_dict['id'] == log_id:
+                print(json.dumps(log_obj))
+            else:
+                print(json.dumps(log_dict))
+    except:
+        print('something went wrong...')
 
+## Book Processing ==========================================
 def get_books_on_loan():
     books_on_loan = []
     active_logs = get_active_logs()
@@ -145,31 +153,8 @@ def is_book_overdue(log):
     return_date = dt.combine(dt.strptime(log['return_date'], '%d/%m/%Y'), dt.max.time())
     return return_date < present_day
 
-# Single View
-## PUT
-def update_log(log_id, log_obj):
-    try:
-        for log in fileinput.input("logfile.txt", inplace=True):
-            log_dict = json.loads(log)
-            if log_dict['id'] == log_id:
-                print(json.dumps(log_obj))
-            else:
-                print(json.dumps(log_dict))
-    except:
-        print('something went wrong...')
-
-def book_status():
-    books = get_books_on_loan()
-    overdue_books = [book for book in books if book['is_overdue']]
-    on_time_books = [book for book in books if not book['is_overdue']]
-    input("Books on loan >>> ")
-    for i in on_time_books:
-        print(i)
-    input("Overdue Books >>> ")
-    for i in overdue_books:
-        print(i)
-
 # ============================================================ CHECKOUT & RETURN ============================================================
+## Checkout ==================================================
 def checkout_book(book_id, member_id, loan_duration):
     book_obj = get_book_by_id(book_id)
     log_obj = dict()
@@ -195,12 +180,25 @@ def write_log(log):
     with open('logfile.txt', 'a') as log_file:
         log_file.write(json.dumps(log) + "\n")
 
+## Return ====================================================
 def return_book(log_id, book_id):
     log_obj, book_obj = get_log_by_id(log_id), get_book_by_id(book_id)
     log_obj['book_returned'] = True
     book_obj['member_id'] = None
     update_book(book_obj['id'], book_obj)
     update_log(log_obj['id'], log_obj)
+
+# ============================================================ UTILITY FUNCTIONS ============================================================
+def book_status():
+    books = get_books_on_loan()
+    overdue_books = [book for book in books if book['is_overdue']]
+    on_time_books = [book for book in books if not book['is_overdue']]
+    input("Books on loan >>> ")
+    for i in on_time_books:
+        print(i)
+    input("Overdue Books >>> ")
+    for i in overdue_books:
+        print(i)
 
 # book_status()
 # input("returning book >>> ")
