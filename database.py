@@ -183,7 +183,7 @@ def return_book(log_id, book_id):
     update_log(log_obj['id'], log_obj)
 
 # ============================================================ ANALYTICS ============================================================
-## Book Title Data =================================================
+## Book Title Data ===========================================
 def get_all_titles():
     unique_titles = list({ book['title'] for book in get_all_books() })
     return unique_titles
@@ -200,6 +200,19 @@ def get_title_usage():
     books_titles = [get_book_by_id(log['book_id'])['title'] for log in get_all_logs()]
     title_usage = [(book, books_titles.count(book)) for book in get_used_titles()]
     return sorted(title_usage, key=lambda x: x[1], reverse=True)
+
+## Book Category Data ========================================
+def get_category_usage_data(main_category, sub_categories):
+    data_list = []
+    for category in sub_categories:
+        usage_count = 0
+        log_gen = (log for log in get_all_logs())
+        for log in log_gen:
+            book_categories = get_book_by_id(log['book_id'])['category']
+            if main_category in book_categories and category in book_categories:
+                usage_count += 1
+        data_list.append((category, usage_count))
+    return data_list
 
 # ============================================================ UTILITY FUNCTIONS ============================================================
 def book_status():
