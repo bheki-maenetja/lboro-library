@@ -34,10 +34,11 @@ def build_page_container():
 
     books_page = build_books_page(page_notebook)
     loan_manager_page = build_loan_manager_page(page_notebook)
+    analytics_page = build_analytics_page(page_notebook)
 
     page_notebook.add(books_page, text="Books")
     page_notebook.add(loan_manager_page, text="Loan Manager")
-    page_notebook.add(tk.Frame(master=page_notebook, bg="orange"), text="Analytics")
+    page_notebook.add(analytics_page, text="Analytics")
     page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
 
     page_notebook.bind('<<NotebookTabChanged>>', lambda e: page_change())
@@ -642,12 +643,12 @@ def clear_selected_loan_books():
 analytics_page_state = {
     'current_page': None,
     'sidebar_btn_labels': [
-        'Most Popular Titles', 
-        'Least Popular Titles', 
-        'Unused Titles', 
-        'Most Popular Categories (Non-Fiction)', 
-        'Most Popular Categories (Fiction)',
-        'Weeding Report'
+        ('Most Popular Titles', lambda: print('Most Popular Titles')),
+        ('Least Popular Titles', lambda: print('Least Popular Titles')),
+        ('Unused Titles', lambda: print('Unused Titles')),
+        ('Most Popular Categories\n(Non-Fiction)', lambda: print('Most Popular Categories\n(Non-Fiction)')),
+        ('Most Popular Categories\n(Fiction)',lambda: print('Most Popular Categories\n(Fiction)')),
+        ('Weeding Report', lambda: print('Weeding Report'))
     ]
 }
 
@@ -656,7 +657,7 @@ def build_analytics_page(master_frame):
     analytics_page = tk.Frame(master=master_frame)
     analytics_page.rowconfigure(0, weight=1, minsize=10)
     analytics_page.columnconfigure(0,weight=1, minsize=10)
-    analytics_page.columnconfigure(1,weight=1, minsize=10)
+    analytics_page.columnconfigure(1,weight=10, minsize=10)
 
     sidebar = build_sidebar(analytics_page)
     figure_frame = build_figure_frame(analytics_page)
@@ -671,9 +672,9 @@ def build_sidebar(master_frame):
     sidebar.columnconfigure(0, weight=1, minsize=10)
     btn_labels = analytics_page_state['sidebar_btn_labels']
 
-    for i, label in enumerate(btn_labels):
+    for i, btn_tup in enumerate(btn_labels):
         sidebar.rowconfigure(i, weight=1, minsize=10)
-        new_button = tk.Button(master=sidebar, text=label)
+        new_button = tk.Button(master=sidebar, text=btn_tup[0], command=btn_tup[1])
         new_button.grid(row=i, column=0, sticky="news", padx=10, pady=10)
 
     return sidebar
