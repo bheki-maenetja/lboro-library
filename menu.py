@@ -646,6 +646,7 @@ analytics_page_state = {
     'current_figure': None,
     'figure_frame': None,
     'unused_titles': [],
+    'unused_titles_page': None,
     'figure_funcs': [
         bw.display_popular_titles, 
         bw.display_least_popular_titles,
@@ -656,7 +657,7 @@ analytics_page_state = {
     'sidebar_btn_labels': [
         ('Most Popular Titles', lambda: change_current_figure(1)),
         ('Least Popular Titles', lambda: change_current_figure(2)),
-        ('Unused Titles', lambda: print("Unused Titles")),
+        ('Unused Titles', lambda: change_current_figure(0)),
         ('Most Popular Categories\n(Non-Fiction)', lambda: change_current_figure(3)),
         ('Most Popular Categories\n(Fiction)',lambda: change_current_figure(4)),
         ('Book Usage Over Time', lambda: change_current_figure(5))
@@ -685,7 +686,9 @@ def build_analytics_page(master_frame):
 
     analytics_page_state['figure_frame'] = figure_frame
 
+    set_unused_titles()
     build_figures()
+    build_unused_titles_page()
     return analytics_page
 
 def build_sidebar(master_frame):
@@ -719,15 +722,42 @@ def display_current_figure():
     current_figure = analytics_page_state['current_figure']
     current_figure.grid(row=0, column=0, sticky="news")
 
+def build_unused_titles_page():
+    unused_titles = analytics_page_state['unused_titles']
+    unused_titles_page = tk.Frame(master=analytics_page_state['figure_frame'])
+
+    title_listbox = tk.Listbox(master=unused_titles_page)
+    scrollbar = tk.Scrollbar(master=unused_titles_page)
+
+    for title in unused_titles:
+        title_listbox.insert(tk.END, f" {title}")
+
+    title_listbox.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
+    scrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=0)
+
+    title_listbox.config(yscrollcommand = scrollbar.set)
+    scrollbar.config(command = title_listbox.yview)
+
+    analytics_page_state['unused_titles_page'] = unused_titles_page
+
 ## Analytics Page Functionality =========================================================
 def change_current_figure(index):
     current_figure = analytics_page_state['current_figure']
     print(current_figure)
+
     if current_figure:
         current_figure.grid_remove()
-    new_figure = analytics_page_state['data_graphs'][index]
+    
+    if index in range(1,6):
+        new_figure = analytics_page_state['data_graphs'][index]
+    else:
+        new_figure = analytics_page_state['unused_titles_page']
+    
     analytics_page_state['current_figure'] = new_figure
     display_current_figure()
+
+def set_unused_titles():
+    analytics_page_state['unused_titles'] = bw.get_unused_titles()
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
@@ -770,6 +800,5 @@ page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 book_search_handler('')
 loan_book_search_handler('')
-# build_figure()
 
 root.mainloop()

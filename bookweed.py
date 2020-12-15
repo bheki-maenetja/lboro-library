@@ -35,7 +35,6 @@ def display_least_popular_titles():
 
 ## Book Category Graphs ======================================
 non_fiction_categories = [
-    "textbook",
     "languages",
     "philosophy",
     "technology",
@@ -46,8 +45,6 @@ non_fiction_categories = [
 ]
 
 fiction_categories = [
-    "novel",
-    "short story",
     "horror",
     "fantasy",
     "sci-fi",
