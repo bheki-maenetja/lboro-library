@@ -30,7 +30,30 @@ def display_popular_titles(result_size=10, display_most_popular=True):
     plt.tight_layout()
     return new_figure
 
+def display_least_popular_titles():
+    return display_popular_titles(display_most_popular=False)
+
 ## Book Category Graphs ======================================
+non_fiction_categories = [
+    "textbook",
+    "languages",
+    "philosophy",
+    "technology",
+    "art",
+    "social",
+    "sports",
+    "biography"
+]
+
+fiction_categories = [
+    "novel",
+    "short story",
+    "horror",
+    "fantasy",
+    "sci-fi",
+    "adventure"
+]
+
 def display_popular_categories(main_category, sub_categories):
     category_usage_data = db.get_category_usage_data(main_category, sub_categories)
     category_usage_data.sort(key=lambda x: x[1], reverse=True)
@@ -57,6 +80,12 @@ def display_popular_categories(main_category, sub_categories):
     plt.tight_layout()
     return new_figure
 
+def display_fiction_categories():
+    return display_popular_categories("fiction", fiction_categories)
+
+def display_nonfiction_categories():
+    return display_popular_categories("non-fiction", fiction_categories)
+
 ## Book Usage Graphs =========================================
 def display_book_usage_data():
     book_usage_data = db.get_book_usage_data()
@@ -82,27 +111,6 @@ def display_book_usage_data():
 
     plt.tight_layout()
     return new_figure
-
-
-non_fiction_categories = [
-    "textbook",
-    "languages",
-    "philosophy",
-    "technology",
-    "art",
-    "social",
-    "sports",
-    "biography"
-]
-
-fiction_categories = [
-    "novel",
-    "short story",
-    "horror",
-    "fantasy",
-    "sci-fi",
-    "adventure"
-]
 
 # display_popular_categories("fiction", fiction_categories)
 # display_book_usage_data()

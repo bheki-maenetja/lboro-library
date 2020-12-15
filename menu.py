@@ -2,9 +2,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-
 import tkinter.font as tkFont
 import re
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from datetime import datetime as dt
 from time import sleep
@@ -13,6 +14,7 @@ from time import sleep
 import booksearch as bs
 import bookcheckout as bc
 import bookreturn as br
+import bookweed as bw
 
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
 ## Window Setup =================================================================
@@ -641,15 +643,24 @@ def clear_selected_loan_books():
 # ======================================================================================= ANALYTICS PAGE =======================================================================================
 ## Analytics Page State Variables =======================================================
 analytics_page_state = {
-    'current_page': None,
+    'current_figure': None,
+    'figure_frame': None,
     'sidebar_btn_labels': [
-        ('Most Popular Titles', lambda: print('Most Popular Titles')),
-        ('Least Popular Titles', lambda: print('Least Popular Titles')),
-        ('Unused Titles', lambda: print('Unused Titles')),
-        ('Most Popular Categories\n(Non-Fiction)', lambda: print('Most Popular Categories\n(Non-Fiction)')),
-        ('Most Popular Categories\n(Fiction)',lambda: print('Most Popular Categories\n(Fiction)')),
-        ('Book Usage Over Time', lambda: print('Book Usage Over Time'))
-    ]
+        ('Most Popular Titles', lambda: change_current_figure()),
+        ('Least Popular Titles', lambda: change_current_figure()),
+        ('Unused Titles', lambda: change_current_figure()),
+        ('Most Popular Categories\n(Non-Fiction)', lambda: change_current_figure()),
+        ('Most Popular Categories\n(Fiction)',lambda: change_current_figure()),
+        ('Book Usage Over Time', lambda: change_current_figure())
+    ],
+    'data_graphs' : {
+        1: None,
+        2: None,
+        3: None,
+        4: None,
+        5: None,
+        6: None,
+    }
 }
 
 ## Analytics Page UI Components =========================================================
@@ -664,6 +675,8 @@ def build_analytics_page(master_frame):
 
     sidebar.grid(row=0, column=0, sticky="news")
     figure_frame.grid(row=0, column=1, sticky="news")
+
+    analytics_page_state['figure_frame'] = figure_frame
 
     return analytics_page
 
@@ -683,7 +696,19 @@ def build_figure_frame(master_frame):
     figure_frame = tk.Frame(master=master_frame, bg="purple")
     return figure_frame
 
+def build_figures():
+    new_graph = bw.display_book_usage_data()
+    new_canvas = FigureCanvasTkAgg(new_graph, master=analytics_page_state['figure_frame'])
+    new_canvas.draw()
+    new_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=1)
+
+def display_current_figure():
+    current_figure = analytics_page_state['current_figure']
+    current_figure.get_tk_widget().pack(fill=tk.BOTH, expand=1)
+
 ## Analytics Page Functionality =========================================================
+def change_current_figure():
+    pass
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
@@ -726,5 +751,6 @@ page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 book_search_handler('')
 loan_book_search_handler('')
+# build_figure()
 
 root.mainloop()
