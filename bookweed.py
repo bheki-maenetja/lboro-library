@@ -11,7 +11,9 @@ def display_popular_titles(result_size=10):
 
     new_figure = plt.figure()
     bar_graph = new_figure.add_subplot(1,1,1)
-    plt.title("This is the title right?")
+    plt.title(f"The {result_size} Most Popular Titles")
+    plt.ylabel("Number of Checkouts")
+    plt.xlabel("Book Titles")
 
     bar_graph.bar(titles, usage_data)
 
