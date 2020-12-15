@@ -637,6 +637,18 @@ def clear_selected_loan_books():
     loan_manager_state['return_form'].grid_remove()
     build_loan_results_page()
 
+# ======================================================================================= ANALYTICS PAGE =======================================================================================
+## Analytics Page State Variables =======================================================
+analytics_page_state = {
+    "current_page": None
+}
+
+## Analytics Page UI Components =========================================================
+def build_analytics_page(master_frame):
+    analytics_page = tk.Frame(master=master_frame)
+
+## Analytics Page Functionality =========================================================
+
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
 page_manager['pages_section'] = build_page_container()
