@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # Local Imports
 import database as db
 
-# ============================================================ BUILDING PLOTS ============================================================
+# ============================================================ BUILDING GRAPHS ============================================================
 def display_popular_titles(result_size=10, display_most_popular=True):
     titles_usage_data = db.get_title_usage()[:result_size] if display_most_popular else db.get_title_usage()[-result_size:]
     titles, usage_data = [datum[0] for datum in titles_usage_data], [datum[1] for datum in titles_usage_data]
