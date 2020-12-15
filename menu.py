@@ -725,6 +725,8 @@ def display_current_figure():
 def build_unused_titles_page():
     unused_titles = analytics_page_state['unused_titles']
     unused_titles_page = tk.Frame(master=analytics_page_state['figure_frame'])
+    
+    heading_label = tk.Label(master=unused_titles_page, text="Books with the following titles have never been checked out\nWe should consider removing them")
 
     title_listbox = tk.Listbox(master=unused_titles_page)
     scrollbar = tk.Scrollbar(master=unused_titles_page)
@@ -732,6 +734,7 @@ def build_unused_titles_page():
     for title in unused_titles:
         title_listbox.insert(tk.END, f" {title}")
 
+    heading_label.pack(fill=tk.X, side=tk.TOP, expand=0)
     title_listbox.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
     scrollbar.pack(fill=tk.Y, side=tk.RIGHT, expand=0)
 
