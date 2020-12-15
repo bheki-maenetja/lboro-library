@@ -648,7 +648,7 @@ analytics_page_state = {
         ('Unused Titles', lambda: print('Unused Titles')),
         ('Most Popular Categories\n(Non-Fiction)', lambda: print('Most Popular Categories\n(Non-Fiction)')),
         ('Most Popular Categories\n(Fiction)',lambda: print('Most Popular Categories\n(Fiction)')),
-        ('Weeding Report', lambda: print('Weeding Report'))
+        ('Book Usage Over Time', lambda: print('Book Usage Over Time'))
     ]
 }
 
