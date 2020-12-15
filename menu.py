@@ -645,6 +645,7 @@ def clear_selected_loan_books():
 analytics_page_state = {
     'current_figure': None,
     'figure_frame': None,
+    'unused_titles': [],
     'figure_funcs': [
         bw.display_popular_titles, 
         bw.display_least_popular_titles,

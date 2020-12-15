@@ -112,6 +112,11 @@ def display_book_usage_data():
     plt.tight_layout()
     return new_figure
 
+# ============================================================ UNUSED TITLES ============================================================
+def get_unused_titles():
+    unused_titles = sorted(db.get_unused_titles())
+    return unused_titles
+
 # display_popular_categories("fiction", fiction_categories)
 # display_book_usage_data()
 # plt.show()
