@@ -645,13 +645,20 @@ def clear_selected_loan_books():
 analytics_page_state = {
     'current_figure': None,
     'figure_frame': None,
+    'figure_funcs': [
+        bw.display_popular_titles, 
+        bw.display_least_popular_titles,
+        bw.display_nonfiction_categories,
+        bw.display_fiction_categories,
+        bw.display_book_usage_data
+    ],
     'sidebar_btn_labels': [
-        ('Most Popular Titles', lambda: change_current_figure()),
-        ('Least Popular Titles', lambda: change_current_figure()),
-        ('Unused Titles', lambda: change_current_figure()),
-        ('Most Popular Categories\n(Non-Fiction)', lambda: change_current_figure()),
-        ('Most Popular Categories\n(Fiction)',lambda: change_current_figure()),
-        ('Book Usage Over Time', lambda: change_current_figure())
+        ('Most Popular Titles', lambda: change_current_figure(1)),
+        ('Least Popular Titles', lambda: change_current_figure(2)),
+        ('Unused Titles', lambda: print("Unused Titles")),
+        ('Most Popular Categories\n(Non-Fiction)', lambda: change_current_figure(3)),
+        ('Most Popular Categories\n(Fiction)',lambda: change_current_figure(4)),
+        ('Book Usage Over Time', lambda: change_current_figure(5))
     ],
     'data_graphs' : {
         1: None,
@@ -659,7 +666,6 @@ analytics_page_state = {
         3: None,
         4: None,
         5: None,
-        6: None,
     }
 }
 
@@ -678,6 +684,7 @@ def build_analytics_page(master_frame):
 
     analytics_page_state['figure_frame'] = figure_frame
 
+    build_figures()
     return analytics_page
 
 def build_sidebar(master_frame):
@@ -694,21 +701,32 @@ def build_sidebar(master_frame):
 
 def build_figure_frame(master_frame):
     figure_frame = tk.Frame(master=master_frame, bg="purple")
+    figure_frame.rowconfigure(0, weight=1, minsize=1)
+    figure_frame.columnconfigure(0, weight=1, minsize=1)
     return figure_frame
 
 def build_figures():
-    new_graph = bw.display_book_usage_data()
-    new_canvas = FigureCanvasTkAgg(new_graph, master=analytics_page_state['figure_frame'])
-    new_canvas.draw()
-    new_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=1)
+    for i, figure_func in enumerate(analytics_page_state['figure_funcs']):
+        graph_frame = tk.Frame(master=analytics_page_state['figure_frame'])
+        new_graph = figure_func()
+        new_canvas = FigureCanvasTkAgg(new_graph, master=graph_frame)
+        new_canvas.draw()
+        new_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=1)
+        analytics_page_state['data_graphs'][i+1] = graph_frame
 
 def display_current_figure():
     current_figure = analytics_page_state['current_figure']
-    current_figure.get_tk_widget().pack(fill=tk.BOTH, expand=1)
+    current_figure.grid(row=0, column=0, sticky="news")
 
 ## Analytics Page Functionality =========================================================
-def change_current_figure():
-    pass
+def change_current_figure(index):
+    current_figure = analytics_page_state['current_figure']
+    print(current_figure)
+    if current_figure:
+        current_figure.grid_remove()
+    new_figure = analytics_page_state['data_graphs'][index]
+    analytics_page_state['current_figure'] = new_figure
+    display_current_figure()
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================

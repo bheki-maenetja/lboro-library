@@ -84,7 +84,7 @@ def display_fiction_categories():
     return display_popular_categories("fiction", fiction_categories)
 
 def display_nonfiction_categories():
-    return display_popular_categories("non-fiction", fiction_categories)
+    return display_popular_categories("non-fiction", non_fiction_categories)
 
 ## Book Usage Graphs =========================================
 def display_book_usage_data():
