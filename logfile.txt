@@ -7034,5 +7034,5 @@
 {"id": 7034, "book_id": 1267, "member_id": 5678, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
 {"id": 7035, "book_id": 1268, "member_id": 5678, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
 {"id": 7036, "book_id": 1269, "member_id": 5678, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
-{"id": 7037, "book_id": 1, "member_id": 1234, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
+{"id": 7037, "book_id": 1, "member_id": 1234, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": true}
 {"id": 7038, "book_id": 5, "member_id": 1234, "start_date": "10/12/2020", "return_date": "15/12/2020", "book_returned": false}
