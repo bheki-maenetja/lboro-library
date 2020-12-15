@@ -19,7 +19,7 @@ import bookreturn as br
 root = tk.Tk()
 root.title('Loughborough Library Management System')
 root.geometry('900x630')
-root.minsize(600, 420)
+root.minsize(900, 630)
 root.maxsize(1350, 945)
 root.aspect(10,7,10,7)
 
@@ -640,12 +640,47 @@ def clear_selected_loan_books():
 # ======================================================================================= ANALYTICS PAGE =======================================================================================
 ## Analytics Page State Variables =======================================================
 analytics_page_state = {
-    "current_page": None
+    'current_page': None,
+    'sidebar_btn_labels': [
+        'Most Popular Titles', 
+        'Least Popular Titles', 
+        'Unused Titles', 
+        'Most Popular Categories (Non-Fiction)', 
+        'Most Popular Categories (Fiction)',
+        'Weeding Report'
+    ]
 }
 
 ## Analytics Page UI Components =========================================================
 def build_analytics_page(master_frame):
     analytics_page = tk.Frame(master=master_frame)
+    analytics_page.rowconfigure(0, weight=1, minsize=10)
+    analytics_page.columnconfigure(0,weight=1, minsize=10)
+    analytics_page.columnconfigure(1,weight=1, minsize=10)
+
+    sidebar = build_sidebar(analytics_page)
+    figure_frame = build_figure_frame(analytics_page)
+
+    sidebar.grid(row=0, column=0, sticky="news")
+    figure_frame.grid(row=0, column=1, sticky="news")
+
+    return analytics_page
+
+def build_sidebar(master_frame):
+    sidebar = tk.Frame(master=master_frame, bg="grey")
+    sidebar.columnconfigure(0, weight=1, minsize=10)
+    btn_labels = analytics_page_state['sidebar_btn_labels']
+
+    for i, label in enumerate(btn_labels):
+        sidebar.rowconfigure(i, weight=1, minsize=10)
+        new_button = tk.Button(master=sidebar, text=label)
+        new_button.grid(row=i, column=0, sticky="news", padx=10, pady=10)
+
+    return sidebar
+
+def build_figure_frame(master_frame):
+    figure_frame = tk.Frame(master=master_frame, bg="purple")
+    return figure_frame
 
 ## Analytics Page Functionality =========================================================
 
