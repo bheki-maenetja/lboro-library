@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import database as db
 
 # ============================================================ BUILDING GRAPHS ============================================================
+## Book Title Graphs =========================================
 def display_popular_titles(result_size=10, display_most_popular=True):
     titles_usage_data = db.get_title_usage()[:result_size] if display_most_popular else db.get_title_usage()[-result_size:]
     titles, usage_data = [datum[0] for datum in titles_usage_data], [datum[1] for datum in titles_usage_data]
@@ -29,6 +30,7 @@ def display_popular_titles(result_size=10, display_most_popular=True):
     plt.tight_layout()
     return new_figure
 
+## Book Category Graphs ======================================
 def display_popular_categories(main_category, sub_categories):
     category_usage_data = db.get_category_usage_data(main_category, sub_categories)
     category_usage_data.sort(key=lambda x: x[1], reverse=True)
@@ -43,6 +45,32 @@ def display_popular_categories(main_category, sub_categories):
     bar_graph.bar(
         [datum[0] for datum in category_usage_data], 
         [datum[1] for datum in category_usage_data]
+    )
+
+    plt.xticks(
+        rotation=45, 
+        horizontalalignment='right',
+        fontweight='light',
+        fontsize='x-small'  
+    )
+
+    plt.tight_layout()
+    return new_figure
+
+## Book Usage Graphs =========================================
+def display_book_usage_data():
+    book_usage_data = db.get_book_usage_data()
+
+    new_figure = plt.figure()
+    bar_graph = new_figure.add_subplot(1,1,1)
+
+    plt.title("Book Usage Over Time")
+    plt.ylabel("Number of Checkouts")
+    plt.xlabel("Years")
+
+    bar_graph.bar(
+        [datum[0] for datum in book_usage_data],
+        [datum[1] for datum in book_usage_data]
     )
 
     plt.xticks(
@@ -76,5 +104,6 @@ fiction_categories = [
     "adventure"
 ]
 
-display_popular_categories("fiction", fiction_categories)
-plt.show()
+# display_popular_categories("fiction", fiction_categories)
+# display_book_usage_data()
+# plt.show()
