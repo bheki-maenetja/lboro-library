@@ -214,6 +214,12 @@ def get_category_usage_data(main_category, sub_categories):
         data_list.append((category, usage_count))
     return data_list
 
+## Book Usage Data ===========================================
+def get_book_usage_data():
+    book_years = [log['start_date'].split('/')[-1] for log in get_all_logs()]
+    book_usage = [(year, book_years.count(year)) for year in set(book_years)]
+    return sorted(book_usage, key=lambda x: x[0])
+
 # ============================================================ UTILITY FUNCTIONS ============================================================
 def book_status():
     books = get_books_on_loan()
