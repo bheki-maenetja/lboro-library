@@ -230,9 +230,28 @@ def build_header_row(master_frame, headings):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
     for index, heading in enumerate(headings):
-        header_frame.columnconfigure(index, weight=1, minsize=10)
-        heading_label = tk.Label(master=header_frame, text=heading.upper())
-        heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+        heading_label = tk.Label(master=header_frame)
+        if heading in ("id","isbn"):
+            header_frame.columnconfigure(index, weight=1, minsize=20)
+            heading_label['text'] = heading.upper()
+            heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+        elif heading == "title":
+            header_frame.columnconfigure(index, weight=10, minsize=20)
+            heading_label['text'] = heading.upper()
+            heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+        elif heading == "purchase_date":
+            header_frame.columnconfigure(index, weight=0, minsize=20)
+            heading_label['anchor'] = "w"
+            heading_label['text'] = "PURCHASE DATE"
+            heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+        elif heading == "member_id":
+            header_frame.columnconfigure(index, weight=5, minsize=20)
+            heading_label['text'] = "STATUS"
+            heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+        else:
+            header_frame.columnconfigure(index, weight=2, minsize=10)
+            heading_label['text'] = heading.upper()
+            heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
     return header_frame
 
 def build_results_section(master_frame):
