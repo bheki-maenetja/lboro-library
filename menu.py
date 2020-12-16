@@ -19,7 +19,7 @@ import bookweed as bw
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
 ## Window Setup =================================================================
 root = tk.Tk()
-root.title('Loughborough Library Management System')
+root.title('Library Management System')
 root.geometry('900x630')
 root.resizable(False, False)
 # root.minsize(900, 630)
@@ -81,16 +81,16 @@ def build_home_page():
     return home_frame
 
 def build_hero_section(master_frame):
-    hero_section = tk.Frame(master=master_frame, bg="purple")
+    hero_section = tk.Frame(master=master_frame, bg="#4B0082")
     hero_section.rowconfigure(0, weight=1, minsize=root.winfo_width())
     hero_section.rowconfigure(1, weight=1, minsize=root.winfo_width())
     hero_section.columnconfigure(0, weight=1, minsize=root.winfo_height())
 
-    heading_font = tkFont.Font(family="Verdana", size=40, weight="bold")
+    heading_font = tkFont.Font(family="Verdana", size=50, weight="bold")
     sub_heading_font = tkFont.Font(family="Verdana", size=20, slant="italic")
 
-    heading = tk.Label(master=hero_section, text="Loughborough Library", font=heading_font, bg="purple", fg="white")
-    sub_heading = tk.Label(master=hero_section, text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", font=sub_heading_font, bg="purple", fg="white")
+    heading = tk.Label(master=hero_section, text="Loughborough Library", font=heading_font, bg="#4B0082", fg="white")
+    sub_heading = tk.Label(master=hero_section, text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", font=sub_heading_font, bg="#4B0082", fg="white")
 
     heading.grid(row=0, column=0, sticky="ws", padx=20)
     sub_heading.grid(row=1, column=0, sticky="wn", padx=20)
@@ -98,14 +98,14 @@ def build_hero_section(master_frame):
     return hero_section
 
 def build_button_section(master_frame):
-    button_section = tk.Frame(master=master_frame, bg="purple")
+    button_section = tk.Frame(master=master_frame, bg="#4B0082")
     button_info = [
-        ('Books', 'blue', lambda e: transition(pages_index=1)), 
-        ('Loan Manager', 'green', lambda e: transition(pages_index=2)), 
-        ('Analytics', 'orange', lambda e: transition(pages_index=3)), 
+        ('Books', '#1E90FF', lambda e: transition(pages_index=1)), 
+        ('Loan Manager', '#228B22', lambda e: transition(pages_index=2)), 
+        ('Analytics', '#FF8C00', lambda e: transition(pages_index=3)), 
         ('System Info', 'grey', lambda e: transition(pages_index=4))
     ]
-    button_font = tkFont.Font(family="helvetica", size=20, weight="bold", slant="italic")
+    button_font = tkFont.Font(family="helvetica", size=30, weight="bold", slant="italic")
 
     for i in range(2):
         button_section.columnconfigure(i, weight=1, minsize=25)
