@@ -745,11 +745,7 @@ def build_unused_titles_page():
 
 ## Analytics Page Functionality =========================================================
 def change_current_figure(index):
-    current_figure = analytics_page_state['current_figure']
-    print(current_figure)
-
-    if current_figure:
-        current_figure.grid_remove()
+    clear_current_figure()
     
     if index in range(1,6):
         new_figure = analytics_page_state['data_graphs'][index]
@@ -758,6 +754,13 @@ def change_current_figure(index):
     
     analytics_page_state['current_figure'] = new_figure
     display_current_figure()
+
+def clear_current_figure():
+    current_figure = analytics_page_state['current_figure']
+    print(current_figure)
+
+    if current_figure:
+        current_figure.grid_remove()
 
 def set_unused_titles():
     analytics_page_state['unused_titles'] = bw.get_unused_titles()
@@ -778,6 +781,10 @@ def page_change():
     elif selected_tab == 2:
         clear_selected_loan_books()
         loan_book_search_handler(loan_manager_state['search_var'].get())
+    elif selected_tab == 3:
+        clear_current_figure()
+        set_unused_titles()
+        build_figures()
     else:
         print(selected_tab)
 
