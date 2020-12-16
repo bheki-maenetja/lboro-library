@@ -37,11 +37,12 @@ def build_page_container():
     books_page = build_books_page(page_notebook)
     loan_manager_page = build_loan_manager_page(page_notebook)
     analytics_page = build_analytics_page(page_notebook)
+    system_info_page = build_system_info_page(page_notebook)
 
     page_notebook.add(books_page, text="Books")
     page_notebook.add(loan_manager_page, text="Loan Manager")
     page_notebook.add(analytics_page, text="Analytics")
-    page_notebook.add(tk.Frame(master=page_notebook, bg="grey"), text="System Info")
+    page_notebook.add(system_info_page, text="System Info")
 
     page_notebook.bind('<<NotebookTabChanged>>', lambda e: page_change())
 
@@ -767,9 +768,42 @@ def set_unused_titles():
 
 # ==================================================================================== SYSTEM INFO PAGES ====================================================================================
 ## System Info Page State Variables ==================================================
-system_info_state = {}
+system_info_state = {
+    'info_list' : [
+        ('Total Books:', 5000),
+        ('Total Unique Titles:', 2421),
+        ('Books on Loan:', 643),
+        ('Overdue Books:', 122),
+    ]
+}
 
 ## System Info UI Components =========================================================
+def build_system_info_page(master_frame):
+    system_info_page = tk.Frame(master=master_frame, bg="grey")
+    system_info_page.columnconfigure(0, weight=1, minsize=10)
+    system_info_page.rowconfigure(0, weight=1, minsize=10)
+
+    info_box = build_info_box(system_info_page)
+
+    info_box.grid(row=0, column=0)
+
+    return system_info_page
+
+def build_info_box(master_frame):
+    info_box = tk.Frame(master=master_frame, bg="navy")
+    info_box.columnconfigure(0, weight=1, minsize=10)
+    info_box.rowconfigure(0, weight=1, minsize=10)
+
+    info_list = system_info_state['info_list']
+    heading_label = tk.Label(master=info_box, text="System Information")
+    heading_label.grid(row=0, column=0, sticky="news")
+    for i, tup in enumerate(info_list):
+        info_box.rowconfigure(i+1, weight=1, minsize=10)
+        new_label = tk.Label(master=info_box, text=f"{tup[0]} {tup[1]}", anchor="w")
+        new_label.grid(column=0, row=i+1, sticky="news")
+    
+    return info_box
+
 ## System Info Functionality =========================================================
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
