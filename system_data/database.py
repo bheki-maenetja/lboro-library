@@ -13,8 +13,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 database_file = os.path.join(dir_path, "database.txt")
 log_file = os.path.join(dir_path, "logfile.txt")
 
-# =================================== BOOKS ===================================
-## Getting & Updating Books from file ========================
+# =================================== BOOKS ==================================
+## Getting & Updating Books from file ========================================
 def get_all_books():
     """
     PARAMATERS
@@ -66,7 +66,7 @@ def update_book(book_id, book_obj):
     except:
         print('Error -- Could not update book record')
 
-## Searching for books =======================================
+## Searching for books =======================================================
 def search_books(search_phrase, categories=None):
     """
     PARAMETERS:
@@ -111,7 +111,7 @@ def result_match(book_obj, search_phrase, categories):
     RETURN VALUES
         * a binary tuple with the first element being an integer and the second a dictionary
     WHAT DOES THIS FUNCTION DO?
-        * This function takes assesses how closely the title of a book matches a given search term
+        * This function assesses how closely the title of a book matches a given search term
     """
     book_title = book_obj['title'].lower().strip()
     search_phrase = search_phrase.lower().strip()
@@ -126,7 +126,7 @@ def result_match(book_obj, search_phrase, categories):
         return (3, book_obj)
 
 # =========================== LOGS & BOOKS ON LOAN ===========================
-## Log Processing =============================================================
+## Log Processing ============================================================
 def get_all_logs(sort_by_date=False):
     """
     PARAMATERS
@@ -196,15 +196,15 @@ def update_log(log_id, log_obj):
     except:
         print('Error -- Could not update transaction log')
 
-## Book Processing ==========================================
+## Book Processing ===========================================================
 def get_books_on_loan():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of dictionaries with each dictionary holding the relevant information of a book on loan
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function finds all books that are on loan and categorises them as either on-time or overdue
     """
     books_on_loan = []
     active_logs = get_active_logs()
@@ -226,11 +226,13 @@ def get_books_on_loan():
 def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
     """
     PARAMATERS
-        *
+        * book_id -> an integer representing the integer the unique identifier of a book
+        * only_overdue -> a boolean value that determines whether or not only overdue books should be searched
+        * only_on_time -> a boolean value that determines whether or not only on time books should be searched
     RETURN VALUES
-        *
+        * a list of tuples with each tuple reprenting a search result and its rank
     WHAT DOES THIS FUNCTION DO?
-        *
+        * finds all the books on loan whose ID matches (or resembles) the book_id 
     """
     all_books_on_loan = get_books_on_loan()
     if only_overdue:
@@ -245,11 +247,12 @@ def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
 def match_result(book_id, book_obj):
     """
     PARAMATERS
-        *
+        * book_id -> an integer representing the integer the unique identifier of a book
+        * book_obj -> a dictionary that stores the information of a book
     RETURN VALUES
-        *
+        * a binary tuple with the first element being an integer and the second a dictionary
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function assesses how closely the id of a book matches a given book id search term
     """
     id_string = f"{str(book_obj['book_id']).strip()}".zfill(4)
 
