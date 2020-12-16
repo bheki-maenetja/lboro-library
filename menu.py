@@ -554,10 +554,10 @@ def build_return_form(master_frame):
 def build_results_container(master_frame):
     results_container = tk.Frame(master=master_frame, bg="yellow")
 
-    footer_frame = tk.Frame(master=results_container, bg="purple")
+    footer_frame = tk.Frame(master=results_container, bg="#004517")
     previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_loan_results_page(False))
     next_button = tk.Button(footer_frame, text="Next", command=lambda: change_loan_results_page(True))
-    page_label = tk.Label(footer_frame, text="Page")
+    page_label = tk.Label(footer_frame, text="Page", bg="#004517", fg="white")
 
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
     next_button.pack(fill=tk.Y, side=tk.LEFT)
@@ -604,7 +604,7 @@ def build_loan_header_row(master_frame, headings):
 def build_loan_results_page():
     page_data = loan_manager_state['current_page'][1]
 
-    page_frame = tk.Frame(master=loan_manager_state['results_container'], bg="yellow")
+    page_frame = tk.Frame(master=loan_manager_state['results_container'], bg="#228B22")
     page_frame.columnconfigure(0, weight=1, minsize=1)
 
     for i in range(10):
@@ -619,13 +619,13 @@ def build_loan_results_page():
 def build_loan_results_row(master_frame, row_data):
     headings = loan_manager_state['book_headings']
 
-    label_font = tkFont.Font(family="courier", size=12, weight="bold")
+    label_font = tkFont.Font(family="monaco", size=12, weight="bold")
 
-    row_frame = tk.Frame(master=master_frame, bg="blue")
+    row_frame = tk.Frame(master=master_frame, bg="#66CDAA")
     row_frame.rowconfigure(0, weight=1, minsize=20)
 
     for index, heading in enumerate(headings):
-        row_label = tk.Label(master=row_frame, font=label_font)
+        row_label = tk.Label(master=row_frame, font=label_font, bg="#008080", fg="#7CFC00")
         if heading in ("book_id", "member_id"):
             row_frame.columnconfigure(index, weight=1, minsize=75)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
