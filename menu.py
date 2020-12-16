@@ -259,8 +259,11 @@ def build_results_page():
 
     page_frame = tk.Frame(master=books_page_state['results_section'], bg="yellow")
     page_frame.columnconfigure(0, weight=1, minsize=1)
-    for i, row in enumerate(page_data):
+
+    for i in range(5):
         page_frame.rowconfigure(i, weight=1, minsize=1)
+
+    for i, row in enumerate(page_data):
         new_row = build_results_row(page_frame, row)
         new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
     page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
