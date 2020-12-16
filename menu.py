@@ -874,7 +874,7 @@ def format_text(input_str, standard_length):
     elif str_len > standard_length:
         return input_str[:standard_length - 3] + "..."
     elif str_len < standard_length:
-        return input_str + "*"*(standard_length - str_len) 
+        return input_str + " "*(standard_length - str_len) 
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
