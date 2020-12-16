@@ -486,7 +486,7 @@ def build_loan_manager_page(master_frame):
 
     selector_section = build_selector_section(loan_manager_page)
     search_form = build_search_form(loan_manager_page)
-    header = build_header_row(loan_manager_page, loan_manager_state['book_headings'])
+    header = build_loan_header_row(loan_manager_page, loan_manager_state['book_headings'])
     results_container = build_results_container(loan_manager_page)
 
     selector_section.grid(row=0, column=0, sticky="nesw")
@@ -565,6 +565,36 @@ def build_results_container(master_frame):
 
     return results_container
 
+def build_loan_header_row(master_frame, headings):
+    header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
+    header_frame.rowconfigure(0, weight=1, minsize=1)
+
+    for index, heading in enumerate(headings):
+        heading_label = tk.Label(master=header_frame, bg="red", fg="white")
+        if heading in ("book_id","member_id"):
+            header_frame.columnconfigure(index, weight=0, minsize=10)
+            heading_label['text'] = " ".join(heading.split("_")).upper()
+            heading_label['anchor'] = "w"
+        elif heading == "title":
+            header_frame.columnconfigure(index, weight=1, minsize=20)
+            heading_label['text'] = heading.upper()
+        elif heading in ("start_date", "return_date"):
+            header_frame.columnconfigure(index, weight=0, minsize=20)
+            heading_label['text'] = " ".join(heading.split("_")).upper()
+            heading_label['anchor'] = "e"
+        elif heading == "is_overdue":
+            header_frame.columnconfigure(index, weight=0, minsize=20)
+            heading_label['text'] = "STATUS"
+            heading_label['anchor'] = "w"
+        else:
+            header_frame.columnconfigure(index, weight=2, minsize=10)
+            heading_label['text'] = heading.upper()
+
+        heading_label.grid(row=0, column=index, pady=5, padx=7, sticky="ew")
+    
+    header_frame.columnconfigure(len(headings), weight=1, minsize=10)
+    return header_frame
+
 def build_loan_results_page():
     page_data = loan_manager_state['current_page'][1]
 
@@ -583,19 +613,22 @@ def build_loan_results_page():
 def build_loan_results_row(master_frame, row_data):
     headings = loan_manager_state['book_headings']
 
-    label_font = tkFont.Font(family="courier", size=13, weight="bold")
+    label_font = tkFont.Font(family="courier", size=12, weight="bold")
 
     row_frame = tk.Frame(master=master_frame, bg="blue")
     row_frame.rowconfigure(0, weight=1, minsize=20)
 
     for index, heading in enumerate(headings):
         row_label = tk.Label(master=row_frame, font=label_font)
-        if heading in  ("book_id", "member_id"):
-            row_frame.columnconfigure(index, weight=2, minsize=10)
+        if heading in ("book_id", "member_id"):
+            row_frame.columnconfigure(index, weight=1, minsize=75)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
         elif heading == "title":
-            row_frame.columnconfigure(index, weight=1, minsize=10)
+            row_frame.columnconfigure(index, weight=0, minsize=10)
             row_label['text'] = format_text(row_data[heading], 35)
+        elif heading == "is_overdue":
+            row_frame.columnconfigure(index, weight=1, minsize=10)
+            row_label['text'] = "Overdue" if row_data[heading] else "On time"
         else:
             row_frame.columnconfigure(index, weight=1, minsize=10)
             row_label['text'] = f"{row_data[heading]}"
