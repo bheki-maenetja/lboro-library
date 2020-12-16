@@ -363,11 +363,11 @@ def get_all_titles():
 def get_used_titles():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of strings representing book titles
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves the unique titles of books that have been checked out
     """
     used_titles = list({ get_book_by_id(log['book_id'])['title'] for log in get_all_logs() })
     return used_titles
@@ -375,11 +375,11 @@ def get_used_titles():
 def get_unused_titles():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of strings representing book titles
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves the unique titles of books that have never been checked out
     """
     unused_set = set.difference(set(get_all_titles()), set(get_used_titles()))
     return list(unused_set)
@@ -387,11 +387,11 @@ def get_unused_titles():
 def get_title_usage():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of tuples with the first element being a string and the second an integer
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function gets all the titles of books that have been checked out and the number checkouts associated with that title
     """
     books_titles = [get_book_by_id(log['book_id'])['title'] for log in get_all_logs()]
     title_usage = [(book, books_titles.count(book)) for book in get_used_titles()]
@@ -401,11 +401,12 @@ def get_title_usage():
 def get_category_usage_data(main_category, sub_categories):
     """
     PARAMATERS
-        *
+        * main_category -> a string representing the main search parameter for finding book titles
+        * sub_categories -> a list of strings that represent sub-categories of the main_category
     RETURN VALUES
-        *
+        * a list of tuples with the first element being a string and the second an integer
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function finds the number of checkouts associated with selected book categories
     """
     data_list = []
     for category in sub_categories:
@@ -422,25 +423,25 @@ def get_category_usage_data(main_category, sub_categories):
 def get_book_usage_data():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of tuples with the first element being a string and the second an integer
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function finds the number of checkouts associated with all used book titles
     """
     book_years = [log['start_date'].split('/')[-1] for log in get_all_logs()]
     book_usage = [(year, book_years.count(year)) for year in set(book_years)]
     return sorted(book_usage, key=lambda x: x[0])
 
-# ============================================================ TESTING ============================================================
+# ================================== TESTING ==================================
 def book_status():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * Tests that all books, books on loan and overdue books can be loaded properly
     """
     try:
         all_books = get_all_books()
@@ -459,11 +460,11 @@ def book_status():
 def title_status():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * Tests that book titles, used titles and unused titles can be loaded properly
     """
     try:
         all_titles = get_all_titles()
@@ -480,11 +481,11 @@ def title_status():
 def run_tests():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * Tests the main functionality aspects of this module
     """
     print("--- Running Tests on database.py ---")
     book_status()
