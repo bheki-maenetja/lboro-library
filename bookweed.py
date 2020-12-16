@@ -41,7 +41,9 @@ non_fiction_categories = [
     "art",
     "social",
     "sports",
-    "biography"
+    "biography",
+    "history",
+    "science",
 ]
 
 fiction_categories = [
