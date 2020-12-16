@@ -8,7 +8,6 @@ import linecache
 
 import os
 
-
 # ============================================================ GLOBAL VARIABLES ============================================================
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database_file = os.path.join(dir_path, "database.txt")
