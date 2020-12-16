@@ -230,7 +230,7 @@ def build_header_row(master_frame, headings):
     header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
     for index, heading in enumerate(headings):
-        heading_label = tk.Label(master=header_frame)
+        heading_label = tk.Label(master=header_frame, bg="red", fg="white")
         if heading in ("id","isbn"):
             header_frame.columnconfigure(index, weight=1, minsize=20)
             heading_label['text'] = heading.upper()
@@ -292,22 +292,25 @@ def build_results_page():
 def build_results_row(master_frame, row_data):
     headings = books_page_state['result_headings']
 
+    label_font = tkFont.Font(family="courier", size=11, weight="bold")
+    status_font = tkFont.Font(family="helvetica", size=13)
+
     row_frame = tk.Frame(master=master_frame, bg="blue")
     row_frame.rowconfigure(0, weight=1, minsize=20)
     
     for index, heading in enumerate(headings):
-        row_label = tk.Label(master=row_frame)
+        row_label = tk.Label(master=row_frame, font=label_font)
         if heading == "id":
             row_frame.columnconfigure(index, weight=0, minsize=20)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
         elif heading == "title":
             row_frame.columnconfigure(index, weight=1, minsize=20)
-            row_label = tk.Label(master=row_frame, text=format_text(row_data[heading], 35), anchor="w")
+            row_label['text'] = format_text(row_data[heading], 35)
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
         elif heading == "author":
             row_frame.columnconfigure(index, weight=1, minsize=20)
-            row_label = tk.Label(master=row_frame, text=format_text(row_data[heading], 20), anchor="w")
+            row_label['text'] = format_text(row_data[heading], 20)
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
         elif heading in ("purchase_date", "isbn"):
             row_frame.columnconfigure(index, weight=0, minsize=20)
@@ -317,6 +320,7 @@ def build_results_row(master_frame, row_data):
             row_frame.columnconfigure(index, weight=0, minsize=20)
             if row_data[heading]:
                 row_label['text'] = f"Unavailable: On loan to {row_data[heading]}"
+                row_label['font'] = status_font
                 row_label.grid(row=0, column=index, pady=5, padx=5, sticky="e")
             else:
                 row_label.destroy()
@@ -335,7 +339,7 @@ def build_results_row(master_frame, row_data):
                 checkout_checkbox.grid(row=0, column=index, pady=5, padx=5, sticky="e")
         else:
             row_frame.columnconfigure(index, weight=1, minsize=20)
-            row_label = tk.Label(master=row_frame, text=row_data[heading], anchor="w")
+            row_label['text'] = row_data[heading]
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
     return row_frame
 
