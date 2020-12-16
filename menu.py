@@ -81,7 +81,7 @@ def build_hero_section(master_frame):
     return hero_section
 
 def build_button_section(master_frame):
-    button_section = tk.Frame(master=master_frame, bg="grey")
+    button_section = tk.Frame(master=master_frame, bg="purple")
     button_info = [
         ('Books', 'blue', lambda e: transition(pages_index=1)), 
         ('Loan Manager', 'green', lambda e: transition(pages_index=2)), 
