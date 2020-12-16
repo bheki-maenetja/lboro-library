@@ -34,7 +34,7 @@ def get_all_books():
 def get_book_by_id(book_id):
     """
     PARAMATERS
-        * book_id -> an integer representing the integer the unique identifier of a book
+        * book_id -> an integer representing the unique identifier of a book
     RETURN VALUES
         * a single dictionary that holds information about a particular book
     WHAT DOES THIS FUNCTION DO?
@@ -49,7 +49,7 @@ def get_book_by_id(book_id):
 def update_book(book_id, book_obj):
     """
     PARAMATERS
-        * book_id -> an integer representing the integer the unique identifier of a book
+        * book_id -> an integer representing the unique identifier of a book
         * book_obj -> a dictionary with the newly updated information of a book
     RETURN VALUES
         * None
@@ -164,7 +164,7 @@ def get_active_logs():
 def get_log_by_id(log_id):
     """
     PARAMATERS
-        * log_id -> an integer representing the integer the unique identifier of a book
+        * log_id -> an integer representing the unique identifier of a book
     RETURN VALUES
         * a single dictionary that holds information about a particular log
     WHAT DOES THIS FUNCTION DO?
@@ -179,7 +179,7 @@ def get_log_by_id(log_id):
 def update_log(log_id, log_obj):
     """
     PARAMATERS
-        * log_id -> an integer representing the integer the unique identifier of a log
+        * log_id -> an integer representing the unique identifier of a log
         * log_obj -> a dictionary with the newly updated information of a log
     RETURN VALUES
         * None
@@ -226,7 +226,7 @@ def get_books_on_loan():
 def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
     """
     PARAMATERS
-        * book_id -> an integer representing the integer the unique identifier of a book
+        * book_id -> an integer representing the unique identifier of a book
         * only_overdue -> a boolean value that determines whether or not only overdue books should be searched
         * only_on_time -> a boolean value that determines whether or not only on time books should be searched
     RETURN VALUES
@@ -247,7 +247,7 @@ def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
 def match_result(book_id, book_obj):
     """
     PARAMATERS
-        * book_id -> an integer representing the integer the unique identifier of a book
+        * book_id -> an integer representing the unique identifier of a book
         * book_obj -> a dictionary that stores the information of a book
     RETURN VALUES
         * a binary tuple with the first element being an integer and the second a dictionary
@@ -266,26 +266,28 @@ def match_result(book_id, book_obj):
 def is_book_overdue(log):
     """
     PARAMATERS
-        *
+        * log -> a dictionary that holds information about a log
     RETURN VALUES
-        *
+        * a boolean value indicating whether a book is overdue
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function uses log information to determine whether a not a book is overdue
     """
     present_day = dt.combine(dt.now(), dt.max.time())
     return_date = dt.combine(dt.strptime(log['return_date'], '%d/%m/%Y'), dt.max.time())
     return return_date < present_day
 
-# ============================================================ CHECKOUT & RETURN ============================================================
-## Checkout ==================================================
+# ============================ CHECKOUTS & RETURN ============================
+## Checkout ==================================================================
 def checkout_book(book_id, member_id, loan_duration):
     """
     PARAMATERS
-        *
+        * book_id -> an integer representing the unique identifier of a book
+        * member_id -> a four digit integer representing the unique identifier of a member
+        * loan_duration -> an integer representing the number of days a book will be loaned out for
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function handles all the file operations associated with checking out a book
     """
     book_obj = get_book_by_id(book_id)
     log_obj = dict()
@@ -305,11 +307,11 @@ def checkout_book(book_id, member_id, loan_duration):
 def get_return_date(loan_duration):
     """
     PARAMATERS
-        *
+        * loan_duration -> an integer representing the number of days a book will be loaned out for
     RETURN VALUES
-        *
+        * a string that represents a date in the future
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function determines the return date for a book that has been loaned out
     """
     present_day = dt.combine(dt.now(), dt.max.time())
     return_date = present_day + timedelta(days=loan_duration)
@@ -318,24 +320,25 @@ def get_return_date(loan_duration):
 def write_log(log):
     """
     PARAMATERS
-        *
+        * log -> a dictionary that holds information about a log
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function writes a new log to the logfile when a book has been checked out
     """
     with open(log_file, 'a') as log_file_handler:
         log_file_handler.write(json.dumps(log) + "\n")
 
-## Return ====================================================
+## Return ====================================================================
 def return_book(log_id, book_id):
     """
     PARAMATERS
-        *
+        * log_id -> an integer representing the unique identifier of a log
+        * book_id -> an integer representing the unique identifier of a book
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function handles all the file operations associated with returning a book
     """
     log_obj, book_obj = get_log_by_id(log_id), get_book_by_id(book_id)
     log_obj['book_returned'] = True
@@ -343,16 +346,16 @@ def return_book(log_id, book_id):
     update_book(book_obj['id'], book_obj)
     update_log(log_obj['id'], log_obj)
 
-# ============================================================ ANALYTICS ============================================================
-## Book Title Data ===========================================
+# ================================= ANALYTICS ================================
+## Book Title Data ===========================================================
 def get_all_titles():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of strings representing book titles
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves all the unique book titles from the database
     """
     unique_titles = list({ book['title'] for book in get_all_books() })
     return unique_titles
