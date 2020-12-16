@@ -219,15 +219,15 @@ def build_category_section(master_frame):
     return category_section
 
 def build_checkout_section(master_frame):
-    checkout_section = tk.Frame(master=master_frame, bg="navy")
+    checkout_section = tk.Frame(master=master_frame, bg="#4169E1")
     checkout_section.rowconfigure(0, weight=1, minsize=10)
     for i in range(6):
         checkout_section.columnconfigure(i, weight=1, minsize=10)
 
-    member_label = tk.Label(master=checkout_section, text="Member ID (# from 1000-9999)")
+    member_label = tk.Label(master=checkout_section, text="Member ID (# from 1000-9999)", bg="#4169E1", fg="white")
     member_entry = tk.Entry(master=checkout_section,  textvariable=books_page_state['member_var'], validate="key", validatecommand=(checkout_section.register(validate_numeric_entry), '%P'))
 
-    duration_label = tk.Label(master=checkout_section, text="Loan duration (# of days)")
+    duration_label = tk.Label(master=checkout_section, text="Loan duration (# of days)", bg="#4169E1", fg="white")
     duration_options = tk.OptionMenu(checkout_section, books_page_state['duration_var'], *[i for i in range(1,11)])
     books_page_state['duration_var'].set(1)
 
@@ -279,10 +279,10 @@ def build_results_section(master_frame):
     results_section.rowconfigure(0, weight=1, minsize=10)
     results_section.columnconfigure(0, weight=1, minsize=10)
     
-    footer_frame = tk.Frame(master=results_section, bg="purple")
+    footer_frame = tk.Frame(master=results_section, bg="navy")
     previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_book_results_page(False))
     next_button = tk.Button(footer_frame, text="Next", command=lambda: change_book_results_page(True))
-    page_label = tk.Label(footer_frame, text="Page")
+    page_label = tk.Label(footer_frame, text="Page", bg="navy", fg="white")
 
     books_page_state['page_label'] = page_label
 
@@ -297,7 +297,7 @@ def build_results_section(master_frame):
 def build_results_page():
     page_data = books_page_state['current_page'][1]
 
-    page_frame = tk.Frame(master=books_page_state['results_section'], bg="yellow")
+    page_frame = tk.Frame(master=books_page_state['results_section'], bg="#4682B4")
     page_frame.columnconfigure(0, weight=1, minsize=1)
 
     for i in range(5):
@@ -312,14 +312,14 @@ def build_results_page():
 def build_results_row(master_frame, row_data):
     headings = books_page_state['result_headings']
 
-    label_font = tkFont.Font(family="courier", size=12, weight="bold")
+    label_font = tkFont.Font(family="monaco", size=12, weight="bold")
     status_font = tkFont.Font(family="helvetica", size=13)
 
-    row_frame = tk.Frame(master=master_frame, bg="blue")
+    row_frame = tk.Frame(master=master_frame, bg="#87CEEB")
     row_frame.rowconfigure(0, weight=1, minsize=20)
     
     for index, heading in enumerate(headings):
-        row_label = tk.Label(master=row_frame, font=label_font)
+        row_label = tk.Label(master=row_frame, font=label_font, bg="#B0E0E6", fg="navy")
         if heading == "id":
             row_frame.columnconfigure(index, weight=0, minsize=20)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
