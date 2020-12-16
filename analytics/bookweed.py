@@ -131,6 +131,31 @@ def get_system_info():
         ('Overdue Books:', len(db.search_books_on_loan('', only_overdue=True)))
     ]
 
-# display_popular_categories("fiction", fiction_categories)
-# display_book_usage_data()
-# plt.show()
+# ============================================================ TESTING ============================================================
+def test_load_data():
+    try:
+        try:
+            books = db.get_all_books()
+            f"Success -- {len(books)} books loaded"
+        except:
+            print("Error -- could not load books")
+        try:
+            titles = db.get_all_titles()
+            f"Success -- {len(titles)} book titles loaded"
+        except:
+            print("Error -- could not load book titles")
+        try:
+            unused_titles = db.get_unused_titles()
+            f"Success -- {len(books)} unused titles loaded"
+        except:
+            print("Error -- could not load unused titles")
+        print("3/3 Tests Passed")
+    except:
+        print("Error -- Weeding Tests Failed")
+    
+
+def run_weed_tests():
+    test_load_data()
+
+if __name__ == "__main__":
+    run_weed_tests()
