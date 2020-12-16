@@ -769,12 +769,8 @@ def set_unused_titles():
 # ==================================================================================== SYSTEM INFO PAGES ====================================================================================
 ## System Info Page State Variables ==================================================
 system_info_state = {
-    'info_list' : [
-        ('Total Books:', 5000),
-        ('Total Unique Titles:', 2421),
-        ('Books on Loan:', 643),
-        ('Overdue Books:', 122),
-    ]
+    'info_list' : [],
+    'current_info_box': None,
 }
 
 ## System Info UI Components =========================================================
@@ -783,6 +779,7 @@ def build_system_info_page(master_frame):
     system_info_page.columnconfigure(0, weight=1, minsize=10)
     system_info_page.rowconfigure(0, weight=1, minsize=10)
 
+    set_system_info()
     info_box = build_info_box(system_info_page)
 
     info_box.grid(row=0, column=0)
@@ -805,6 +802,8 @@ def build_info_box(master_frame):
     return info_box
 
 ## System Info Functionality =========================================================
+def set_system_info():
+    system_info_state['info_list'] = bw.get_system_info()
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================

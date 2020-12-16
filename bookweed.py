@@ -117,6 +117,10 @@ def get_unused_titles():
 # ============================================================ SYSTEM INFO ============================================================
 def get_system_info():
     return [
+        ('Version:', '5.1.2'),
+        ('Administrator:', 'Loughborough University'),
+        ('Library Operator:', 'Pilkington Library'),
+        ('User:', 'Firat Batmaz'),
         ('Total Books:', len(db.get_all_books())),
         ('Total Unique Titles:', len(db.get_all_titles())),
         ('Books on Loan:', len(db.get_books_on_loan())),
