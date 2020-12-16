@@ -658,8 +658,8 @@ analytics_page_state = {
         ('Most Popular Titles', lambda: change_current_figure(1)),
         ('Least Popular Titles', lambda: change_current_figure(2)),
         ('Unused Titles', lambda: change_current_figure(0)),
-        ('Most Popular Categories\n(Non-Fiction)', lambda: change_current_figure(3)),
-        ('Most Popular Categories\n(Fiction)',lambda: change_current_figure(4)),
+        ('Popular Categories\n(Non-Fiction)', lambda: change_current_figure(3)),
+        ('Popular Categories\n(Fiction)',lambda: change_current_figure(4)),
         ('Book Usage Over Time', lambda: change_current_figure(5))
     ],
     'data_graphs' : {
@@ -764,6 +764,13 @@ def clear_current_figure():
 
 def set_unused_titles():
     analytics_page_state['unused_titles'] = bw.get_unused_titles()
+
+# ==================================================================================== SYSTEM INFO PAGES ====================================================================================
+## System Info Page State Variables ==================================================
+system_info_state = {}
+
+## System Info UI Components =========================================================
+## System Info Functionality =========================================================
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
