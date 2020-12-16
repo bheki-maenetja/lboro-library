@@ -48,7 +48,8 @@ fiction_categories = [
     "horror",
     "fantasy",
     "sci-fi",
-    "adventure"
+    "adventure",
+    "drama"
 ]
 
 def display_popular_categories(main_category, sub_categories):
