@@ -245,10 +245,12 @@ def build_checkout_section(master_frame):
     return checkout_section
 
 def build_header_row(master_frame, headings):
-    header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
+    heading_font = tkFont.Font(weight="bold")
+
+    header_frame = tk.Frame(master=master_frame, bg="navy", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
     for index, heading in enumerate(headings):
-        heading_label = tk.Label(master=header_frame, bg="red", fg="white")
+        heading_label = tk.Label(master=header_frame, bg="navy", fg="white", font=heading_font)
         if heading in ("id","isbn"):
             header_frame.columnconfigure(index, weight=1, minsize=20)
             heading_label['text'] = heading.upper()
