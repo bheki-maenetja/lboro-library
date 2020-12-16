@@ -29,7 +29,6 @@ def get_book_by_id(book_id): # returns a book based on its id
         return json.loads(book_str)
     except:
         print('something went wrong...')
-    # database.close()
 
 def update_book(book_id, book_obj): # updates a book
     try:
@@ -40,7 +39,7 @@ def update_book(book_id, book_obj): # updates a book
             else:
                 print(json.dumps(book_dict))
     except:
-        print('something went wrong...')
+        print('Error -- Could not update book record')
 
 ## Searching for books =======================================
 def search_books(search_phrase, categories=None): # returns books based on search parameters
@@ -85,7 +84,7 @@ def get_all_logs(sort_by_date=False):
             log_index.sort(key=lambda x: dt.strptime(x['return_date'], '%d/%m/%Y'), reverse=True)
         return log_index
     except Exception as err:
-        print('Something went wrong...\n', err)
+        print('Error could retrieve log data\n', err)
     log_data.close()
 
 def get_active_logs():
@@ -97,7 +96,7 @@ def get_log_by_id(log_id):
         log_str = linecache.getline(log_file, log_id)
         return json.loads(log_str)
     except:
-        print('something went wrong...')
+        print('Error -- Could not get log of transaction')
 
 def update_log(log_id, log_obj):
     try:
@@ -108,7 +107,7 @@ def update_log(log_id, log_obj):
             else:
                 print(json.dumps(log_dict))
     except:
-        print('something went wrong...')
+        print('Error -- Could not update transaction log')
 
 ## Book Processing ==========================================
 def get_books_on_loan():

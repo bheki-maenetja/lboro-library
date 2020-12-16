@@ -45,6 +45,9 @@ def format_text(input_str, standard_length):
     elif str_len < standard_length:
         return input_str + " "*(standard_length - str_len)
 
+def validate_numeric_entry(val):
+    return re.match('^[0-9]*$', val) is not None and len(val) < 5
+
 # ======================================================================================== PAGE CONTAINER ========================================================================================
 ## The Main Page Container ===============================================================
 def build_page_container():
@@ -203,7 +206,6 @@ def build_category_section(master_frame):
         for j in range(4):
             category_section.rowconfigure(j, weight=1, minsize=30)
             index = i + 4*j
-            print(index)
             new_checkbox = tk.Checkbutton(
                 master=category_section, 
                 text=books_page_state['book_categories'][index][0], 
@@ -371,8 +373,6 @@ def book_search_handler(search_phrase):
         books_page_state['current_page'][2].destroy()
 
     search_results = bs.search_handler(search_phrase, books_page_state['selected_categories'])
-    # for key in search_results:
-    #     print(f"Page {key}:", search_results[key], sep="\n")
 
     if search_results:
         current_page = [0, search_results[0], None]
@@ -445,7 +445,6 @@ def select_for_checkout(book_id):
     elif checkout_books and not pre_existing_books:
         books_page_state['checkout_form'].grid()
     
-    print(checkout_books)
     books_page_state['checkout_books'] = checkout_books
 
 def clear_selected_books():
@@ -456,9 +455,6 @@ def clear_selected_books():
     books_page_state['member_var'].set('')
     books_page_state['duration_var'].set(1)
     build_results_page()
-
-def validate_numeric_entry(val):
-    return re.match('^[0-9]*$', val) is not None and len(val) < 5
 
 # ===================================================================================== LOAN MANAGER PAGE =====================================================================================
 ## Loan Manager State Variables =======================================================
@@ -677,8 +673,6 @@ def loan_book_search_handler(search_phrase):
         loan_manager_state['current_page'][2].destroy()
             
     search_results = bs.loan_search_handler(search_phrase, only_on_time=show_on_time_books, only_overdue=show_overdue_books)
-    # for key in search_results:
-    #     print(f"Page {key}:", search_results[key], sep="\n")
 
     if search_results:
         current_page = [0, search_results[0], None]
@@ -731,7 +725,6 @@ def select_for_return(log_id, book_id):
     elif loan_manager_state and not pre_existing_books:
         loan_manager_state['return_form'].grid()
     
-    print(selected_books)
     loan_manager_state['return_books'] = selected_books
 
 def clear_selected_loan_books():
@@ -858,7 +851,6 @@ def change_current_figure(index):
 
 def clear_current_figure():
     current_figure = analytics_page_state['current_figure']
-    print(current_figure)
 
     if current_figure:
         current_figure.grid_remove()
@@ -934,8 +926,6 @@ def page_change():
         build_unused_titles_page()
     elif selected_tab == 4:
         set_system_info()
-    else:
-        print(selected_tab)
 
 def transition(to_home=False, pages_index=1):
     if not to_home:
@@ -946,7 +936,6 @@ def transition(to_home=False, pages_index=1):
     else:
         page_manager['pages_section'].pack_forget()
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
-
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
