@@ -227,29 +227,39 @@ def get_book_usage_data():
     book_usage = [(year, book_years.count(year)) for year in set(book_years)]
     return sorted(book_usage, key=lambda x: x[0])
 
-# ============================================================ UTILITY FUNCTIONS ============================================================
+# ============================================================ TESTING ============================================================
 def book_status():
-    books = get_books_on_loan()
-    overdue_books = [book for book in books if book['is_overdue']]
-    on_time_books = [book for book in books if not book['is_overdue']]
-    input("Books on loan >>> ")
-    for i in on_time_books:
-        print(i)
-    input("Overdue Books >>> ")
-    for i in overdue_books:
-        print(i)
+    try:
+        all_books = get_all_books()
+        on_loan_books = get_books_on_loan()
+        overdue_books = [book for book in on_loan_books if book['is_overdue']]
+        on_time_books = [book for book in on_loan_books if not book['is_overdue']]
+        print(f"\nBooks successfully loaded. Test passed")
+        print("--- STATUS OF BOOKS ---")
+        print(f"Total Books: {len(all_books)}")
+        print(f"Books on loan: {len(on_loan_books)}")
+        print(f"Books on time: {len(on_time_books)}")
+        print(f"Books on overdue: {len(overdue_books)}")
+    except:
+        print("Error -- Could not load books")
 
 def title_status():
-    all_titles = get_all_titles()
-    used_titles = get_used_titles()
-    unused_titles = get_unused_titles()
-    print(f"Used titles: {len(used_titles)}", f"Unused titles {len(unused_titles)}", f"Total titles: {len(all_titles)}", sep="\n")
+    try:
+        all_titles = get_all_titles()
+        used_titles = get_used_titles()
+        unused_titles = get_unused_titles()
+        print(f"\nBook titles successfully loaded. Test passed")
+        print("--- STATUS OF UNIQUE BOOK TITLES ---")
+        print(f"Used titles: {len(used_titles)}")
+        print(f"Unused titles {len(unused_titles)}")
+        print(f"Total titles: {len(all_titles)}")
+    except:
+        print("Error -- Could not retrieve book titles")
 
-# usage_data = get_title_usage()
-# for i in usage_data:
-#     print(i)
-# book_status()
-# input("returning book >>> ")
-# loan_obj = get_loan_object()
-# return_book(loan_obj['on-loan'][0])
-# book_status()
+def run_tests():
+    print("--- Running Tests on database.py ---")
+    book_status()
+    title_status()
+
+if __name__ == "__main__":
+    run_tests()
