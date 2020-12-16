@@ -501,14 +501,14 @@ def build_loan_manager_page(master_frame):
     return loan_manager_page
 
 def build_selector_section(master_frame):
-    selector_section = tk.Frame(master=master_frame, bg="#3CB371")
+    selector_section = tk.Frame(master=master_frame, bg="#2E8B57")
     selector_section.rowconfigure(0, weight=1, minsize=10)
     for i in range(3):
         selector_section.columnconfigure(i, weight=1, minsize=10)
     
-    all_books_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show All Books", value=1, bg="#3CB371", fg="white")
-    on_loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show On-time Books", value=2, bg="#3CB371", fg="white")
-    overdue_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show Overdue Books", value=3, bg="#3CB371", fg="white")
+    all_books_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show All Books", value=1, bg="#2E8B57", fg="white")
+    on_loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show On-time Books", value=2, bg="#2E8B57", fg="white")
+    overdue_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show Overdue Books", value=3, bg="#2E8B57", fg="white")
 
     loan_manager_state['selector_var'].set(1)
 
@@ -519,12 +519,12 @@ def build_selector_section(master_frame):
     return selector_section
 
 def build_search_form(master_frame):
-    search_form = tk.Frame(master=master_frame, bg="#2E8B57")
+    search_form = tk.Frame(master=master_frame, bg="#3CB371")
     search_form.rowconfigure(0, weight=1, minsize=10)
     for i in range(3):
         search_form.columnconfigure(i, weight=1, minsize=10)
 
-    search_id_label = tk.Label(master=search_form, text="Search by Book ID", bg="#2E8B57", fg="white")
+    search_id_label = tk.Label(master=search_form, text="Search by Book ID", bg="#3CB371", fg="white")
     id_entry = tk.Entry(master=search_form, textvariable=loan_manager_state['search_var'], validate="key", validatecommand=(search_form.register(validate_numeric_entry), '%P'))
 
     return_form = build_return_form(search_form)
@@ -570,11 +570,13 @@ def build_results_container(master_frame):
     return results_container
 
 def build_loan_header_row(master_frame, headings):
-    header_frame = tk.Frame(master=master_frame, bg="red", relief=tk.RAISED)
+    header_frame = tk.Frame(master=master_frame, bg="#004517", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
 
+    heading_font = tkFont.Font(weight="bold")
+
     for index, heading in enumerate(headings):
-        heading_label = tk.Label(master=header_frame, bg="red", fg="white")
+        heading_label = tk.Label(master=header_frame, bg="#004517", fg="white", font=heading_font)
         if heading in ("book_id","member_id"):
             header_frame.columnconfigure(index, weight=0, minsize=10)
             heading_label['text'] = " ".join(heading.split("_")).upper()
