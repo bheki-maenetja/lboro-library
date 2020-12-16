@@ -241,7 +241,7 @@ def build_header_row(master_frame, headings):
             heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
         elif heading == "purchase_date":
             header_frame.columnconfigure(index, weight=0, minsize=20)
-            heading_label['anchor'] = "w"
+            heading_label['anchor'] = "e"
             heading_label['text'] = "PURCHASE DATE"
             heading_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
         elif heading == "member_id":
