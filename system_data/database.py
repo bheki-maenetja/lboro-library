@@ -234,7 +234,7 @@ def book_status():
         on_loan_books = get_books_on_loan()
         overdue_books = [book for book in on_loan_books if book['is_overdue']]
         on_time_books = [book for book in on_loan_books if not book['is_overdue']]
-        print(f"\nBooks successfully loaded. Test passed")
+        print(f"\nBooks successfully loaded. Test passed.")
         print("--- STATUS OF BOOKS ---")
         print(f"Total Books: {len(all_books)}")
         print(f"Books on loan: {len(on_loan_books)}")
@@ -248,7 +248,7 @@ def title_status():
         all_titles = get_all_titles()
         used_titles = get_used_titles()
         unused_titles = get_unused_titles()
-        print(f"\nBook titles successfully loaded. Test passed")
+        print(f"\nBook titles successfully loaded. Test passed.")
         print("--- STATUS OF UNIQUE BOOK TITLES ---")
         print(f"Used titles: {len(used_titles)}")
         print(f"Unused titles {len(unused_titles)}")
