@@ -308,7 +308,7 @@ def build_results_page():
 def build_results_row(master_frame, row_data):
     headings = books_page_state['result_headings']
 
-    label_font = tkFont.Font(family="courier", size=11, weight="bold")
+    label_font = tkFont.Font(family="courier", size=12, weight="bold")
     status_font = tkFont.Font(family="helvetica", size=13)
 
     row_frame = tk.Frame(master=master_frame, bg="blue")
