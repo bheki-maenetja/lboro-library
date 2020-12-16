@@ -38,7 +38,7 @@ def get_book_by_id(book_id):
     RETURN VALUES
         * a single dictionary that holds information about a particular book
     WHAT DOES THIS FUNCTION DO?
-        * This function locates the information an indivdual book in the database and returns it
+        * This function locates the information of an indivdual book in the database and returns it
     """
     try:
         book_str = linecache.getline(database_file, book_id)
@@ -152,11 +152,11 @@ def get_all_logs(sort_by_date=False):
 def get_active_logs():
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of dictionaries with each dictionary holding information about an indivdual log
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves the log information of all books that are currently on loan
     """
     log_index = get_all_logs(True)
     return [log for log in log_index if log['book_returned'] == False]
@@ -164,11 +164,11 @@ def get_active_logs():
 def get_log_by_id(log_id):
     """
     PARAMATERS
-        *
+        * log_id -> an integer representing the integer the unique identifier of a book
     RETURN VALUES
-        *
+        * a single dictionary that holds information about a particular log
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function locates the information of an indivdual log in the logfile and returns it
     """
     try:
         log_str = linecache.getline(log_file, log_id)
@@ -179,11 +179,12 @@ def get_log_by_id(log_id):
 def update_log(log_id, log_obj):
     """
     PARAMATERS
-        *
+        * log_id -> an integer representing the integer the unique identifier of a log
+        * log_obj -> a dictionary with the newly updated information of a log
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function locates a log in the logfile and updates its information
     """
     try:
         for log in fileinput.input(log_file, inplace=True):
