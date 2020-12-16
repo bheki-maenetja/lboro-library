@@ -770,6 +770,7 @@ def set_unused_titles():
 ## System Info Page State Variables ==================================================
 system_info_state = {
     'info_list' : [],
+    'system_info_page': None,
     'current_info_box': None,
 }
 
@@ -779,14 +780,17 @@ def build_system_info_page(master_frame):
     system_info_page.columnconfigure(0, weight=1, minsize=10)
     system_info_page.rowconfigure(0, weight=1, minsize=10)
 
-    set_system_info()
-    info_box = build_info_box(system_info_page)
+    system_info_state['system_info_page'] = system_info_page
 
-    info_box.grid(row=0, column=0)
+    set_system_info()
 
     return system_info_page
 
 def build_info_box(master_frame):
+    current_info_box = system_info_state['current_info_box']
+    if current_info_box:
+        current_info_box.destroy()
+
     info_box = tk.Frame(master=master_frame, bg="navy")
     info_box.columnconfigure(0, weight=1, minsize=10)
     info_box.rowconfigure(0, weight=1, minsize=10)
@@ -799,11 +803,13 @@ def build_info_box(master_frame):
         new_label = tk.Label(master=info_box, text=f"{tup[0]} {tup[1]}", anchor="w")
         new_label.grid(column=0, row=i+1, sticky="news")
     
-    return info_box
+    info_box.grid(row=0, column=0)
+    system_info_state['current_info_box'] = info_box
 
 ## System Info Functionality =========================================================
 def set_system_info():
     system_info_state['info_list'] = bw.get_system_info()
+    build_info_box(system_info_state['system_info_page'])
 
 # ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
 ### Assignments/function calls =======================================================
@@ -826,6 +832,8 @@ def page_change():
         set_unused_titles()
         build_figures()
         build_unused_titles_page()
+    elif selected_tab == 4:
+        set_system_info()
     else:
         print(selected_tab)
 
