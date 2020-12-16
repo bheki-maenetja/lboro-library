@@ -180,8 +180,8 @@ def get_return_date(loan_duration):
     return dt.strftime(return_date, '%d/%m/%Y')
 
 def write_log(log):
-    with open('logfile.txt', 'a') as log_file:
-        log_file.write(json.dumps(log) + "\n")
+    with open(log_file, 'a') as log_file_handler:
+        log_file_handler.write(json.dumps(log) + "\n")
 
 ## Return ====================================================
 def return_book(log_id, book_id):
