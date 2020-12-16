@@ -21,9 +21,10 @@ import bookweed as bw
 root = tk.Tk()
 root.title('Loughborough Library Management System')
 root.geometry('900x630')
-root.minsize(900, 630)
-root.maxsize(1350, 945)
-root.aspect(10,7,10,7)
+root.resizable(False, False)
+# root.minsize(900, 630)
+# root.maxsize(1350, 945)
+# root.aspect(10,7,10,7)
 
 ## Global Variables =============================================================
 page_manager = dict()
@@ -281,11 +282,20 @@ def build_results_row(master_frame, row_data):
             row_frame.columnconfigure(index, weight=0, minsize=20)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
+        elif heading == "title":
+            row_frame.columnconfigure(index, weight=1, minsize=20)
+            row_label = tk.Label(master=row_frame, text=format_text(row_data[heading], 35), anchor="w")
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
+        elif heading == "author":
+            row_frame.columnconfigure(index, weight=1, minsize=20)
+            row_label = tk.Label(master=row_frame, text=format_text(row_data[heading], 20), anchor="w")
+            row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
         elif heading in ("purchase_date", "isbn"):
             row_frame.columnconfigure(index, weight=0, minsize=20)
             row_label['text'] = row_data[heading]
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
         elif heading == "member_id":
+            row_frame.columnconfigure(index, weight=0, minsize=20)
             if row_data[heading]:
                 row_label['text'] = f"Unavailable: On loan to {row_data[heading]}"
                 row_label.grid(row=0, column=index, pady=5, padx=5, sticky="e")
@@ -856,6 +866,15 @@ def alert(message, is_error=True):
         messagebox.showwarning(message=message)
     else:
         messagebox.showinfo(message=message)
+
+def format_text(input_str, standard_length):
+    str_len = len(input_str)
+    if str_len == standard_length:
+        return input_str
+    elif str_len > standard_length:
+        return input_str[:standard_length - 3] + "..."
+    elif str_len < standard_length:
+        return input_str + "*"*(standard_length - str_len) 
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
