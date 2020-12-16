@@ -785,6 +785,7 @@ def page_change():
         clear_current_figure()
         set_unused_titles()
         build_figures()
+        build_unused_titles_page()
     else:
         print(selected_tab)
 
