@@ -29,6 +29,22 @@ root.resizable(False, False)
 ## Global Variables =============================================================
 page_manager = dict()
 
+# ===================================================================================== UTILITY FUNCTIONS =====================================================================================
+def alert(message, is_error=True):
+    if is_error:
+        messagebox.showwarning(message=message)
+    else:
+        messagebox.showinfo(message=message)
+
+def format_text(input_str, standard_length):
+    str_len = len(input_str)
+    if str_len == standard_length:
+        return input_str
+    elif str_len > standard_length:
+        return input_str[:standard_length - 3] + "..."
+    elif str_len < standard_length:
+        return input_str + " "*(standard_length - str_len)
+
 # ======================================================================================== PAGE CONTAINER ========================================================================================
 ## The Main Page Container ===============================================================
 def build_page_container():
@@ -554,8 +570,11 @@ def build_loan_results_page():
 
     page_frame = tk.Frame(master=loan_manager_state['results_container'], bg="yellow")
     page_frame.columnconfigure(0, weight=1, minsize=1)
-    for i, row in enumerate(page_data):
+
+    for i in range(10):
         page_frame.rowconfigure(i, weight=1, minsize=1)
+
+    for i, row in enumerate(page_data):
         new_row = build_loan_results_row(page_frame, row)
         new_row.grid(row=i, column=0, padx=5, pady=3, sticky="nesw")
     page_frame.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
@@ -564,15 +583,21 @@ def build_loan_results_page():
 def build_loan_results_row(master_frame, row_data):
     headings = loan_manager_state['book_headings']
 
+    label_font = tkFont.Font(family="courier", size=13, weight="bold")
+
     row_frame = tk.Frame(master=master_frame, bg="blue")
     row_frame.rowconfigure(0, weight=1, minsize=20)
 
     for index, heading in enumerate(headings):
-        row_frame.columnconfigure(index, weight=1, minsize=10)
-        row_label = tk.Label(master=row_frame)
-        if heading == "book_id":
+        row_label = tk.Label(master=row_frame, font=label_font)
+        if heading in  ("book_id", "member_id"):
+            row_frame.columnconfigure(index, weight=2, minsize=10)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
+        elif heading == "title":
+            row_frame.columnconfigure(index, weight=1, minsize=10)
+            row_label['text'] = format_text(row_data[heading], 35)
         else:
+            row_frame.columnconfigure(index, weight=1, minsize=10)
             row_label['text'] = f"{row_data[heading]}"
         row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
     
@@ -883,21 +908,6 @@ def transition(to_home=False, pages_index=1):
         page_manager['pages_section'].pack_forget()
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
-# ===================================================================================== UTILITY FUNCTIONS =====================================================================================
-def alert(message, is_error=True):
-    if is_error:
-        messagebox.showwarning(message=message)
-    else:
-        messagebox.showinfo(message=message)
-
-def format_text(input_str, standard_length):
-    str_len = len(input_str)
-    if str_len == standard_length:
-        return input_str
-    elif str_len > standard_length:
-        return input_str[:standard_length - 3] + "..."
-    elif str_len < standard_length:
-        return input_str + " "*(standard_length - str_len) 
 
 # ======================================================================================= FUNCTION CALLS =======================================================================================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
