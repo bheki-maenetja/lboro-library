@@ -28,7 +28,6 @@ def display_popular_titles(result_size=10, display_most_popular=True):
         fontsize='x-small'  
     )
 
-
     plt.tight_layout()
     return new_figure
 
