@@ -16,6 +16,14 @@ log_file = os.path.join(dir_path, "logfile.txt")
 # ============================================================ BOOKS ============================================================
 ## Getting & Updating Books from file ========================
 def get_all_books(): # return all books in the database
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         database = open(database_file, "r")
         return [json.loads(book) for book in database]
@@ -24,6 +32,14 @@ def get_all_books(): # return all books in the database
     database.close()
 
 def get_book_by_id(book_id): # returns a book based on its id
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         book_str = linecache.getline(database_file, book_id)
         return json.loads(book_str)
@@ -31,6 +47,14 @@ def get_book_by_id(book_id): # returns a book based on its id
         print('something went wrong...')
 
 def update_book(book_id, book_obj): # updates a book
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         for book in fileinput.input(database_file, inplace=True):
             book_dict = json.loads(book)
@@ -57,11 +81,27 @@ def search_books(search_phrase, categories=None): # returns books based on searc
     return sorted([result for result in search_results if result != None], key=lambda x: x[0])
 
 def category_match(book_index, selected_categories=None): # filters books based on selected categories
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     if selected_categories == None:
         return book_index
     return [book for book in book_index if set(selected_categories).issubset(set(book['category']))]
 
 def result_match(book_obj, search_phrase, categories): # filters books based on search string
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     book_title = book_obj['title'].lower().strip()
     search_phrase = search_phrase.lower().strip()
     
@@ -77,6 +117,14 @@ def result_match(book_obj, search_phrase, categories): # filters books based on 
 # ============================================================ LOGS & BOOKS ON LOAN ============================================================
 ## Log Processing ============================================
 def get_all_logs(sort_by_date=False):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         log_data = open(log_file, "r")
         log_index = [json.loads(log) for log in log_data]
@@ -88,10 +136,26 @@ def get_all_logs(sort_by_date=False):
     log_data.close()
 
 def get_active_logs():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     log_index = get_all_logs(True)
     return [log for log in log_index if log['book_returned'] == False]
 
 def get_log_by_id(log_id):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         log_str = linecache.getline(log_file, log_id)
         return json.loads(log_str)
@@ -99,6 +163,14 @@ def get_log_by_id(log_id):
         print('Error -- Could not get log of transaction')
 
 def update_log(log_id, log_obj):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         for log in fileinput.input(log_file, inplace=True):
             log_dict = json.loads(log)
@@ -111,6 +183,14 @@ def update_log(log_id, log_obj):
 
 ## Book Processing ==========================================
 def get_books_on_loan():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     books_on_loan = []
     active_logs = get_active_logs()
     for log in active_logs:
@@ -129,6 +209,14 @@ def get_books_on_loan():
     return books_on_loan
 
 def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     all_books_on_loan = get_books_on_loan()
     if only_overdue:
         search_results = [match_result(book_id, book) for book in all_books_on_loan if is_book_overdue(book)]
@@ -140,6 +228,14 @@ def search_books_on_loan(book_id, only_overdue=False, only_on_time=False):
     return sorted([result for result in search_results if result != None], key=lambda x: x[0])
 
 def match_result(book_id, book_obj):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     id_string = f"{str(book_obj['book_id']).strip()}".zfill(4)
 
     if book_id == '':
@@ -150,6 +246,14 @@ def match_result(book_id, book_obj):
         return (2, book_obj)
 
 def is_book_overdue(log):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     present_day = dt.combine(dt.now(), dt.max.time())
     return_date = dt.combine(dt.strptime(log['return_date'], '%d/%m/%Y'), dt.max.time())
     return return_date < present_day
@@ -157,6 +261,14 @@ def is_book_overdue(log):
 # ============================================================ CHECKOUT & RETURN ============================================================
 ## Checkout ==================================================
 def checkout_book(book_id, member_id, loan_duration):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     book_obj = get_book_by_id(book_id)
     log_obj = dict()
 
@@ -173,16 +285,40 @@ def checkout_book(book_id, member_id, loan_duration):
     write_log(log_obj)
 
 def get_return_date(loan_duration):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     present_day = dt.combine(dt.now(), dt.max.time())
     return_date = present_day + timedelta(days=loan_duration)
     return dt.strftime(return_date, '%d/%m/%Y')
 
 def write_log(log):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     with open(log_file, 'a') as log_file_handler:
         log_file_handler.write(json.dumps(log) + "\n")
 
 ## Return ====================================================
 def return_book(log_id, book_id):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     log_obj, book_obj = get_log_by_id(log_id), get_book_by_id(book_id)
     log_obj['book_returned'] = True
     book_obj['member_id'] = None
@@ -192,24 +328,64 @@ def return_book(log_id, book_id):
 # ============================================================ ANALYTICS ============================================================
 ## Book Title Data ===========================================
 def get_all_titles():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     unique_titles = list({ book['title'] for book in get_all_books() })
     return unique_titles
 
 def get_used_titles():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     used_titles = list({ get_book_by_id(log['book_id'])['title'] for log in get_all_logs() })
     return used_titles
 
 def get_unused_titles():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     unused_set = set.difference(set(get_all_titles()), set(get_used_titles()))
     return list(unused_set)
 
 def get_title_usage():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     books_titles = [get_book_by_id(log['book_id'])['title'] for log in get_all_logs()]
     title_usage = [(book, books_titles.count(book)) for book in get_used_titles()]
     return sorted(title_usage, key=lambda x: x[1], reverse=True)
 
 ## Book Category Data ========================================
 def get_category_usage_data(main_category, sub_categories):
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     data_list = []
     for category in sub_categories:
         usage_count = 0
@@ -223,12 +399,28 @@ def get_category_usage_data(main_category, sub_categories):
 
 ## Book Usage Data ===========================================
 def get_book_usage_data():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     book_years = [log['start_date'].split('/')[-1] for log in get_all_logs()]
     book_usage = [(year, book_years.count(year)) for year in set(book_years)]
     return sorted(book_usage, key=lambda x: x[0])
 
 # ============================================================ TESTING ============================================================
 def book_status():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         all_books = get_all_books()
         on_loan_books = get_books_on_loan()
@@ -244,6 +436,14 @@ def book_status():
         print("Error -- Could not load books")
 
 def title_status():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         all_titles = get_all_titles()
         used_titles = get_used_titles()
@@ -257,6 +457,14 @@ def title_status():
         print("Error -- Could not retrieve book titles")
 
 def run_tests():
+    """
+    PARAMATERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     print("--- Running Tests on database.py ---")
     book_status()
     title_status()
