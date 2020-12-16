@@ -793,19 +793,19 @@ def build_analytics_page(master_frame):
     return analytics_page
 
 def build_sidebar(master_frame):
-    sidebar = tk.Frame(master=master_frame, bg="grey")
+    sidebar = tk.Frame(master=master_frame, bg="#FF4500")
     sidebar.columnconfigure(0, weight=1, minsize=10)
     btn_labels = analytics_page_state['sidebar_btn_labels']
 
     for i, btn_tup in enumerate(btn_labels):
         sidebar.rowconfigure(i, weight=1, minsize=10)
-        new_button = tk.Button(master=sidebar, text=btn_tup[0], command=btn_tup[1])
+        new_button = tk.Button(master=sidebar, text=btn_tup[0], command=btn_tup[1], bg="orange", fg="black")
         new_button.grid(row=i, column=0, sticky="news", padx=10, pady=10)
 
     return sidebar
 
 def build_figure_frame(master_frame):
-    figure_frame = tk.Frame(master=master_frame, bg="purple")
+    figure_frame = tk.Frame(master=master_frame, bg="#FFFACD")
     figure_frame.rowconfigure(0, weight=1, minsize=1)
     figure_frame.columnconfigure(0, weight=1, minsize=1)
     return figure_frame
