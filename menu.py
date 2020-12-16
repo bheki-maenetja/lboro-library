@@ -186,8 +186,8 @@ def build_books_page(master_frame):
 
 def build_search_section(master_frame):
     global search_bar
-    search_section = tk.Frame(master=master_frame, bg="darkgrey")
-    search_bar = tk.Entry(master=search_section, textvariable=books_page_state['search_var'])
+    search_section = tk.Frame(master=master_frame, bg="#6495ED")
+    search_bar = tk.Entry(master=search_section, textvariable=books_page_state['search_var'], bg="blue", fg="white")
     search_button = tk.Button(master=search_section, text="Search")
     search_bar.pack(fill=tk.X, expand=3, side=tk.LEFT)
     search_button.pack(fill=tk.X, expand=1, side=tk.LEFT)
@@ -195,7 +195,7 @@ def build_search_section(master_frame):
     return search_section
 
 def build_category_section(master_frame):
-    category_section = tk.Frame(master_frame, bg="grey")
+    category_section = tk.Frame(master_frame, bg="#6495ED")
 
     for i in range(4):
         category_section.columnconfigure(i, weight=1, minsize=70)
@@ -208,7 +208,8 @@ def build_category_section(master_frame):
                 text=books_page_state['book_categories'][index][0], 
                 onvalue="on", 
                 offvalue="off", 
-                bg="green", 
+                bg="#6495ED",
+                fg="white", 
                 command=books_page_state['book_categories'][index][1]
             )
             new_checkbox.deselect()
