@@ -18,11 +18,11 @@ log_file = os.path.join(dir_path, "logfile.txt")
 def get_all_books(): # return all books in the database
     """
     PARAMATERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of dictionaries with each dictionary holding information about an indivdual book
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves all book information in the database.txt file an returns it as a list
     """
     try:
         database = open(database_file, "r")
@@ -34,11 +34,11 @@ def get_all_books(): # return all books in the database
 def get_book_by_id(book_id): # returns a book based on its id
     """
     PARAMATERS
-        *
+        * book_id -> an integer representing the integer the unique identifier of a book
     RETURN VALUES
-        *
+        * a single dictionary that holds information about a particular book
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function locates the information an indivdual book in the database and returns it
     """
     try:
         book_str = linecache.getline(database_file, book_id)
@@ -49,11 +49,12 @@ def get_book_by_id(book_id): # returns a book based on its id
 def update_book(book_id, book_obj): # updates a book
     """
     PARAMATERS
-        *
+        * book_id -> an integer representing the integer the unique identifier of a book
+        * book_obj -> a dictionary with the newly updated information of a book
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function locates a book in the database (according to book_id) and updates its information
     """
     try:
         for book in fileinput.input(database_file, inplace=True):
