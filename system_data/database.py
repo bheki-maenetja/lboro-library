@@ -8,21 +8,21 @@ import linecache
 
 import os
 
-# ============================================================ GLOBAL VARIABLES ============================================================
+# ============================= GLOBAL VARIABLES =============================
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database_file = os.path.join(dir_path, "database.txt")
 log_file = os.path.join(dir_path, "logfile.txt")
 
-# ============================================================ BOOKS ============================================================
+# =================================== BOOKS ===================================
 ## Getting & Updating Books from file ========================
-def get_all_books(): # return all books in the database
+def get_all_books():
     """
     PARAMATERS
         * None
     RETURN VALUES
         * a list of dictionaries with each dictionary holding information about an indivdual book
     WHAT DOES THIS FUNCTION DO?
-        * This function retrieves all book information in the database.txt file an returns it as a list
+        * This function retrieves all book information in the database.txt file and returns it as a list
     """
     try:
         database = open(database_file, "r")
@@ -31,7 +31,7 @@ def get_all_books(): # return all books in the database
         print('Something went wrong...')
     database.close()
 
-def get_book_by_id(book_id): # returns a book based on its id
+def get_book_by_id(book_id):
     """
     PARAMATERS
         * book_id -> an integer representing the integer the unique identifier of a book
@@ -46,7 +46,7 @@ def get_book_by_id(book_id): # returns a book based on its id
     except:
         print('something went wrong...')
 
-def update_book(book_id, book_obj): # updates a book
+def update_book(book_id, book_obj):
     """
     PARAMATERS
         * book_id -> an integer representing the integer the unique identifier of a book
@@ -54,7 +54,7 @@ def update_book(book_id, book_obj): # updates a book
     RETURN VALUES
         * None
     WHAT DOES THIS FUNCTION DO?
-        * This function locates a book in the database (according to book_id) and updates its information
+        * This function locates a book in the database and updates its information
     """
     try:
         for book in fileinput.input(database_file, inplace=True):
@@ -67,7 +67,7 @@ def update_book(book_id, book_obj): # updates a book
         print('Error -- Could not update book record')
 
 ## Searching for books =======================================
-def search_books(search_phrase, categories=None): # returns books based on search parameters
+def search_books(search_phrase, categories=None):
     """
     PARAMETERS:
         * search_phrase -> a string that is used to find books
@@ -78,30 +78,40 @@ def search_books(search_phrase, categories=None): # returns books based on searc
         * finds all the books in the database, in the given categories, whose title matches (or resembles) the search_phrase   
     """
     book_index = category_match(get_all_books(), categories)
-    search_results = [result_match(book, search_phrase, categories) for book in book_index]
-    return sorted([result for result in search_results if result != None], key=lambda x: x[0])
+    search_results = [
+        result_match(book, search_phrase, categories) for book in book_index
+    ]
+    return sorted(
+        [result for result in search_results if result != None], 
+        key=lambda x: x[0]
+    )
 
-def category_match(book_index, selected_categories=None): # filters books based on selected categories
+def category_match(book_index, selected_categories=None):
     """
     PARAMATERS
-        *
+        * book_index -> a list of dictionaries representing all the books in the database
+        * selected_categories -> a list of selected book categories
     RETURN VALUES
-        *
+        * a list of dictionaries with each dictionary reprenting a book in the selected categories
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function returns only the books in database to belong to a set of selected categories
     """
     if selected_categories == None:
         return book_index
-    return [book for book in book_index if set(selected_categories).issubset(set(book['category']))]
+    return [
+        book for book in book_index if set(selected_categories).issubset(set(book['category']))
+    ]
 
-def result_match(book_obj, search_phrase, categories): # filters books based on search string
+def result_match(book_obj, search_phrase, categories):
     """
     PARAMATERS
-        *
+        * book_obj -> a dictionary that stores the information of a book
+        * search_phrase -> a string that represents the search term used to find books
+        * categories -> a list of selected book categories
     RETURN VALUES
-        *
+        * a binary tuple with the first element being an integer and the second a dictionary
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function takes assesses how closely the title of a book matches a given search term
     """
     book_title = book_obj['title'].lower().strip()
     search_phrase = search_phrase.lower().strip()
@@ -115,22 +125,25 @@ def result_match(book_obj, search_phrase, categories): # filters books based on 
     elif book_title in search_phrase or search_phrase in book_title:
         return (3, book_obj)
 
-# ============================================================ LOGS & BOOKS ON LOAN ============================================================
-## Log Processing ============================================
+# =========================== LOGS & BOOKS ON LOAN ===========================
+## Log Processing =============================================================
 def get_all_logs(sort_by_date=False):
     """
     PARAMATERS
-        *
+        * sort_by_date -> a boolean that indicates whether or not a list should be sorted
     RETURN VALUES
-        *
+        * a list of dictionaries with each dictionary holding information about an indivdual log
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves all log information in the logfile.txt file and returns it as a list
     """
     try:
         log_data = open(log_file, "r")
         log_index = [json.loads(log) for log in log_data]
         if sort_by_date:
-            log_index.sort(key=lambda x: dt.strptime(x['return_date'], '%d/%m/%Y'), reverse=True)
+            log_index.sort(
+                key=lambda x: dt.strptime(x['return_date'], '%d/%m/%Y'), 
+                reverse=True
+            )
         return log_index
     except Exception as err:
         print('Error could retrieve log data\n', err)
