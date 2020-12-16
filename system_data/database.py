@@ -5,11 +5,20 @@ from datetime import datetime as dt
 from datetime import timedelta
 
 import linecache
+
+import os
+
+
+# ============================================================ GLOBAL VARIABLES ============================================================
+dir_path = os.path.dirname(os.path.realpath(__file__))
+database_file = os.path.join(dir_path, "database.txt")
+log_file = os.path.join(dir_path, "logfile.txt")
+
 # ============================================================ BOOKS ============================================================
 ## Getting & Updating Books from file ========================
 def get_all_books(): # return all books in the database
     try:
-        database = open("database.txt", "r")
+        database = open(database_file, "r")
         return [json.loads(book) for book in database]
     except:
         print('Something went wrong...')
@@ -17,7 +26,7 @@ def get_all_books(): # return all books in the database
 
 def get_book_by_id(book_id): # returns a book based on its id
     try:
-        book_str = linecache.getline("database.txt", book_id)
+        book_str = linecache.getline(database_file, book_id)
         return json.loads(book_str)
     except:
         print('something went wrong...')
@@ -25,7 +34,7 @@ def get_book_by_id(book_id): # returns a book based on its id
 
 def update_book(book_id, book_obj): # updates a book
     try:
-        for book in fileinput.input("database.txt", inplace=True):
+        for book in fileinput.input(database_file, inplace=True):
             book_dict = json.loads(book)
             if book_dict['id'] == book_id:
                 print(json.dumps(book_obj))
@@ -71,7 +80,7 @@ def result_match(book_obj, search_phrase, categories): # filters books based on 
 ## Log Processing ============================================
 def get_all_logs(sort_by_date=False):
     try:
-        log_data = open("logfile.txt", "r")
+        log_data = open(log_file, "r")
         log_index = [json.loads(log) for log in log_data]
         if sort_by_date:
             log_index.sort(key=lambda x: dt.strptime(x['return_date'], '%d/%m/%Y'), reverse=True)
@@ -86,14 +95,14 @@ def get_active_logs():
 
 def get_log_by_id(log_id):
     try:
-        log_str = linecache.getline("logfile.txt", log_id)
+        log_str = linecache.getline(log_file, log_id)
         return json.loads(log_str)
     except:
         print('something went wrong...')
 
 def update_log(log_id, log_obj):
     try:
-        for log in fileinput.input("logfile.txt", inplace=True):
+        for log in fileinput.input(log_file, inplace=True):
             log_dict = json.loads(log)
             if log_dict['id'] == log_id:
                 print(json.dumps(log_obj))

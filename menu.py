@@ -11,10 +11,10 @@ from datetime import datetime as dt
 from time import sleep
 
 # Local Imports
-import booksearch as bs
-import bookcheckout as bc
-import bookreturn as br
-import bookweed as bw
+from operations import booksearch as bs
+from operations import bookcheckout as bc
+from operations import bookreturn as br
+from analytics import bookweed as bw
 
 # =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
 ## Window Setup =================================================================

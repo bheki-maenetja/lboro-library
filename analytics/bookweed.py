@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 
 # Local Imports
-import database as db
+from system_data import database as db
 
 # ============================================================ BUILDING GRAPHS ============================================================
 plt.style.use('Solarize_Light2')
