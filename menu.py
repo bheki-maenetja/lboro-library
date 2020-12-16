@@ -284,7 +284,7 @@ def build_results_row(master_frame, row_data):
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="w")
         elif heading == "member_id":
             if row_data[heading]:
-                row_label['text'] = f"On loan: Member {row_data[heading]}"
+                row_label['text'] = f"Unavailable: On loan to {row_data[heading]}"
                 row_label.grid(row=0, column=index, pady=5, padx=5, sticky="e")
             else:
                 row_label.destroy()
