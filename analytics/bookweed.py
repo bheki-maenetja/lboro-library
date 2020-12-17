@@ -4,12 +4,23 @@ import matplotlib.pyplot as plt
 # Local Imports
 from system_data import database as db
 
-# ============================================================ BUILDING GRAPHS ============================================================
+# ============================== BUILDING GRAPHS =============================
 plt.style.use('Solarize_Light2')
-## Book Title Graphs =========================================
+## Book Title Graphs =========================================================
 def display_popular_titles(result_size=10, display_most_popular=True):
-    titles_usage_data = db.get_title_usage()[:result_size] if display_most_popular else db.get_title_usage()[-result_size:]
-    titles, usage_data = [datum[0] for datum in titles_usage_data], [datum[1] for datum in titles_usage_data]
+    """
+    PARAMETERS
+        * result_size -> an integer representing the number of results to be displayed
+        * display_most_popular -> a boolean value that determines which results are displayeds
+    RETURN VALUES
+        * a pyplot figure that shows either the least or the most popular book titles
+    WHAT DOES THIS FUNCTION DO?
+        * This function creates a graph of either the most or the least popular book titles
+    """
+    if display_most_popular:
+        titles_usage_data = db.get_title_usage()[:result_size]  
+    else: 
+        titles_usage_data = db.get_title_usage()[-result_size:]
 
     new_figure = plt.figure()
     bar_graph = new_figure.add_subplot(1,1,1)
@@ -19,7 +30,10 @@ def display_popular_titles(result_size=10, display_most_popular=True):
     plt.ylabel("Number of Checkouts")
     plt.xlabel("Book Titles")
 
-    bar_graph.bar(titles, usage_data)
+    bar_graph.bar(
+        [datum[0] for datum in titles_usage_data], 
+        [datum[1] for datum in titles_usage_data]
+    )
 
     plt.xticks(
         rotation=45, 
@@ -32,9 +46,17 @@ def display_popular_titles(result_size=10, display_most_popular=True):
     return new_figure
 
 def display_least_popular_titles():
+    """
+    PARAMETERS
+        * None
+    RETURN VALUES
+        * a pyplot figure that shows the least popular book titles
+    WHAT DOES THIS FUNCTION DO?
+        * This function creates a graph of the least popular book titles
+    """
     return display_popular_titles(display_most_popular=False)
 
-## Book Category Graphs ======================================
+## Book Category Graphs ======================================================
 non_fiction_categories = [
     "languages",
     "philosophy",
@@ -56,6 +78,15 @@ fiction_categories = [
 ]
 
 def display_popular_categories(main_category, sub_categories):
+    """
+    PARAMETERS
+        * main_category -> a string representing the main search parameter for finding book titles
+        * sub_categories -> a list of strings that represent sub-categories of the main_category
+    RETURN VALUES
+        * a pyplot figure representing the popularity of the main_category's sub categories
+    WHAT DOES THIS FUNCTION DO?
+        * The function creates a graph showing the relative popularity of selected book categories
+    """
     category_usage_data = db.get_category_usage_data(main_category, sub_categories)
     category_usage_data.sort(key=lambda x: x[1], reverse=True)
     
@@ -82,13 +113,37 @@ def display_popular_categories(main_category, sub_categories):
     return new_figure
 
 def display_fiction_categories():
+    """
+    PARAMETERS
+        * None
+    RETURN VALUES
+        * a pyplot figure representing the popularity of selected fiction book categories
+    WHAT DOES THIS FUNCTION DO?
+        * This function creates a graph showing the relative popularity of selected fiction book categories
+    """
     return display_popular_categories("fiction", fiction_categories)
 
 def display_nonfiction_categories():
+    """
+    PARAMETERS
+        * None
+    RETURN VALUES
+        * a pyplot figure representing the popularity of selected non-fiction book categories
+    WHAT DOES THIS FUNCTION DO?
+        * This function creates a graph showing the relative popularity of selected non-fiction book categories
+    """
     return display_popular_categories("non-fiction", non_fiction_categories)
 
-## Book Usage Graphs =========================================
+## Book Usage Graphs =========================================================
 def display_book_usage_data():
+    """
+    PARAMETERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     book_usage_data = db.get_book_usage_data()
 
     new_figure = plt.figure()
@@ -113,13 +168,29 @@ def display_book_usage_data():
     plt.tight_layout()
     return new_figure
 
-# ============================================================ UNUSED TITLES ============================================================
+# =============================== UNUSED TITLES ==============================
 def get_unused_titles():
+    """
+    PARAMETERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     unused_titles = sorted(db.get_unused_titles())
     return unused_titles
 
-# ============================================================ SYSTEM INFO ============================================================
+# ================================ SYSTEM INFO ===============================
 def get_system_info():
+    """
+    PARAMETERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     return [
         ('Version:', '5.1.2'),
         ('Administrator:', 'Loughborough University'),
@@ -131,8 +202,16 @@ def get_system_info():
         ('Overdue Books:', len(db.search_books_on_loan('', only_overdue=True)))
     ]
 
-# ============================================================ TESTING ============================================================
+# ================================== TESTING =================================
 def test_load_data():
+    """
+    PARAMETERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     try:
         try:
             books = db.get_all_books()
@@ -158,6 +237,14 @@ def test_load_data():
     
 
 def run_weed_tests():
+    """
+    PARAMETERS
+        *
+    RETURN VALUES
+        *
+    WHAT DOES THIS FUNCTION DO?
+        *
+    """
     test_load_data()
 
 if __name__ == "__main__":
