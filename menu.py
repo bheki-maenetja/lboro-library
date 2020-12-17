@@ -907,6 +907,7 @@ def book_return_handler():
         br.return_handler(selected_books)
         clear_selected_loan_books()
         loan_book_search_handler(loan_manager_state['search_var'].get())
+        alert("Success - Book(s) have been returned", False)
     except:
         print('something went wrong...')
 
