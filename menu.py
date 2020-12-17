@@ -28,12 +28,20 @@ page_manager = dict()
 
 # ============================= UTILITY FUNCTIONS ============================ 
 def alert(message, is_error=True):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * this function displays pop up message that can indicate an error or confirmation
+    """
     if is_error:
         messagebox.showwarning(message=message)
     else:
         messagebox.showinfo(message=message)
 
 def format_text(input_str, standard_length):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * this formats a given string to ensure that it has a standard length
+    """
     str_len = len(input_str)
     if str_len == standard_length:
         return input_str
@@ -43,11 +51,19 @@ def format_text(input_str, standard_length):
         return input_str + " "*(standard_length - str_len)
 
 def validate_numeric_entry(val):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * this functions ensure that the value entered into an entry is numeric
+    """
     return re.match('^[0-9]*$', val) is not None and len(val) < 5
 
 # ============================== PAGE CONTAINER ==============================
 ## The Main Page Container ===================================================
 def build_page_container():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the notebook that contains the books, loan manager and system info pages
+    """
     page_notebook = ttk.Notebook(master=root)
     page_notebook.add(tk.Frame(), text="Home")
 
@@ -68,6 +84,10 @@ def build_page_container():
 # ================================= HOME PAGE ================================
 ## Home Page UI Components ===================================================
 def build_home_page():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the home page
+    """
     home_frame = tk.Frame(master=root, height=100, width=100)
     home_frame.columnconfigure(0, weight=1, minsize=root.winfo_height())
     home_frame.rowconfigure(0, weight=1, minsize=root.winfo_width())
@@ -81,6 +101,10 @@ def build_home_page():
     return home_frame
 
 def build_hero_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the top section of the home page
+    """
     hero_section = tk.Frame(master=master_frame, bg="#4B0082")
     hero_section.rowconfigure(0, weight=1, minsize=root.winfo_width())
     hero_section.rowconfigure(1, weight=1, minsize=root.winfo_width())
@@ -111,6 +135,10 @@ def build_hero_section(master_frame):
     return hero_section
 
 def build_button_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the bottom section of the home page
+    """
     button_section = tk.Frame(master=master_frame, bg="#4B0082")
     button_info = [
         ('Books', '#1E90FF', lambda e: transition(pages_index=1)), 
@@ -181,6 +209,10 @@ books_page_state['search_var'].trace_add("write", lambda *args: book_search_hand
 
 ## Books Page UI Components ==================================================
 def build_books_page(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the books pages
+    """
     books_page = tk.Frame(master=master_frame)
     books_page.columnconfigure(0, weight=1, minsize=10)
     books_page.rowconfigure(0, weight=1, minsize=10)
@@ -206,6 +238,10 @@ def build_books_page(master_frame):
     return books_page
 
 def build_search_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the main search form on the books page
+    """
     global search_bar
     search_font = tkFont.Font(size=15, weight="bold")
     search_section = tk.Frame(master=master_frame, bg="#B0C4DE")
@@ -223,6 +259,10 @@ def build_search_section(master_frame):
     return search_section
 
 def build_category_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the book category selector on the books page
+    """
     category_section = tk.Frame(master_frame, bg="#B0C4DE")
 
     for i in range(4):
@@ -245,6 +285,10 @@ def build_category_section(master_frame):
     return category_section
 
 def build_checkout_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the form to checkout books on the books page
+    """
     checkout_section = tk.Frame(master=master_frame, bg="#4169E1")
     checkout_section.rowconfigure(0, weight=1, minsize=10)
     for i in range(6):
@@ -298,6 +342,10 @@ def build_checkout_section(master_frame):
     return checkout_section
 
 def build_header_row(master_frame, headings):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds a row of headings to be displayed above the search results on the books page
+    """
     heading_font = tkFont.Font(weight="bold")
 
     header_frame = tk.Frame(master=master_frame, bg="navy", relief=tk.RAISED)
