@@ -852,7 +852,7 @@ def build_loan_results_row(master_frame, row_data):
     """
     headings = loan_manager_state['book_headings']
 
-    label_font = tkFont.Font(family="monaco", size=12, weight="bold")
+    label_font = tkFont.Font(family="courier", size=9, weight="bold")
 
     row_frame = tk.Frame(master=master_frame, bg="#66CDAA")
     row_frame.rowconfigure(0, weight=1, minsize=20)
