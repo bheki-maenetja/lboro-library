@@ -1187,6 +1187,10 @@ system_info_state = {
 
 ## System Info UI Components =================================================
 def build_system_info_page(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the system info page
+    """
     system_info_page = tk.Frame(master=master_frame, bg="grey")
     system_info_page.columnconfigure(0, weight=1, minsize=10)
     system_info_page.rowconfigure(0, weight=1, minsize=10)
@@ -1198,6 +1202,10 @@ def build_system_info_page(master_frame):
     return system_info_page
 
 def build_info_box(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the box that contains the system information
+    """
     current_info_box = system_info_state['current_info_box']
     if current_info_box:
         current_info_box.destroy()
@@ -1219,6 +1227,10 @@ def build_info_box(master_frame):
 
 ## System Info Functionality =================================================
 def set_system_info():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * retrieves system info and displays it
+    """
     system_info_state['info_list'] = bw.get_system_info()
     build_info_box(system_info_state['system_info_page'])
 
@@ -1227,6 +1239,10 @@ def set_system_info():
 page_manager['pages_section'] = build_page_container()
 
 def page_change():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the user navigation to and from different pages
+    """
     notebook = page_manager['pages_section']
     selected_tab = notebook.index(notebook.select())
 
@@ -1247,6 +1263,10 @@ def page_change():
         set_system_info()
 
 def transition(to_home=False, pages_index=1):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the user navigation between the home page and all other pages
+    """
     if not to_home:
         page_manager['home_page'].pack_forget()
         tab_list = page_manager['pages_section'].tabs()
@@ -1257,9 +1277,8 @@ def transition(to_home=False, pages_index=1):
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 # ============================== FUNCTION CALLS ==============================
-page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
-
-book_search_handler('')
-loan_book_search_handler('')
-
-root.mainloop()
+if __name__ == "__main__":
+    page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
+    book_search_handler('')
+    loan_book_search_handler('')
+    root.mainloop()
