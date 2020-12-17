@@ -86,11 +86,24 @@ def build_hero_section(master_frame):
     hero_section.rowconfigure(1, weight=1, minsize=root.winfo_width())
     hero_section.columnconfigure(0, weight=1, minsize=root.winfo_height())
 
-    heading_font = tkFont.Font(family="Verdana", size=50, weight="bold")
+    heading_font = tkFont.Font(family="Verdana", size=40, weight="bold")
     sub_heading_font = tkFont.Font(family="Verdana", size=20, slant="italic")
 
-    heading = tk.Label(master=hero_section, text="Loughborough Library", font=heading_font, bg="#4B0082", fg="white")
-    sub_heading = tk.Label(master=hero_section, text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", font=sub_heading_font, bg="#4B0082", fg="white")
+    heading = tk.Label(
+        master=hero_section, 
+        text="Loughborough Library", 
+        font=heading_font, 
+        bg="#4B0082", 
+        fg="white"
+    )
+
+    sub_heading = tk.Label(
+        master=hero_section, 
+        text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", 
+        font=sub_heading_font, 
+        bg="#4B0082", 
+        fg="white"
+    )
 
     heading.grid(row=0, column=0, sticky="ws", padx=20)
     sub_heading.grid(row=1, column=0, sticky="wn", padx=20)
@@ -112,7 +125,15 @@ def build_button_section(master_frame):
         button_section.rowconfigure(i, weight=1, minsize=25)
         for j in range(2):
             new_button_info = button_info[j + i * 2]
-            new_button = tk.Label(button_section, text=new_button_info[0], font=button_font, bg=new_button_info[1], highlightthickness=5, fg="white", relief=tk.RAISED)
+            new_button = tk.Label(
+                button_section, 
+                text=new_button_info[0], 
+                font=button_font, 
+                bg=new_button_info[1], 
+                highlightthickness=5, 
+                fg="white", 
+                relief=tk.RAISED
+            )
             new_button.bind('<Button-1>', new_button_info[2])
             new_button.grid(row=i, column=j, sticky="nesw")
     
@@ -188,7 +209,13 @@ def build_search_section(master_frame):
     global search_bar
     search_font = tkFont.Font(size=15, weight="bold")
     search_section = tk.Frame(master=master_frame, bg="#B0C4DE")
-    search_bar = tk.Entry(master=search_section, textvariable=books_page_state['search_var'], bg="#1E90FF", fg="white", font=search_font)
+    search_bar = tk.Entry(
+        master=search_section, 
+        textvariable=books_page_state['search_var'], 
+        bg="#1E90FF", 
+        fg="white", 
+        font=search_font
+    )
     search_button = tk.Button(master=search_section, text="Search")
     search_bar.pack(fill=tk.BOTH, expand=3, side=tk.LEFT)
     search_button.pack(fill=tk.BOTH, expand=1, side=tk.LEFT)
@@ -223,15 +250,42 @@ def build_checkout_section(master_frame):
     for i in range(6):
         checkout_section.columnconfigure(i, weight=1, minsize=10)
 
-    member_label = tk.Label(master=checkout_section, text="Member ID (# from 1000-9999)", bg="#4169E1", fg="white")
-    member_entry = tk.Entry(master=checkout_section,  textvariable=books_page_state['member_var'], validate="key", validatecommand=(checkout_section.register(validate_numeric_entry), '%P'))
+    member_label = tk.Label(
+        master=checkout_section, 
+        text="Member ID (# from 1000-9999)", 
+        bg="#4169E1", 
+        fg="white"
+    )
+    member_entry = tk.Entry(
+        master=checkout_section, 
+        textvariable=books_page_state['member_var'], 
+        validate="key", 
+        validatecommand=(checkout_section.register(validate_numeric_entry), '%P')
+    )
 
-    duration_label = tk.Label(master=checkout_section, text="Loan duration (# of days)", bg="#4169E1", fg="white")
-    duration_options = tk.OptionMenu(checkout_section, books_page_state['duration_var'], *[i for i in range(1,11)])
+    duration_label = tk.Label(
+        master=checkout_section, 
+        text="Loan duration (# of days)", 
+        bg="#4169E1", 
+        fg="white"
+        )
+    duration_options = tk.OptionMenu(
+        checkout_section, 
+        books_page_state['duration_var'], 
+        *[i for i in range(1,11)]
+    )
     books_page_state['duration_var'].set(1)
 
-    checkout_btn = tk.Button(master=checkout_section, text="Checkout Selected Books", command=book_checkout_handler)
-    cancel_btn = tk.Button(master=checkout_section, text="Cancel", command=clear_selected_books)
+    checkout_btn = tk.Button(
+        master=checkout_section, 
+        text="Checkout Selected Books", 
+        command=book_checkout_handler
+    )
+    cancel_btn = tk.Button(
+        master=checkout_section, 
+        text="Cancel", 
+        command=clear_selected_books
+    )
 
     member_label.grid(row=0, column=0, pady=5, padx=2, sticky="e")
     member_entry.grid(row=0, column=1, pady=5, padx=2, sticky="w")
@@ -249,7 +303,12 @@ def build_header_row(master_frame, headings):
     header_frame = tk.Frame(master=master_frame, bg="navy", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
     for index, heading in enumerate(headings):
-        heading_label = tk.Label(master=header_frame, bg="navy", fg="white", font=heading_font)
+        heading_label = tk.Label(
+            master=header_frame, 
+            bg="navy", 
+            fg="white", 
+            font=heading_font
+        )
         if heading in ("id","isbn"):
             header_frame.columnconfigure(index, weight=1, minsize=20)
             heading_label['text'] = heading.upper()
@@ -279,10 +338,17 @@ def build_results_section(master_frame):
     results_section.columnconfigure(0, weight=1, minsize=10)
     
     footer_frame = tk.Frame(master=results_section, bg="navy")
-    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_book_results_page(False))
-    next_button = tk.Button(footer_frame, text="Next", command=lambda: change_book_results_page(True))
-    page_label = tk.Label(footer_frame, text="Page", bg="navy", fg="white")
+    previous_button = tk.Button(
+        footer_frame, 
+        text="Previous", 
+        command=lambda: change_book_results_page(False)
+    )
+    next_button = tk.Button(
+        footer_frame, text="Next", 
+        command=lambda: change_book_results_page(True)
+    )
 
+    page_label = tk.Label(footer_frame, text="Page", bg="navy", fg="white")
     books_page_state['page_label'] = page_label
 
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
@@ -318,7 +384,12 @@ def build_results_row(master_frame, row_data):
     row_frame.rowconfigure(0, weight=1, minsize=20)
     
     for index, heading in enumerate(headings):
-        row_label = tk.Label(master=row_frame, font=label_font, bg="#B0E0E6", fg="navy")
+        row_label = tk.Label(
+            master=row_frame, 
+            font=label_font, 
+            bg="#B0E0E6", 
+            fg="navy"
+        )
         if heading == "id":
             row_frame.columnconfigure(index, weight=0, minsize=20)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
@@ -369,7 +440,10 @@ def book_search_handler(search_phrase):
     if len(current_page) == 3:
         books_page_state['current_page'][2].destroy()
 
-    search_results = bs.search_handler(search_phrase, books_page_state['selected_categories'])
+    search_results = bs.search_handler(
+        search_phrase, 
+        books_page_state['selected_categories']
+    )
 
     if search_results:
         current_page = [0, search_results[0], None]
@@ -406,13 +480,16 @@ def change_book_results_page(increment):
     num_results = len(books_page_state['search_results'])
 
     if increment and page_num + 1 < num_results:
-        new_page_num, new_search_results = page_num + 1, books_page_state['search_results'][page_num + 1]
+        new_page_num = page_num + 1
+        new_search_results = books_page_state['search_results'][page_num + 1]
     elif not increment and page_num - 1 >= 0:
-        new_page_num, new_search_results = page_num - 1, books_page_state['search_results'][page_num - 1]
+        new_page_num = page_num - 1
+        new_search_results = books_page_state['search_results'][page_num - 1]
     else:
         return
     
-    books_page_state['current_page'][0], books_page_state['current_page'][1] = new_page_num, new_search_results
+    books_page_state['current_page'][0] = new_page_num
+    books_page_state['current_page'][1] = new_search_results
     books_page_state['page_label']['text'] = f"Page {new_page_num + 1} of {num_results}"
     page_frame.destroy()
     build_results_page()
@@ -499,9 +576,30 @@ def build_selector_section(master_frame):
     for i in range(3):
         selector_section.columnconfigure(i, weight=1, minsize=10)
     
-    all_books_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show All Books", value=1, bg="#2E8B57", fg="white")
-    on_loan_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show On-time Books", value=2, bg="#2E8B57", fg="white")
-    overdue_btn = tk.Radiobutton(master=selector_section, variable=loan_manager_state['selector_var'], text="Show Overdue Books", value=3, bg="#2E8B57", fg="white")
+    all_books_btn = tk.Radiobutton(
+        master=selector_section, 
+        variable=loan_manager_state['selector_var'], 
+        text="Show All Books", 
+        value=1, 
+        bg="#2E8B57", 
+        fg="white"
+    )
+    on_loan_btn = tk.Radiobutton(
+        master=selector_section, 
+        variable=loan_manager_state['selector_var'], 
+        text="Show On-time Books", 
+        value=2, 
+        bg="#2E8B57", 
+        fg="white"
+    )
+    overdue_btn = tk.Radiobutton(
+        master=selector_section, 
+        variable=loan_manager_state['selector_var'], 
+        text="Show Overdue Books", 
+        value=3, 
+        bg="#2E8B57", 
+        fg="white"
+    )
 
     loan_manager_state['selector_var'].set(1)
 
@@ -517,8 +615,18 @@ def build_search_form(master_frame):
     for i in range(3):
         search_form.columnconfigure(i, weight=1, minsize=10)
 
-    search_id_label = tk.Label(master=search_form, text="Search by Book ID", bg="#3CB371", fg="white")
-    id_entry = tk.Entry(master=search_form, textvariable=loan_manager_state['search_var'], validate="key", validatecommand=(search_form.register(validate_numeric_entry), '%P'))
+    search_id_label = tk.Label(
+        master=search_form, 
+        text="Search by Book ID", 
+        bg="#3CB371", 
+        fg="white"
+    )
+    id_entry = tk.Entry(
+        master=search_form, 
+        textvariable=loan_manager_state['search_var'], 
+        validate="key", 
+        validatecommand=(search_form.register(validate_numeric_entry), '%P')
+    )
 
     return_form = build_return_form(search_form)
     loan_manager_state['return_form'] = return_form
@@ -536,8 +644,16 @@ def build_return_form(master_frame):
     return_form.columnconfigure(0,weight=1, minsize=10)
     return_form.columnconfigure(1,weight=1, minsize=10)
 
-    return_btn = tk.Button(master=return_form, text="Return Selected Books", command=book_return_handler)
-    cancel_btn = tk.Button(master=return_form, text="Cancel", command=clear_selected_loan_books)
+    return_btn = tk.Button(
+        master=return_form, 
+        text="Return Selected Books", 
+        command=book_return_handler
+    )
+    cancel_btn = tk.Button(
+        master=return_form, 
+        text="Cancel", 
+        command=clear_selected_loan_books
+    )
 
     return_btn.grid(row=0, column=0, padx=2, sticky="ew")
     cancel_btn.grid(row=0, column=1, padx=2, sticky="ew")
@@ -548,8 +664,16 @@ def build_results_container(master_frame):
     results_container = tk.Frame(master=master_frame, bg="yellow")
 
     footer_frame = tk.Frame(master=results_container, bg="#004517")
-    previous_button = tk.Button(footer_frame, text="Previous", command=lambda: change_loan_results_page(False))
-    next_button = tk.Button(footer_frame, text="Next", command=lambda: change_loan_results_page(True))
+    previous_button = tk.Button(
+        footer_frame, 
+        text="Previous", 
+        command=lambda: change_loan_results_page(False)
+    )
+    next_button = tk.Button(
+        footer_frame, 
+        text="Next", 
+        command=lambda: change_loan_results_page(True)
+    )
     page_label = tk.Label(footer_frame, text="Page", bg="#004517", fg="white")
 
     previous_button.pack(fill=tk.Y, side=tk.LEFT)
@@ -618,7 +742,12 @@ def build_loan_results_row(master_frame, row_data):
     row_frame.rowconfigure(0, weight=1, minsize=20)
 
     for index, heading in enumerate(headings):
-        row_label = tk.Label(master=row_frame, font=label_font, bg="#008080", fg="#7CFC00")
+        row_label = tk.Label(
+            master=row_frame, 
+            font=label_font, 
+            bg="#008080", 
+            fg="#7CFC00"
+        )
         if heading in ("book_id", "member_id"):
             row_frame.columnconfigure(index, weight=1, minsize=75)
             row_label['text'] = f"{row_data[heading]}".zfill(4)
@@ -649,7 +778,6 @@ def build_loan_results_row(master_frame, row_data):
         return_checkbox.invoke()
     
     return_checkbox['command'] = lambda: select_for_return(row_data['log_id'], row_data['book_id'])
-    
     return row_frame
 
 ## Loan Manager Functionality ================================================
@@ -664,12 +792,17 @@ def book_return_handler():
 
 def loan_book_search_handler(search_phrase):
     current_page = loan_manager_state['current_page']
-    show_on_time_books, show_overdue_books = loan_manager_state['show_on_time_books'], loan_manager_state['show_overdue_books']
+    show_on_time_books = loan_manager_state['show_on_time_books']
+    show_overdue_books = loan_manager_state['show_overdue_books']
 
     if len(current_page) == 3:
         loan_manager_state['current_page'][2].destroy()
             
-    search_results = bs.loan_search_handler(search_phrase, only_on_time=show_on_time_books, only_overdue=show_overdue_books)
+    search_results = bs.loan_search_handler(
+        search_phrase, 
+        only_on_time=show_on_time_books, 
+        only_overdue=show_overdue_books
+    )
 
     if search_results:
         current_page = [0, search_results[0], None]
@@ -689,13 +822,16 @@ def change_loan_results_page(increment):
     num_results = len(loan_manager_state['search_results'])
 
     if increment and page_num + 1 < num_results:
-        new_page_num, new_search_results = page_num + 1, loan_manager_state['search_results'][page_num + 1]
+        new_page_num = page_num + 1
+        new_search_results = loan_manager_state['search_results'][page_num + 1]
     elif not increment and page_num - 1 >= 0:
-        new_page_num, new_search_results = page_num - 1, loan_manager_state['search_results'][page_num - 1]
+        new_page_num = page_num - 1
+        new_search_results = loan_manager_state['search_results'][page_num - 1]
     else:
         return
 
-    loan_manager_state['current_page'][0], loan_manager_state['current_page'][1] = new_page_num, new_search_results
+    loan_manager_state['current_page'][0] = new_page_num
+    loan_manager_state['current_page'][1] = new_search_results
     loan_manager_state['page_label']['text'] = f"Page {new_page_num + 1} of {num_results}"
     page_frame.destroy()
     build_loan_results_page()
@@ -789,7 +925,13 @@ def build_sidebar(master_frame):
 
     for i, btn_tup in enumerate(btn_labels):
         sidebar.rowconfigure(i, weight=1, minsize=10)
-        new_button = tk.Button(master=sidebar, text=btn_tup[0], command=btn_tup[1], bg="orange", fg="black")
+        new_button = tk.Button(
+            master=sidebar, 
+            text=btn_tup[0], 
+            command=btn_tup[1], 
+            bg="orange", 
+            fg="black"
+        )
         new_button.grid(row=i, column=0, sticky="news", padx=10, pady=10)
 
     return sidebar
@@ -817,7 +959,11 @@ def build_unused_titles_page():
     unused_titles = analytics_page_state['unused_titles']
     unused_titles_page = tk.Frame(master=analytics_page_state['figure_frame'])
     
-    heading_label = tk.Label(master=unused_titles_page, text="Books with the following titles have never been checked out\nWe should consider removing them", bg="#FFFACD")
+    heading_label = tk.Label(
+        master=unused_titles_page, 
+        text="Books with the following titles have never been checked out\nWe should consider removing them", 
+        bg="#FFFACD"
+    )
 
     title_listbox = tk.Listbox(master=unused_titles_page, bg="#FFFACD")
     scrollbar = tk.Scrollbar(master=unused_titles_page, bg="#FFFACD")
