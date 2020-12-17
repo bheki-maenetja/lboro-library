@@ -138,11 +138,11 @@ def display_nonfiction_categories():
 def display_book_usage_data():
     """
     PARAMETERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a pyplot figure representing the usage of books over a period of time
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function creates a graph that shows the number of book checkouts per year
     """
     book_usage_data = db.get_book_usage_data()
 
@@ -172,11 +172,11 @@ def display_book_usage_data():
 def get_unused_titles():
     """
     PARAMETERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a sorted list of strings that represent book titles
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function retrieves the unique book titles that have never been used
     """
     unused_titles = sorted(db.get_unused_titles())
     return unused_titles
@@ -185,11 +185,11 @@ def get_unused_titles():
 def get_system_info():
     """
     PARAMETERS
-        *
+        * None
     RETURN VALUES
-        *
+        * a list of tuples that represent information about the system
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function provides background information about the system
     """
     return [
         ('Version:', '5.1.2'),
@@ -206,11 +206,11 @@ def get_system_info():
 def test_load_data():
     """
     PARAMETERS
-        *
+        * None
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This functions tests the ability of the program to load data about books and titles
     """
     try:
         try:
@@ -239,11 +239,11 @@ def test_load_data():
 def run_weed_tests():
     """
     PARAMETERS
-        *
+        * None
     RETURN VALUES
-        *
+        * None
     WHAT DOES THIS FUNCTION DO?
-        *
+        * This function serves as a handler to run all other test functions
     """
     test_load_data()
 
