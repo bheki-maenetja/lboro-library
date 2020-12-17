@@ -381,6 +381,10 @@ def build_header_row(master_frame, headings):
     return header_frame
 
 def build_results_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the section where search results for books are displayed
+    """
     results_section = tk.Frame(master=master_frame, bg="pink")
     results_section.rowconfigure(0, weight=1, minsize=10)
     results_section.columnconfigure(0, weight=1, minsize=10)
@@ -408,6 +412,10 @@ def build_results_section(master_frame):
     return results_section
 
 def build_results_page():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds one page of search results on the books page
+    """
     page_data = books_page_state['current_page'][1]
 
     page_frame = tk.Frame(master=books_page_state['results_section'], bg="#4682B4")
@@ -423,6 +431,10 @@ def build_results_page():
     books_page_state['current_page'][2] = page_frame
 
 def build_results_row(master_frame, row_data):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the row to display a search result on the books page
+    """
     headings = books_page_state['result_headings']
 
     label_font = tkFont.Font(family="monaco", size=12, weight="bold")
@@ -483,6 +495,10 @@ def build_results_row(master_frame, row_data):
 
 ## Books Page Functionality ==================================================
 def book_search_handler(search_phrase):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the UI components that are needed to search for books
+    """
     current_page = books_page_state['current_page']
 
     if len(current_page) == 3:
@@ -507,6 +523,10 @@ def book_search_handler(search_phrase):
     build_results_page()
 
 def book_checkout_handler():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the UI components that are needed to checkout books
+    """
     loan_duration = books_page_state['duration_var'].get()
     member_id = books_page_state['member_var'].get()
     selected_books = books_page_state['checkout_books']
@@ -524,6 +544,10 @@ def book_checkout_handler():
             alert("Error - Books could not be checked out")
     
 def change_book_results_page(increment):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * displays the next (or the previous) page of search results on the books page
+    """
     page_num, page_data, page_frame = books_page_state['current_page']
     num_results = len(books_page_state['search_results'])
 
@@ -543,6 +567,10 @@ def change_book_results_page(increment):
     build_results_page()
 
 def select_book_category(category):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * keeps tracks of which book categories a user has selected
+    """
     selected_categories = books_page_state['selected_categories']
 
     if category in selected_categories:
@@ -554,6 +582,10 @@ def select_book_category(category):
     book_search_handler(books_page_state['search_var'].get())
 
 def select_for_checkout(book_id):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the UI components needed to select a book for checkouts
+    """
     checkout_books = books_page_state['checkout_books']
     pre_existing_books = bool(checkout_books)
 
@@ -570,6 +602,10 @@ def select_for_checkout(book_id):
     books_page_state['checkout_books'] = checkout_books
 
 def clear_selected_books():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * deselects all of the books that were selected for checkout
+    """
     current_page_frame = books_page_state['current_page'][2]
     current_page_frame.destroy()
     books_page_state['checkout_books'] = []
@@ -599,6 +635,10 @@ loan_manager_state['selector_var'].trace_add('write', lambda *args: change_book_
 
 ## Loan Manager UI Components ================================================
 def build_loan_manager_page(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the loan manager page
+    """
     loan_manager_page = tk.Frame(master=master_frame)
     loan_manager_page.columnconfigure(0, weight=1, minsize=10)
     loan_manager_page.rowconfigure(0, weight=0, minsize=10)
@@ -619,6 +659,10 @@ def build_loan_manager_page(master_frame):
     return loan_manager_page
 
 def build_selector_section(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds section that allows users to choose between viewing on-time or overdue books
+    """
     selector_section = tk.Frame(master=master_frame, bg="#2E8B57")
     selector_section.rowconfigure(0, weight=1, minsize=10)
     for i in range(3):
@@ -658,6 +702,10 @@ def build_selector_section(master_frame):
     return selector_section
 
 def build_search_form(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds search bar and button that allows users to search for books on the loan manager page
+    """
     search_form = tk.Frame(master=master_frame, bg="#3CB371")
     search_form.rowconfigure(0, weight=1, minsize=10)
     for i in range(3):
@@ -687,6 +735,10 @@ def build_search_form(master_frame):
     return search_form
 
 def build_return_form(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds UI components needed to return books
+    """
     return_form = tk.Frame(master=master_frame)
     return_form.rowconfigure(0, weight=1, minsize=10)
     return_form.columnconfigure(0,weight=1, minsize=10)
@@ -709,6 +761,10 @@ def build_return_form(master_frame):
     return return_form
 
 def build_results_container(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds container for results of searching for books on the loan manager page
+    """
     results_container = tk.Frame(master=master_frame, bg="yellow")
 
     footer_frame = tk.Frame(master=results_container, bg="#004517")
@@ -735,6 +791,10 @@ def build_results_container(master_frame):
     return results_container
 
 def build_loan_header_row(master_frame, headings):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds a row of headings to be displayed above the loan manager page search results
+    """
     header_frame = tk.Frame(master=master_frame, bg="#004517", relief=tk.RAISED)
     header_frame.rowconfigure(0, weight=1, minsize=1)
 
@@ -767,6 +827,10 @@ def build_loan_header_row(master_frame, headings):
     return header_frame
 
 def build_loan_results_page():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds one page of search results on the loan manager page
+    """
     page_data = loan_manager_state['current_page'][1]
 
     page_frame = tk.Frame(master=loan_manager_state['results_container'], bg="#228B22")
@@ -782,6 +846,10 @@ def build_loan_results_page():
     loan_manager_state['current_page'][2] = page_frame
 
 def build_loan_results_row(master_frame, row_data):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the row to display a search result on the loan manager page
+    """
     headings = loan_manager_state['book_headings']
 
     label_font = tkFont.Font(family="monaco", size=12, weight="bold")
@@ -830,6 +898,10 @@ def build_loan_results_row(master_frame, row_data):
 
 ## Loan Manager Functionality ================================================
 def book_return_handler():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the UI components for returning books back to shelf
+    """
     selected_books = loan_manager_state['return_books']
     try:
         br.return_handler(selected_books)
@@ -839,6 +911,10 @@ def book_return_handler():
         print('something went wrong...')
 
 def loan_book_search_handler(search_phrase):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * handles the UI components that are needed to search for books on the loan manager page
+    """
     current_page = loan_manager_state['current_page']
     show_on_time_books = loan_manager_state['show_on_time_books']
     show_overdue_books = loan_manager_state['show_overdue_books']
@@ -866,6 +942,10 @@ def loan_book_search_handler(search_phrase):
     build_loan_results_page()
 
 def change_loan_results_page(increment):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * displays the next (or the previous) page of search results on the loan manager page
+    """
     page_num, page_data, page_frame = loan_manager_state['current_page']
     num_results = len(loan_manager_state['search_results'])
 
@@ -885,6 +965,10 @@ def change_loan_results_page(increment):
     build_loan_results_page()
 
 def change_book_view():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * changes which type of books (on-time or overdue) are seen on the loan manager page
+    """
     selected_option = loan_manager_state['selector_var'].get()
     
     options = {1: (False, False), 2: (True, False), 3: (False, True)}
@@ -893,6 +977,10 @@ def change_book_view():
     loan_book_search_handler(loan_manager_state['search_var'].get())
 
 def select_for_return(log_id, book_id):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * keeps track of which books have been selected to be returned to shelf
+    """
     selected_books = loan_manager_state['return_books']
     pre_existing_books = bool(selected_books)
 
@@ -909,6 +997,10 @@ def select_for_return(log_id, book_id):
     loan_manager_state['return_books'] = selected_books
 
 def clear_selected_loan_books():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * deselects all books that have been selected for return
+    """
     current_page_frame = loan_manager_state['current_page'][2]
     current_page_frame.destroy()
     loan_manager_state['return_books'] = []
@@ -948,6 +1040,10 @@ analytics_page_state = {
 
 ## Analytics Page UI Components ==============================================
 def build_analytics_page(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the analytics page
+    """
     analytics_page = tk.Frame(master=master_frame)
     analytics_page.rowconfigure(0, weight=1, minsize=10)
     analytics_page.columnconfigure(0,weight=1, minsize=10)
@@ -967,6 +1063,10 @@ def build_analytics_page(master_frame):
     return analytics_page
 
 def build_sidebar(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds a sidebar of buttons on the analytics page
+    """
     sidebar = tk.Frame(master=master_frame, bg="#FF4500")
     sidebar.columnconfigure(0, weight=1, minsize=10)
     btn_labels = analytics_page_state['sidebar_btn_labels']
@@ -985,12 +1085,20 @@ def build_sidebar(master_frame):
     return sidebar
 
 def build_figure_frame(master_frame):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the main frame on which graphs and figures will be displayed
+    """
     figure_frame = tk.Frame(master=master_frame, bg="#FFFACD")
     figure_frame.rowconfigure(0, weight=1, minsize=1)
     figure_frame.columnconfigure(0, weight=1, minsize=1)
     return figure_frame
 
 def build_figures():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds all the graphs and figures to be displayed
+    """
     for i, figure_func in enumerate(analytics_page_state['figure_funcs']):
         graph_frame = tk.Frame(master=analytics_page_state['figure_frame'])
         new_graph = figure_func()
@@ -1000,10 +1108,18 @@ def build_figures():
         analytics_page_state['data_graphs'][i+1] = graph_frame
 
 def display_current_figure():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * displays the selected graph or figure
+    """
     current_figure = analytics_page_state['current_figure']
     current_figure.grid(row=0, column=0, sticky="news")
 
 def build_unused_titles_page():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * builds the page that displays all unused books titles
+    """
     unused_titles = analytics_page_state['unused_titles']
     unused_titles_page = tk.Frame(master=analytics_page_state['figure_frame'])
     
@@ -1030,6 +1146,10 @@ def build_unused_titles_page():
 
 ## Analytics Page Functionality ==============================================
 def change_current_figure(index):
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * changes the current figure to the new figure that has been selected
+    """
     clear_current_figure()
     
     if index in range(1,6):
@@ -1041,12 +1161,20 @@ def change_current_figure(index):
     display_current_figure()
 
 def clear_current_figure():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * removes the current graph or figure that is on display
+    """
     current_figure = analytics_page_state['current_figure']
 
     if current_figure:
         current_figure.grid_remove()
 
 def set_unused_titles():
+    """
+    WHAT DOES THIS FUNCTION DO?
+        * get all book titles that have not been used
+    """
     analytics_page_state['unused_titles'] = bw.get_unused_titles()
 
 # ============================= SYSTEM INFO PAGE =============================
