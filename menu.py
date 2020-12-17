@@ -16,20 +16,17 @@ from operations import bookcheckout as bc
 from operations import bookreturn as br
 from analytics import bookweed as bw
 
-# =============================================================================== MAIN WINDOW & GLOBAL VARIABLES ===============================================================================  
-## Window Setup =================================================================
+# ====================== MAIN WINDOW & GLOBAL VARIABLES ======================  
+## Window Setup ==============================================================
 root = tk.Tk()
 root.title('Library Management System')
 root.geometry('900x630')
 root.resizable(False, False)
-# root.minsize(900, 630)
-# root.maxsize(1350, 945)
-# root.aspect(10,7,10,7)
 
-## Global Variables =============================================================
+## Global Variables ==========================================================
 page_manager = dict()
 
-# ===================================================================================== UTILITY FUNCTIONS =====================================================================================
+# ============================= UTILITY FUNCTIONS ============================ 
 def alert(message, is_error=True):
     if is_error:
         messagebox.showwarning(message=message)
@@ -48,8 +45,8 @@ def format_text(input_str, standard_length):
 def validate_numeric_entry(val):
     return re.match('^[0-9]*$', val) is not None and len(val) < 5
 
-# ======================================================================================== PAGE CONTAINER ========================================================================================
-## The Main Page Container ===============================================================
+# ============================== PAGE CONTAINER ==============================
+## The Main Page Container ===================================================
 def build_page_container():
     page_notebook = ttk.Notebook(master=root)
     page_notebook.add(tk.Frame(), text="Home")
@@ -68,8 +65,8 @@ def build_page_container():
 
     return page_notebook
 
-# ========================================================================================= HOME PAGE =========================================================================================
-## Home Page UI Components ================================================================
+# ================================= HOME PAGE ================================
+## Home Page UI Components ===================================================
 def build_home_page():
     home_frame = tk.Frame(master=root, height=100, width=100)
     home_frame.columnconfigure(0, weight=1, minsize=root.winfo_height())
@@ -121,11 +118,11 @@ def build_button_section(master_frame):
     
     return button_section
 
-## Home Page Functionality ================================================================
+## Home Page Functionality ===================================================
 page_manager['home_page'] = build_home_page()
 
-# ======================================================================================== BOOKS PAGE ========================================================================================
-## Books Page State Variables ============================================================
+# ================================ BOOKS PAGE ================================
+## Books Page State Variables ================================================
 books_page_state = {
     'search_var': tk.StringVar(),
     'duration_var': tk.StringVar(),
@@ -161,7 +158,7 @@ books_page_state = {
 
 books_page_state['search_var'].trace_add("write", lambda *args: book_search_handler(search_bar.get()))
 
-## Books Page UI Components ==============================================================
+## Books Page UI Components ==================================================
 def build_books_page(master_frame):
     books_page = tk.Frame(master=master_frame)
     books_page.columnconfigure(0, weight=1, minsize=10)
@@ -365,7 +362,7 @@ def build_results_row(master_frame, row_data):
             row_label.grid(row=0, column=index, pady=5, padx=5, sticky="ew")
     return row_frame
 
-## Books Page Functionality ==============================================================
+## Books Page Functionality ==================================================
 def book_search_handler(search_phrase):
     current_page = books_page_state['current_page']
 
@@ -456,8 +453,8 @@ def clear_selected_books():
     books_page_state['duration_var'].set(1)
     build_results_page()
 
-# ===================================================================================== LOAN MANAGER PAGE =====================================================================================
-## Loan Manager State Variables =======================================================
+# ============================= LOAN MANAGER PAGE ============================
+## Loan Manager State Variables ==============================================
 loan_manager_state = {
     'search_var': tk.StringVar(),
     'selector_var': tk.IntVar(),
@@ -475,7 +472,7 @@ loan_manager_state = {
 loan_manager_state['search_var'].trace_add('write', lambda *args: loan_book_search_handler(loan_manager_state['search_var'].get()))
 loan_manager_state['selector_var'].trace_add('write', lambda *args: change_book_view())
 
-## Loan Manager UI Components =========================================================
+## Loan Manager UI Components ================================================
 def build_loan_manager_page(master_frame):
     loan_manager_page = tk.Frame(master=master_frame)
     loan_manager_page.columnconfigure(0, weight=1, minsize=10)
@@ -655,7 +652,7 @@ def build_loan_results_row(master_frame, row_data):
     
     return row_frame
 
-## Loan Manager Functionality =========================================================
+## Loan Manager Functionality ================================================
 def book_return_handler():
     selected_books = loan_manager_state['return_books']
     try:
@@ -734,8 +731,8 @@ def clear_selected_loan_books():
     loan_manager_state['return_form'].grid_remove()
     build_loan_results_page()
 
-# ======================================================================================= ANALYTICS PAGE =======================================================================================
-## Analytics Page State Variables =======================================================
+# ============================== ANALYTICS PAGE ==============================
+## Analytics Page State Variables ============================================
 analytics_page_state = {
     'current_figure': None,
     'figure_frame': None,
@@ -765,7 +762,7 @@ analytics_page_state = {
     }
 }
 
-## Analytics Page UI Components =========================================================
+## Analytics Page UI Components ==============================================
 def build_analytics_page(master_frame):
     analytics_page = tk.Frame(master=master_frame)
     analytics_page.rowconfigure(0, weight=1, minsize=10)
@@ -837,7 +834,7 @@ def build_unused_titles_page():
 
     analytics_page_state['unused_titles_page'] = unused_titles_page
 
-## Analytics Page Functionality =========================================================
+## Analytics Page Functionality ==============================================
 def change_current_figure(index):
     clear_current_figure()
     
@@ -858,15 +855,15 @@ def clear_current_figure():
 def set_unused_titles():
     analytics_page_state['unused_titles'] = bw.get_unused_titles()
 
-# ==================================================================================== SYSTEM INFO PAGES ====================================================================================
-## System Info Page State Variables ==================================================
+# ============================= SYSTEM INFO PAGE =============================
+## System Info Page State Variables ==========================================
 system_info_state = {
     'info_list' : [],
     'system_info_page': None,
     'current_info_box': None,
 }
 
-## System Info UI Components =========================================================
+## System Info UI Components =================================================
 def build_system_info_page(master_frame):
     system_info_page = tk.Frame(master=master_frame, bg="grey")
     system_info_page.columnconfigure(0, weight=1, minsize=10)
@@ -898,13 +895,13 @@ def build_info_box(master_frame):
     info_box.grid(row=0, column=0)
     system_info_state['current_info_box'] = info_box
 
-## System Info Functionality =========================================================
+## System Info Functionality =================================================
 def set_system_info():
     system_info_state['info_list'] = bw.get_system_info()
     build_info_box(system_info_state['system_info_page'])
 
-# ==================================================================================== MOVING BETWEEN PAGES ====================================================================================
-### Assignments/function calls =======================================================
+# =========================== MOVING BETWEEN PAGES ===========================
+### Assignments/function calls ===============================================
 page_manager['pages_section'] = build_page_container()
 
 def page_change():
@@ -937,7 +934,7 @@ def transition(to_home=False, pages_index=1):
         page_manager['pages_section'].pack_forget()
         page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
-# ======================================================================================= FUNCTION CALLS =======================================================================================
+# ============================== FUNCTION CALLS ==============================
 page_manager['home_page'].pack(fill=tk.BOTH, expand=1)
 
 book_search_handler('')
