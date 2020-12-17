@@ -139,16 +139,19 @@ def test_load_data():
             f"Success -- {len(books)} books loaded"
         except:
             print("Error -- could not load books")
+
         try:
             titles = db.get_all_titles()
             f"Success -- {len(titles)} book titles loaded"
         except:
             print("Error -- could not load book titles")
+
         try:
             unused_titles = db.get_unused_titles()
             f"Success -- {len(books)} unused titles loaded"
         except:
             print("Error -- could not load unused titles")
+        
         print("3/3 Tests Passed")
     except:
         print("Error -- Weeding Tests Failed")
