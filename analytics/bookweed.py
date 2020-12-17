@@ -150,7 +150,7 @@ def display_book_usage_data():
     bar_graph = new_figure.add_subplot(1,1,1)
 
     plt.title("Book Usage Over Time")
-    plt.ylabel("Number of Checkouts")
+    plt.ylabel("Number of Book Checkouts")
     plt.xlabel("Years")
 
     bar_graph.bar(
