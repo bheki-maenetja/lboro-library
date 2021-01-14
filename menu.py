@@ -125,8 +125,8 @@ def build_hero_section(master_frame):
         master=hero_section, 
         text=f"{dt.strftime(dt.now(), '%d %B, %Y')}", 
         font=sub_heading_font, 
+        fg="white",
         bg="#4B0082", 
-        fg="white"
     )
 
     heading.grid(row=0, column=0, sticky="ws", padx=20)
