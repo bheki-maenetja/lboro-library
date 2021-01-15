@@ -546,7 +546,7 @@ def book_checkout_handler():
 def change_book_results_page(increment):
     """
     WHAT DOES THIS FUNCTION DO?
-        * displays the next (or the previous) page of search results on the books page
+        * displays the next (or previous) page of search results on the books page
     """
     page_num, page_data, page_frame = books_page_state['current_page']
     num_results = len(books_page_state['search_results'])
