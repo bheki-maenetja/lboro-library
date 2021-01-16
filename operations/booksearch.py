@@ -53,7 +53,7 @@ def loan_search_handler(search_phrase, only_overdue=False, only_on_time=False):
         * search_phrase -> a string representing a search term
     RETURN VALUES
         * only_overdue -> a boolean value that determines whether or not only overdue books should be searched
-        * only_on_time -> a boolean value that determines whether or not only on time books should be searched
+        * only_on_time -> a boolean value that determines whether or not only books that are on time should be searched
     WHAT DOES THIS FUNCTION DO?
         * finds all the books on loan whose ID matches (or resembles) the search_phrase
     """
