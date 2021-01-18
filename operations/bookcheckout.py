@@ -5,7 +5,7 @@ from system_data import database as db
 def checkout_handler(member_id, book_ids, loan_duration):
     """
     PARAMETERS
-        * member_id -> an integer representing the unique identifier of a library member
+        * member_id -> an integer representing the unique id of a library member
         * book_ids -> a list of integers that represent the unique ids of selected books
         * loan_duration -> an integer representing the number of days the selected books will be loaned out for
     RETURN VALUES
