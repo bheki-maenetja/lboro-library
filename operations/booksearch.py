@@ -6,7 +6,7 @@ from system_data import database as db
 def search_handler(search_phrase, categories=None):
     """
     PARAMETERS
-        * search_phrase -> a string that is used to find books
+        * search_phrase -> a string that is used to search for books
         * categories -> a list of selected book categories with each category being a string
     RETURN VALUES
         * a dictionary of lists with each list storing dictionaries that store information about books
