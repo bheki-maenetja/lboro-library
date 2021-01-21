@@ -487,7 +487,7 @@ def run_tests():
     WHAT DOES THIS FUNCTION DO?
         * Tests the main functionality aspects of this module
     """
-    print("--- Running Tests on database.py ---")
+    print("--- Running Tests for database.py ---")
     book_status()
     title_status()
 
