@@ -7,7 +7,7 @@ def checkout_handler(member_id, book_ids, loan_duration):
     PARAMETERS
         * member_id -> an integer representing the unique id of a library member
         * book_ids -> a list of integers that represent the unique ids of selected books
-        * loan_duration -> an integer representing the number of days the selected books will be loaned out for
+        * loan_duration -> an integer representing the number of days that the selected books will be loaned out for
     RETURN VALUES
         * None
     WHAT DOES THIS FUNCTION DO?
