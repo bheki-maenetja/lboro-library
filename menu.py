@@ -541,7 +541,7 @@ def book_checkout_handler():
             book_search_handler(books_page_state['search_var'].get())
             alert("Success - Book(s) have been checked out", False)
         except:
-            alert("Error - Books could not be checked out")
+            alert("Error - Book(s) could not be checked out")
     
 def change_book_results_page(increment):
     """
