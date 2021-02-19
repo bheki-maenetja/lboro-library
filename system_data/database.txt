@@ -200,7 +200,7 @@
 {"id": 200, "isbn": "1141507617", "title": "Barbula unguiculata Hedw.", "author": "Laur\u00e9lie", "purchase_date": "19/03/1985", "category": ["non-fiction", "textbook", "philosophy"], "language": "latin", "member_id": null}
 {"id": 201, "isbn": "1425220908", "title": "Soft Skills", "author": "Rayna Heardman", "purchase_date": "22/12/1983", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": null}
 {"id": 202, "isbn": "7539188820", "title": "Quantity Surveying", "author": "Rivalee Ingry", "purchase_date": "04/10/1979", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
-{"id": 203, "isbn": "1388378493", "title": "Software Development", "author": "Ronny McPhater", "purchase_date": "23/05/1976", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
+{"id": 203, "isbn": "1388378493", "title": "Software Development", "author": "Ronny McPhater", "purchase_date": "23/05/1976", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": 1234}
 {"id": 204, "isbn": "7612511550", "title": "XFS", "author": "Nan Karlolak", "purchase_date": "15/05/1962", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
 {"id": 205, "isbn": "2533658944", "title": "DWBI", "author": "Linell Boughtwood", "purchase_date": "31/08/2016", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": null}
 {"id": 206, "isbn": "0371753899", "title": "GFP", "author": "Maurine O'Donoghue", "purchase_date": "20/03/1984", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": null}
@@ -380,7 +380,7 @@
 {"id": 380, "isbn": "3182350650", "title": "MMI", "author": "Vinnie Dommett", "purchase_date": "16/06/1960", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
 {"id": 381, "isbn": "7169047608", "title": "ODI", "author": "Berkie Roocroft", "purchase_date": "04/10/1950", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
 {"id": 382, "isbn": "4442740933", "title": "TPL", "author": "Meara Plomer", "purchase_date": "16/08/2020", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": null}
-{"id": 383, "isbn": "4763507052", "title": "Software Installation", "author": "Tobe Ruit", "purchase_date": "25/12/1957", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": null}
+{"id": 383, "isbn": "4763507052", "title": "Software Installation", "author": "Tobe Ruit", "purchase_date": "25/12/1957", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": 1234}
 {"id": 384, "isbn": "7120936166", "title": "Three.js", "author": "Ibrahim Inglefield", "purchase_date": "24/06/1954", "category": ["non-fiction", "textbook", "art"], "language": "english", "member_id": null}
 {"id": 385, "isbn": "6409936001", "title": "Community Organizing", "author": "Camile Cumberland", "purchase_date": "24/08/1996", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
 {"id": 386, "isbn": "7747692293", "title": "WML", "author": "Braden Jelks", "purchase_date": "05/11/1967", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
@@ -998,10 +998,10 @@
 {"id": 998, "isbn": "5475343292", "title": "Torts", "author": "Udale Fleckness", "purchase_date": "12/06/1971", "category": ["non-fiction", "textbook", "art"], "language": "english", "member_id": null}
 {"id": 999, "isbn": "6327085946", "title": "SSRS", "author": "Schuyler Crispin", "purchase_date": "01/05/1965", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": null}
 {"id": 1000, "isbn": "7849505131", "title": "JVM", "author": "Quintin Sadler", "purchase_date": "26/05/1976", "category": ["non-fiction", "textbook", "art"], "language": "english", "member_id": null}
-{"id": 1001, "isbn": "4094603301", "title": "Offshore Operations", "author": "Thadeus Clementucci", "purchase_date": "13/01/1954", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": 5678}
+{"id": 1001, "isbn": "4094603301", "title": "Offshore Operations", "author": "Thadeus Clementucci", "purchase_date": "13/01/1954", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": null}
 {"id": 1002, "isbn": "4065061970", "title": "Invoicing", "author": "Micheline Botten", "purchase_date": "17/09/1990", "category": ["non-fiction", "textbook", "art"], "language": "english", "member_id": 5678}
-{"id": 1003, "isbn": "6784064500", "title": "SBS", "author": "Natka Doley", "purchase_date": "10/08/1999", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": 5678}
-{"id": 1004, "isbn": "4087917266", "title": "HP", "author": "Carolee Allward", "purchase_date": "11/10/1967", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": 5678}
+{"id": 1003, "isbn": "6784064500", "title": "SBS", "author": "Natka Doley", "purchase_date": "10/08/1999", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
+{"id": 1004, "isbn": "4087917266", "title": "HP", "author": "Carolee Allward", "purchase_date": "11/10/1967", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": null}
 {"id": 1005, "isbn": "1599276402", "title": "MCITP", "author": "Nikola Summons", "purchase_date": "20/06/2019", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": 5678}
 {"id": 1006, "isbn": "8945413510", "title": "System Architecture", "author": "Lucienne Maypowder", "purchase_date": "26/12/2012", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": null}
 {"id": 1007, "isbn": "2140110420", "title": "Ghost Imaging", "author": "Christabella Grollmann", "purchase_date": "08/01/1975", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": null}
@@ -1031,8 +1031,8 @@
 {"id": 1031, "isbn": "1404262113", "title": "Video Editing", "author": "Tobe Muggeridge", "purchase_date": "13/10/2000", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": 5678}
 {"id": 1032, "isbn": "6453779633", "title": "MCEV", "author": "Lillian Millions", "purchase_date": "04/07/2002", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": 5678}
 {"id": 1033, "isbn": "6897296635", "title": "MySQL Cluster", "author": "Marcelline Trevena", "purchase_date": "06/10/1964", "category": ["non-fiction", "textbook", "social"], "language": "english", "member_id": 5678}
-{"id": 1034, "isbn": "5482888797", "title": "RTOS", "author": "Neely Jacques", "purchase_date": "08/05/1999", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": 5678}
-{"id": 1035, "isbn": "6961796176", "title": "GPS", "author": "Demott Fenlon", "purchase_date": "01/01/2006", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": 5678}
+{"id": 1034, "isbn": "5482888797", "title": "RTOS", "author": "Neely Jacques", "purchase_date": "08/05/1999", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": null}
+{"id": 1035, "isbn": "6961796176", "title": "GPS", "author": "Demott Fenlon", "purchase_date": "01/01/2006", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
 {"id": 1036, "isbn": "1121697291", "title": "XRF", "author": "Lola Kenright", "purchase_date": "07/01/2007", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
 {"id": 1037, "isbn": "4111353916", "title": "PPDS", "author": "Andra Scholfield", "purchase_date": "31/03/2003", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
 {"id": 1038, "isbn": "4116809004", "title": "VRTX", "author": "Julio Janca", "purchase_date": "16/01/1968", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
@@ -1154,7 +1154,7 @@
 {"id": 1154, "isbn": "7654485131", "title": "CSCS Card", "author": "Milicent Couvet", "purchase_date": "10/07/1987", "category": ["non-fiction", "textbook", "science"], "language": "english", "member_id": null}
 {"id": 1155, "isbn": "9855257014", "title": "PMD", "author": "Edgard Mawditt", "purchase_date": "08/12/1966", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
 {"id": 1156, "isbn": "3301844111", "title": "Ukulele", "author": "Rina Bosenworth", "purchase_date": "25/01/1976", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
-{"id": 1157, "isbn": "3777171131", "title": "Software Documentation", "author": "Pennie Gorringe", "purchase_date": "15/12/2017", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": null}
+{"id": 1157, "isbn": "3777171131", "title": "Software Documentation", "author": "Pennie Gorringe", "purchase_date": "15/12/2017", "category": ["non-fiction", "textbook", "technology"], "language": "english", "member_id": 1234}
 {"id": 1158, "isbn": "0671136089", "title": "Consumer Behaviour", "author": "Karyl Hurnell", "purchase_date": "01/02/1997", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
 {"id": 1159, "isbn": "4110482232", "title": "Juniper JNCIA", "author": "Filide Delacote", "purchase_date": "13/08/1952", "category": ["non-fiction", "textbook", "art"], "language": "english", "member_id": null}
 {"id": 1160, "isbn": "1668174421", "title": "Data Mining", "author": "Lonee Schubbert", "purchase_date": "22/10/2003", "category": ["non-fiction", "textbook", "sports"], "language": "english", "member_id": null}
