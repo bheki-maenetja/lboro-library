@@ -1,2 +1,2 @@
 # lboro-library
-A simple library management system built with python and tkinter
+A simple library book management system built with python and tkinter
