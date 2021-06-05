@@ -24,6 +24,9 @@ Loughborough Library is a simple library book management system built primarily 
 <figcaption>Users can search for books and loan them out</figcaption>
 <img src="img/booksPage.gif" width="100%" />
 
+<figcaption>Users can see which books are on loan and overdue</figcaption>
+<img src="img/loanManagerPage.gif" width="100%" />
+
 <figcaption>Users can view visualisations of book usage data</figcaption>
 <img src="img/analyticsPage.gif" width="100%" />
 
