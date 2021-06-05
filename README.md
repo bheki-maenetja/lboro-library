@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Loughborough Library
 A simple library book management system built with python and the tkinter library.
 
