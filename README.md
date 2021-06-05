@@ -1,5 +1,5 @@
 # Loughborough Library
-A simple library book management system built with python and the tkinter library.
+A simple library book management system built with python and the Tkinter GUI library.
 
 ## Getting Started
 ### Installation
@@ -8,7 +8,7 @@ A simple library book management system built with python and the tkinter librar
 - In the root folder run the terminal command `pipenv install` to install all necessary packages and modules
 
 ### Deployment
-- To run the game locally enter `python menu.py` in the terminal
+- To run the program locally enter `python menu.py` in the terminal
 
 ## Technology Used
 - Python 3
@@ -16,7 +16,7 @@ A simple library book management system built with python and the tkinter librar
 - Pipenv
 
 ## Overview
-Loughborough Library is a simple library book management system built primarily in python with the use of the Tkinter GUI library. The system allows users to search for books either by title of by category/genre. Additionally, books can be loaned out and returned to the library. The user can keep track of books that are out on loan or overdue. Users can also view analytics relating to book usage in the library (for instance the user can view the most popular genres or the number of books loaned out per year). This project was originally a coursework assignment for the Introduction to Programming module in [Loughborough University](https://www.lboro.ac.uk/)'s undergraduate Computer Science [course](https://www.lboro.ac.uk/study/undergraduate/courses/a-z/computer-science-bsc/).
+Loughborough Library is a simple library book management system built primarily in python with the use of the Tkinter GUI library. The system allows users to search for books either by title or by category/genre. Additionally, books can be loaned out and returned to the library. The user can keep track of books that are out on loan or overdue. Users can also view analytics relating to book usage in the library - for instance the user can view the most popular genres or the number of books loaned out per year.
 
 <figcaption>The Home Page</figcaption>
 <img src="img/homePage.png" width="100%" />
@@ -34,7 +34,7 @@ Loughborough Library is a simple library book management system built primarily 
 The project was developed over the course of 4 weeks. This project was originally a coursework assignment for the Introduction to Programming module in [Loughborough University](https://www.lboro.ac.uk/)'s undergraduate Computer Science [course](https://www.lboro.ac.uk/study/undergraduate/courses/a-z/computer-science-bsc/). It was the final project for the module, counting for 80% of the module's marks. The project acheived a final grade of 98%.
 
 ### Design Pattern
-- The applications uses a standard Model-View-Controller design pattern with the model and view code residing in `database.py` and `menu.py` respectively. The controller code sits in several files in the folder titled `operations`.
+- The application uses a standard Model-View-Controller design pattern with the model and view code residing in `database.py` and `menu.py` respectively. The controller code sits in several files in the folder titled `operations`.
 
 ```
 # Code for the major GUI components and home page
@@ -274,8 +274,8 @@ def update_book(book_id, book_obj):
 - Aside from some aesthetic changes I feel that the only part of the application in need of major improvement is the search functionality on the 'Books' page. The textual search functionality can be quite slow at times and many of the category checkboxes are mutually exclusive; meaning that if a user ticks merely 2 or 3 boxes they oftentimes end up with no search results.
 
 ## Future Features
-- **Database**: whilst the text files serve as an adequate storage space for data they lack the capabilities needed to make the application truly dynamic. A future version of this project will make use of a proper SQL database which should allow for improved search functionality and data analytics.
-- **User Accounts**: 
+- **Database**: whilst the text files serve as an adequate storage space for data, they lack the capabilities needed to make the application truly dynamic. A future version of this project will make use of a proper SQL database which should allow for improved search functionality and data analytics.
+- **User Accounts**: the next update will feature individual user accounts. Users will be able to create and manage their own book libraries and share access to their libraries with other users.
 
 
 
