@@ -30,7 +30,7 @@ Loughborough Library is a simple library book management system built primarily 
 <figcaption>Users can view visualisations of book usage data</figcaption>
 <img src="img/analyticsPage.gif" width="100%" />
 
-## Developmemt
+## Development
 The project was developed over the course of 4 weeks. This project was originally a coursework assignment for the Introduction to Programming module in [Loughborough University](https://www.lboro.ac.uk/)'s undergraduate Computer Science [course](https://www.lboro.ac.uk/study/undergraduate/courses/a-z/computer-science-bsc/). It was the final project for the module, counting for 80% of the module's marks. The project acheived a final grade of 98%.
 
 ### Design Pattern
@@ -267,4 +267,25 @@ def update_book(book_id, book_obj):
 - It should be noted that while this project was being developed as a coursework assignment the use of custom classes was prohibited; this effected the program code - particulary the code for the GUI - making it necessarily more verbose.
 
 ## Reflection
+### Challenges
+- This project was my first time using the Tkinter GUI library, therefore it should come as no surprise that almost all challenging aspects of the creation of this program relate to this simple fact. Getting to grips with Tkinter was the overarching challenge for this project and the prohibition of custom classes did not make that challenge any easier.
+
+### Room for Improvement
+- Aside from some aesthetic changes I feel that the only part of the application in need of major improvement is the search functionality on the 'Books' page. The textual search functionality can be quite slow at times and many of the category checkboxes are mutually exclusive; meaning that if a user ticks merely 2 or 3 boxes they oftentimes end up with no search results.
+
+## Future Features
+- **Database**: whilst the text files serve as an adequate storage space for data they lack the capabilities needed to make the application truly dynamic. A future version of this project will make use of a proper SQL database which should allow for improved search functionality and data analytics.
+- **User Accounts**: 
+
+
+
+
+
+
+
+
+
+
+
+
 
