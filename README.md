@@ -31,7 +31,7 @@ Loughborough Library is a simple library book management system built primarily 
 <img src="img/analyticsPage.gif" width="100%" />
 
 ## Development
-The project was developed over the course of 4 weeks. This project was originally a coursework assignment for the Introduction to Programming module in [Loughborough University](https://www.lboro.ac.uk/)'s undergraduate Computer Science [course](https://www.lboro.ac.uk/study/undergraduate/courses/a-z/computer-science-bsc/). It was the final project for the module, counting for 80% of the module's marks. The project acheived a final grade of 98%.
+The project was developed over the course of 4 weeks. This project was originally a coursework assignment for the Introduction to Programming module in [Loughborough University](https://www.lboro.ac.uk/)'s undergraduate Computer Science [course](https://www.lboro.ac.uk/study/undergraduate/courses/a-z/computer-science-bsc/). It was the final project for the module, counting for 80% of the module's marks.
 
 ### Design Pattern
 - The application uses a standard Model-View-Controller design pattern with the model and view code residing in `database.py` and `menu.py` respectively. The controller code sits in several files in the folder titled `operations`.
